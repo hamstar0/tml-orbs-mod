@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 
 namespace Orbs {
-	class MyTile : GlobalTile {
+	class OrbsTile : GlobalTile {
 		public override void DrawEffects(
 					int i,
 					int j,
