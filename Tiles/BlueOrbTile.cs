@@ -17,7 +17,14 @@ namespace Orbs.Tiles {
 		////////////////
 
 		public override void KillMultiTile( int i, int j, int frameX, int frameY ) {
-			Item.NewItem( i * 16, j * 16, 24, 24, ModContent.ItemType<BlueOrbItem>() );
+			Item.NewItem(
+				X: i * 16,
+				Y: j * 16,
+				Width: 24,
+				Height: 24,
+				Type: ModContent.ItemType<BlueOrbItem>(),
+				Stack: 4
+			);
 		}
 
 

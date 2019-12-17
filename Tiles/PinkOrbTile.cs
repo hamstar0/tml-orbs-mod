@@ -7,17 +7,24 @@ using Terraria.ModLoader;
 
 
 namespace Orbs.Tiles {
-	class YellowOrbTile : OrbTile {
-		public override string MyName => "Yellow Orb";
+	class PinkOrbTile : OrbTile {
+		public override string MyName => "Pink Orb";
 
-		public override Color PrimaryColor => new Color( 192, 128, 64 );
+		public override Color PrimaryColor => new Color( 176, 104, 104 );
 
 
 
 		////////////////
 
 		public override void KillMultiTile( int i, int j, int frameX, int frameY ) {
-			Item.NewItem( i * 16, j * 16, 24, 24, ModContent.ItemType<BlueOrbItem>() );
+			Item.NewItem(
+				X: i * 16,
+				Y: j * 16,
+				Width: 24,
+				Height: 24,
+				Type: ModContent.ItemType<PinkOrbItem>(),
+				Stack: 4
+			);
 		}
 
 
