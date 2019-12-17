@@ -23,6 +23,8 @@ namespace Orbs {
 
 		////////////////
 
+		public bool DebugModeCheatCreate { get; set; } = false;
+
 
 		[Range( 0, 1024 )]
 		[DefaultValue( 16 )]
@@ -46,41 +48,8 @@ namespace Orbs {
 
 		////
 
-		[Range(0f, 1f)]
-		[DefaultValue(100f)]
-		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float RedOrbWeight { get; set; } = 1f;
-
-		[Range( 0f, 1f )]
-		[DefaultValue( 100f )]
-		public float GreenOrbWeight { get; set; } = 1f;
-
-		[Range( 0f, 1f )]
-		[DefaultValue( 100f )]
-		public float BlueOrbWeight { get; set; } = 1f;
-
-		[Range( 0f, 1f )]
-		[DefaultValue( 100f )]
-		public float YellowOrbWeight { get; set; } = 1f;
-
-		[Range( 0f, 1f )]
-		[DefaultValue( 100f )]
-		public float PurpleOrbWeight { get; set; } = 1f;
-
-		[Range( 0f, 1f )]
-		[DefaultValue( 100f )]
-		public float PinkOrbWeight { get; set; } = 1f;
-
-		[Range( 0f, 1f )]
-		[DefaultValue( 100f )]
-		public float TealOrbWeight { get; set; } = 1f;
-
-		[Range( 0f, 1f )]
-		[DefaultValue( 100f )]
-		public float BlackOrbWeight { get; set; } = 1f;
-
-		[Range( 0f, 1f )]
-		[DefaultValue( 100f )]
-		public float WhiteOrbWeight { get; set; } = 1f;
+		[Range(0, 1000)]
+		[DefaultValue(80)]
+		public int OrbPseudoBiomeTileRadius { get; set; } = 80;
 	}
 }

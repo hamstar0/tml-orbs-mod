@@ -1,30 +1,13 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Orbs.Items;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 
 namespace Orbs.Tiles.Base {
-	class OrbPlayer : ModPlayer {
-		public override void PreUpdate() {
-			if( Main.mouseRight && Main.mouseRightRelease ) {
-				OrbTile.CreateTile(
-					(int)((Main.screenPosition.X + Main.mouseX) / 16),
-					(int)((Main.screenPosition.Y + Main.mouseY) / 16)
-				);
-			}
-		}
-	}
-
-
-
-
-
 	abstract class OrbTile : ModTile {
 		public static void CreateTile( int x, int y ) {
 			ushort orbTileType = (ushort)ModContent.TileType<BlueOrbTile>();
@@ -45,6 +28,39 @@ namespace Orbs.Tiles.Base {
 			Main.tile[x, y].type = orbTileType;
 			Main.tile[x, y].frameX = (short)( 18 );
 			Main.tile[x, y].frameY = 18;
+		}
+
+
+		////////////////
+
+		public static int GetCodeFromTileType( int tileType ) {
+			if( tileType == ModContent.TileType<BlueOrbTile>() ) {
+				return 1;
+			}
+			if( tileType == ModContent.TileType<PinkOrbTile>() ) {
+				return 2;
+			}
+			if( tileType == ModContent.TileType<TealOrbTile>() ) {
+				return 3;
+			}
+			if( tileType == ModContent.TileType<YellowOrbTile>() ) {
+				return 4;
+			}
+			throw new ArgumentException();
+		}
+
+		public static int GetTileTypeFromCode( int code ) {
+			switch( code ) {
+			case 1:
+				return ModContent.TileType<BlueOrbTile>();
+			case 2:
+				return ModContent.TileType<PinkOrbTile>();
+			case 3:
+				return ModContent.TileType<TealOrbTile>();
+			case 4:
+				return ModContent.TileType<YellowOrbTile>();
+			}
+			throw new ArgumentException();
 		}
 
 
