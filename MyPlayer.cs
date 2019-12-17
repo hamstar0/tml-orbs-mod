@@ -24,7 +24,7 @@ namespace Orbs {
 					int x = (int)( ( Main.screenPosition.X + Main.mouseX ) / 16 );
 					int y = (int)( ( Main.screenPosition.Y + Main.mouseY ) / 16 );
 
-					OrbTile.CreateTile( x, y );
+					OrbTileBase.CreateTile( x, y );
 
 					var myworld = ModContent.GetInstance<OrbsWorld>();
 					myworld.Orbs.Set2D( x, y );

@@ -4,7 +4,7 @@ using Orbs.Items.Base;
 
 
 namespace Orbs.Items {
-	public class BlueOrbItem : OrbItem {
+	public class BlueOrbItem : OrbItemBase {
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "Blue Orb" );
 			this.Tooltip.SetDefault( "Resonates with certain (blue) areas of the world"

@@ -29,7 +29,7 @@ namespace Orbs {
 				int x = tag.GetInt( "orb_"+i+"_x" );
 				int y = tag.GetInt( "orb_"+i+"_y" );
 				int code = tag.GetInt( "orb_"+i+ "_code" );
-				int tileType = OrbTile.GetTileTypeFromCode( code );
+				int tileType = OrbTileBase.GetTileTypeFromCode( code );
 
 				if( Main.netMode != 1 ) {
 					if( Main.tile[x, y]?.active() == true && Main.tile[x, y].type == tileType ) {
@@ -48,7 +48,7 @@ namespace Orbs {
 				foreach( int tileY in tileYs ) {
 					tag[ "orb_"+i+"_x" ] = tileX;
 					tag[ "orb_"+i+"_y" ] = tileY;
-					tag[ "orb_"+i+"_code" ] = OrbTile.GetCodeFromTileType( Main.tile[tileX, tileY].type );
+					tag[ "orb_"+i+"_code" ] = OrbTileBase.GetCodeFromTileType( Main.tile[tileX, tileY].type );
 					i++;
 				}
 			}

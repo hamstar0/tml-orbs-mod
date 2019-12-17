@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 
 namespace Orbs.Tiles {
-	class YellowOrbTile : OrbTile {
+	class YellowOrbTile : OrbTileBase {
 		public override string MyName => "Yellow Orb";
 
 		public override Color PrimaryColor => new Color( 192, 192, 64 );
@@ -32,6 +32,12 @@ namespace Orbs.Tiles {
 
 		public override void NearbyEffects( int i, int j, bool closer ) {
 			base.NearbyEffects( i, j, closer );
+		}
+
+
+		////////////////
+
+		public override void ApplyPseudoBiomeToNPC( NPC npc ) {
 		}
 	}
 }

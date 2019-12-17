@@ -4,7 +4,7 @@ using Orbs.Items.Base;
 
 
 namespace Orbs.Items {
-	public class YellowOrbItem : ModItem {
+	public class YellowOrbItem : OrbItemBase {
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "Yellow Orb" );
 			this.Tooltip.SetDefault( "Resonates with certain (yellow) areas of the world"

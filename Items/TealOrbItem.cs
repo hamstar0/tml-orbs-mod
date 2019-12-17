@@ -4,7 +4,7 @@ using Orbs.Items.Base;
 
 
 namespace Orbs.Items {
-	public class TealOrbItem : ModItem {
+	public class TealOrbItem : OrbItemBase {
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "Teal Orb" );
 			this.Tooltip.SetDefault( "Resonates with certain (teal) areas of the world"

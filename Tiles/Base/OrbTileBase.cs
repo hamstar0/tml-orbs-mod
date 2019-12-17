@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 
 namespace Orbs.Tiles.Base {
-	abstract class OrbTile : ModTile {
+	abstract class OrbTileBase : ModTile {
 		public static void CreateTile( int x, int y ) {
 			ushort orbTileType = (ushort)ModContent.TileType<BlueOrbTile>();
 
@@ -108,9 +108,14 @@ namespace Orbs.Tiles.Base {
 
 
 		////////////////
-
+		
 		public override void NearbyEffects( int i, int j, bool closer ) {
 			// if close to player, spawn guardian + passive effects
 		}
+
+
+		////////////////
+
+		public abstract void ApplyPseudoBiomeToNPC( NPC npc );
 	}
 }

@@ -26,7 +26,10 @@ namespace Orbs {
 				int distSqr = (diffX*diffX) + (diffY*diffY);
 
 				if( distSqr < biomeRadiusSqr ) {
-					var mytile = (OrbTile)ModContent.GetModTile( Main.tile[x, y].type );
+					ModTile rawMyTile = ModContent.GetModTile( Main.tile[x, y].type );
+					if( rawMyTile == null || !(rawMyTile is OrbTileBase) ) { continue; }
+
+					var mytile = (OrbTileBase)rawMyTile;
 					Color color = mytile.PrimaryColor;
 
 					drawColor.R = (byte)((float)drawColor.R * ((float)color.R / 255f));

@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 
 namespace Orbs.Items.Base {
-	public abstract class OrbItem : ModItem {
+	public abstract class OrbItemBase : ModItem {
 		public override void SetDefaults() {
 			this.item.maxStack = 99;
 			this.item.width = 16;
