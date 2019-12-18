@@ -1,8 +1,10 @@
 ﻿using System;
+using HamstarHelpers.Helpers.TModLoader;
 using Microsoft.Xna.Framework;
 using Orbs.Items;
 using Orbs.Tiles.Base;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 
@@ -38,6 +40,60 @@ namespace Orbs.Tiles {
 		////////////////
 
 		public override void ApplyPseudoBiomeToNPC( NPC npc ) {
+			var mynpc = npc.GetGlobalNPC<OrbsNPC>();
+			if( mynpc.OrbAI != null ) {
+				return;
+			}
+
+			int projTimer = 1;
+			int hitProjIdx = -1;
+			bool isHit = false;
+
+			mynpc.Tint = this.PrimaryColor;
+			mynpc.OrbAI = ( orbNpc ) => {
+				if( hitProjIdx != -1 && !Main.projectile[hitProjIdx].active ) {
+					hitProjIdx = -1;
+				}
+				this.PseudoBiomeNpcAI( orbNpc, ref projTimer );
+			};
+
+			mynpc.OnPreProjectileHit = ( orbNpc, projectile ) => {
+				if( hitProjIdx == -1 ) {
+					hitProjIdx = projectile.whoAmI;
+					isHit = TmlHelpers.SafelyGetRand().NextBool();
+				}
+				return isHit;
+			};
+		}
+
+
+		private void PseudoBiomeNpcAI( NPC npc, ref int projTimer ) {
+			if( Main.netMode == 1 ) {
+				return;
+			}
+
+			var rand = TmlHelpers.SafelyGetRand();
+
+			if( projTimer-- <= 0 ) {
+				projTimer = 60 * rand.Next( 10, 30 );
+
+				if( !npc.HasNPCTarget && npc.target >= 0 ) {
+					Player player = Main.player[npc.target];
+					Vector2 aim = player.Center - npc.Center;
+					aim.Normalize();
+
+					int projIdx = Projectile.NewProjectile(
+						position: npc.Center,
+						velocity: aim * 3f,
+						Type: ProjectileID.PoisonSeedPlantera,
+						Damage: 10,
+						KnockBack: 5f
+					);
+					Main.projectile[projIdx].friendly = false;
+					Main.projectile[projIdx].hostile = true;
+					Main.projectile[projIdx].netUpdate = true;
+				}
+			}
 		}
 	}
 }

@@ -69,6 +69,10 @@ namespace Orbs.Tiles {
 
 		public override void ApplyPseudoBiomeToNPC( NPC npc ) {
 			var mynpc = npc.GetGlobalNPC<OrbsNPC>();
+			if( mynpc.OrbAI != null ) {
+				return;
+			}
+
 			int healTimer = 1;
 			bool hasDefended = false;
 

@@ -10,7 +10,9 @@ using Orbs.Tiles.Base;
 namespace Orbs {
 	class OrbsNPC : GlobalNPC {
 		public Color? Tint = null;
+
 		public Action<NPC> OrbAI = null;
+		public Func<NPC, Projectile, bool> OnPreProjectileHit = null;
 
 
 		////////////////
@@ -53,6 +55,11 @@ namespace Orbs {
 		public override bool PreAI( NPC npc ) {
 			this.OrbAI?.Invoke( npc );
 			return base.PreAI( npc );
+		}
+
+
+		public override bool? CanBeHitByProjectile( NPC npc, Projectile projectile ) {
+			return this.OnPreProjectileHit?.Invoke(npc, projectile) ?? base.CanBeHitByProjectile( npc, projectile );
 		}
 
 

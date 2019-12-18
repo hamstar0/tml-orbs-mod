@@ -10,7 +10,7 @@ using Terraria.ObjectData;
 namespace Orbs.Tiles.Base {
 	abstract class OrbTileBase : ModTile {
 		public static void CreateTile( int x, int y ) {
-			ushort orbTileType = (ushort)ModContent.TileType<BlueOrbTile>();
+			ushort orbTileType = (ushort)ModContent.TileType<TealOrbTile>();
 
 			Main.tile[x - 1, y - 1].active( true );
 			Main.tile[x - 1, y - 1].type = orbTileType;
