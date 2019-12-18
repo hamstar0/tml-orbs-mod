@@ -27,7 +27,7 @@ namespace Orbs {
 					OrbTileBase.CreateTile( x, y );
 
 					var myworld = ModContent.GetInstance<OrbsWorld>();
-					myworld.Orbs.Set2D( x, y );
+					myworld.GetOrbs().Set2D( x, y );
 				}
 			}
 		}
@@ -45,7 +45,7 @@ namespace Orbs {
 
 			this.NearbyOrbs.Clear();
 
-			foreach( (int tileX, ISet<int> tileYs) in myworld.Orbs ) {
+			foreach( (int tileX, ISet<int> tileYs) in myworld.GetOrbs() ) {
 				foreach( int tileY in tileYs ) {
 					int diffX = scrTileX - tileX;
 					int diffY = scrTileY - tileY;

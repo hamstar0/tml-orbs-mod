@@ -10,7 +10,7 @@ namespace Orbs.Tiles {
 	class PinkOrbTile : OrbTileBase {
 		public override string MyName => "Pink Orb";
 
-		public override Color PrimaryColor => new Color( 176, 104, 104 );
+		public override Color PrimaryColor => new Color( 192, 128, 128 );
 
 
 

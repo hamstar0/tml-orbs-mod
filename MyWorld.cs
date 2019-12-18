@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -11,7 +12,7 @@ using Orbs.Tiles.Base;
 
 namespace Orbs {
 	partial class OrbsWorld : ModWorld {
-		internal IDictionary<int, ISet<int>> Orbs = new Dictionary<int, ISet<int>>();
+		private IDictionary<int, ISet<int>> Orbs = new Dictionary<int, ISet<int>>();
 
 
 
@@ -90,6 +91,32 @@ namespace Orbs {
 			}
 
 			tasks.Add( new OrbsWorldGen( shards ) );
+		}
+
+
+		////////////////
+
+		public IDictionary<int, ISet<int>> GetOrbs() {
+			foreach( (int tileX, ISet<int> tileYs) in this.Orbs ) {
+				bool needsEdit = false;
+
+				foreach( int tileY in tileYs ) {
+					if( Main.tile[tileX, tileY]?.active() != true ) {
+						needsEdit = true;
+						break;
+					}
+				}
+
+				if( needsEdit ) {
+					foreach( int tileY in tileYs.ToArray() ) {
+						if( Main.tile[tileX, tileY]?.active() != true ) {
+							tileYs.Remove( tileY );
+						}
+					}
+				}
+			}
+
+			return this.Orbs;
 		}
 	}
 }

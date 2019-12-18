@@ -10,7 +10,7 @@ using Orbs.Tiles.Base;
 namespace Orbs {
 	class OrbsNPC : GlobalNPC {
 		public Color? Tint = null;
-		public int HealTimer = -1;
+		public Action<NPC> OrbAI = null;
 
 
 		////////////////
@@ -22,6 +22,10 @@ namespace Orbs {
 		////////////////
 
 		public override void SetDefaults( NPC npc ) {
+			if( npc.friendly ) {
+				return;
+			}
+
 			var myworld = ModContent.GetInstance<OrbsWorld>();
 			if( myworld == null ) { return; }
 
@@ -30,7 +34,7 @@ namespace Orbs {
 			int biomeRadiusSqr = OrbsConfig.Instance.OrbPseudoBiomeTileRadius;
 			biomeRadiusSqr *= biomeRadiusSqr;
 
-			foreach( (int tileX, ISet<int> tileYs) in myworld.Orbs ) {
+			foreach( (int tileX, ISet<int> tileYs) in myworld.GetOrbs() ) {
 				foreach( int tileY in tileYs ) {
 					int diffX = npcTileX - tileX;
 					int diffY = npcTileY - tileY;
@@ -47,15 +51,7 @@ namespace Orbs {
 		////////////////
 
 		public override bool PreAI( NPC npc ) {
-			if( this.HealTimer-- == 0 ) {
-				this.HealTimer = 15;
-
-				if( npc.life < npc.lifeMax ) {
-					npc.life += 1;
-					CombatText.NewText( npc.getRect(), CombatText.HealLife, 1 );
-				}
-			}
-
+			this.OrbAI?.Invoke( npc );
 			return base.PreAI( npc );
 		}
 
