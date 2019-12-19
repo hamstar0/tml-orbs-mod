@@ -12,7 +12,9 @@ namespace Orbs {
 		public Color? Tint = null;
 
 		public Action<NPC> OrbAI = null;
-		public Func<NPC, Projectile, bool> OnPreProjectileHit = null;
+		public Func<NPC, Projectile, bool> PreProjectileHit = null;
+		public Func<NPC, Player, Item, bool> PreItemHit = null;
+		public Action<NPC, Player, int, bool> HitPlayer = null;
 
 
 		////////////////
@@ -59,9 +61,21 @@ namespace Orbs {
 
 
 		public override bool? CanBeHitByProjectile( NPC npc, Projectile projectile ) {
-			return this.OnPreProjectileHit?.Invoke(npc, projectile) ?? base.CanBeHitByProjectile( npc, projectile );
+			return this.PreProjectileHit?.Invoke(npc, projectile) ?? base.CanBeHitByProjectile( npc, projectile );
 		}
 
+		public override bool? CanBeHitByItem( NPC npc, Player player, Item item ) {
+			return this.PreItemHit?.Invoke( npc, player, item ) ?? base.CanBeHitByItem( npc, player, item );
+		}
+
+
+		public override void OnHitPlayer( NPC npc, Player target, int damage, bool crit ) {
+			this.HitPlayer?.Invoke( npc, target, damage, crit );
+		}
+
+
+
+		////////////////
 
 		public override void DrawEffects( NPC npc, ref Color drawColor ) {
 			if( this.Tint.HasValue ) {
@@ -72,7 +86,6 @@ namespace Orbs {
 				drawColor.B = (byte)( (float)drawColor.B * ( (float)color.B / 255f ) );
 			}
 		}
-
 
 		////////////////
 

@@ -57,7 +57,7 @@ namespace Orbs.Tiles {
 				this.PseudoBiomeNpcAI( orbNpc, ref projTimer );
 			};
 
-			mynpc.OnPreProjectileHit = ( orbNpc, projectile ) => {
+			mynpc.PreProjectileHit = ( orbNpc, projectile ) => {
 				if( hitProjIdx == -1 ) {
 					hitProjIdx = projectile.whoAmI;
 					isHit = TmlHelpers.SafelyGetRand().NextBool();
@@ -86,12 +86,16 @@ namespace Orbs.Tiles {
 						position: npc.Center,
 						velocity: aim * 3f,
 						Type: ProjectileID.PoisonSeedPlantera,
-						Damage: 10,
+						Damage: 1,
 						KnockBack: 5f
 					);
 					Main.projectile[projIdx].friendly = false;
 					Main.projectile[projIdx].hostile = true;
 					Main.projectile[projIdx].netUpdate = true;
+
+					if( Main.netMode != 0 ) {
+						NetMessage.SendData( MessageID.SyncProjectile, -1, -1, null, projIdx );
+					}
 				}
 			}
 		}
