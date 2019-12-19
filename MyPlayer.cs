@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using Orbs.Tiles.Base;
 using HamstarHelpers.Helpers.DotNET.Extensions;
+using Orbs.Tiles.Base;
 
 
 namespace Orbs {
@@ -14,7 +14,7 @@ namespace Orbs {
 
 		////////////////
 
-		public override void PreUpdate() {
+		/*public override void PreUpdate() {
 			if( this.player.whoAmI == Main.myPlayer ) {
 				this.UpdateOrbsNearby();
 			}
@@ -30,10 +30,10 @@ namespace Orbs {
 					myworld.GetOrbs().Set2D( x, y );
 				}
 			}
-		}
+		}*/
 
 
-		private void UpdateOrbsNearby() {
+		/*private void UpdateOrbsNearby() {
 			var myworld = ModContent.GetInstance<OrbsWorld>();
 
 			int scrTiles = Main.screenWidth / 16;
@@ -56,6 +56,6 @@ namespace Orbs {
 					}
 				}
 			}
-		}
+		}*/
 	}
 }

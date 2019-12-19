@@ -3,11 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.World.Generation;
-using HamstarHelpers.Helpers.World;
 using HamstarHelpers.Helpers.DotNET.Extensions;
-using Orbs.Tiles.Base;
 
 
 namespace Orbs {
@@ -18,7 +14,7 @@ namespace Orbs {
 
 		////////////////
 
-		public override void Load( TagCompound tag ) {
+		/*public override void Load( TagCompound tag ) {
 			this.Orbs.Clear();
 
 			if( !tag.ContainsKey("count") ) {
@@ -55,7 +51,7 @@ namespace Orbs {
 			}
 
 			return tag;
-		}
+		}*/
 
 
 		////////////////
@@ -67,7 +63,7 @@ namespace Orbs {
 
 		////////////////
 
-		public override void ModifyWorldGenTasks( List<GenPass> tasks, ref float totalWeight ) {
+		/*public override void ModifyWorldGenTasks( List<GenPass> tasks, ref float totalWeight ) {
 			int shards;
 			WorldSize wldSize = WorldHelpers.GetSize();
 
@@ -91,7 +87,7 @@ namespace Orbs {
 			}
 
 			tasks.Add( new OrbsWorldGen( shards ) );
-		}
+		}*/
 
 
 		////////////////

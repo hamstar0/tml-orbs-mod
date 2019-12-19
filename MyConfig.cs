@@ -23,7 +23,7 @@ namespace Orbs {
 
 		////////////////
 
-		public bool DebugModeCheatCreate { get; set; } = false;
+		//public bool DebugModeCheatCreate { get; set; } = false;
 
 
 		[Range( 0, 1024 )]
