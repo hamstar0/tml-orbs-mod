@@ -23,7 +23,7 @@ namespace Orbs {
 
 		////////////////
 
-		//public bool DebugModeCheatCreate { get; set; } = false;
+		/*public bool DebugModeCheatCreate { get; set; } = false;
 
 
 		[Range( 0, 1024 )]
@@ -44,12 +44,19 @@ namespace Orbs {
 
 		[Range( 0, 1024 )]
 		[DefaultValue( 128 )]
-		public int OrbsPerHugeWorld { get; set; } = 128;
+		public int OrbsPerHugeWorld { get; set; } = 128;*/
 
 		////
 
 		[Range(0, 1000)]
 		[DefaultValue(80)]
 		public int OrbPseudoBiomeTileRadius { get; set; } = 80;
+
+
+		////
+
+		[Range( 0, 99 )]
+		[DefaultValue( 2 )]
+		public int TricksterPinkOrbs { get; set; } = 2;
 	}
 }
