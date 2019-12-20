@@ -23,6 +23,9 @@
     <Reference Include="HamstarHelpers">
       <HintPath>..\..\Mod Helpers\v5 (tML11)\HamstarHelpers\bin\Release\net452\HamstarHelpers.dll</HintPath>
     </Reference>
+    <Reference Include="StaffOfGaia">
+      <HintPath>..\..\Staff Of Gaia\StaffOfGaia\bin\Release\net452\StaffOfGaia.dll</HintPath>
+    </Reference>
     <Reference Include="TheTrickster">
       <HintPath>..\..\The Trickster\TheTrickster\bin\Release\net452\TheTrickster.dll</HintPath>
     </Reference>

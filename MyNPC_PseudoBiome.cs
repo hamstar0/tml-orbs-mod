@@ -5,9 +5,6 @@ using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.DotNET.Extensions;
 using Orbs.Tiles.Base;
-using TheTrickster.NPCs;
-using Orbs.Items;
-using Terraria.ID;
 
 
 namespace Orbs {

@@ -2,60 +2,49 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using HamstarHelpers.Helpers.DotNET.Extensions;
-using Orbs.Tiles.Base;
 
 
 namespace Orbs {
-	class OrbsPlayer : ModPlayer {
+	partial class OrbsPlayer : ModPlayer {
 		internal IList<(int TileX, int TileY)> NearbyOrbs = new List<(int, int)>();
+
+		internal IDictionary<string, int> NoSoGKillCount = new Dictionary<string, int>();
 
 
 
 		////////////////
 
-		/*public override void PreUpdate() {
-			if( this.player.whoAmI == Main.myPlayer ) {
-				this.UpdateOrbsNearby();
+		public override void Load( TagCompound tag ) {
+			this.NoSoGKillCount.Clear();
+
+			if( !tag.ContainsKey( "sog_npc_kills_netid_count" ) ) {
+				return;
 			}
 
-			if( OrbsConfig.Instance.DebugModeCheatCreate ) {
-				if( Main.mouseRight && Main.mouseRightRelease ) {
-					int x = (int)( ( Main.screenPosition.X + Main.mouseX ) / 16 );
-					int y = (int)( ( Main.screenPosition.Y + Main.mouseY ) / 16 );
+			int killCount = tag.GetInt( "sog_npc_kills_netid_count" );
 
-					OrbTileBase.CreateTile( x, y );
+			for( int i=0; i<killCount; i++ ) {
+				string npcKey = tag.GetString( "sog_npc_kills_key_" + i );
+				int kills = tag.GetInt( "sog_npc_kills_" + i );
 
-					var myworld = ModContent.GetInstance<OrbsWorld>();
-					myworld.GetOrbs().Set2D( x, y );
-				}
+				this.NoSoGKillCount[npcKey] = kills;
 			}
-		}*/
+		}
 
 
-		/*private void UpdateOrbsNearby() {
-			var myworld = ModContent.GetInstance<OrbsWorld>();
+		public override TagCompound Save() {
+			var tag = new TagCompound { { "sog_npc_kills_netid_count", this.NoSoGKillCount.Count } };
 
-			int scrTiles = Main.screenWidth / 16;
-			int scrTileX = (int)( Main.screenPosition.X / 16f );
-			int scrTileY = (int)( Main.screenPosition.Y / 16f );
-
-			int biomeRadiusSqr = OrbsConfig.Instance.OrbPseudoBiomeTileRadius + scrTiles;
-			biomeRadiusSqr *= biomeRadiusSqr;
-
-			this.NearbyOrbs.Clear();
-
-			foreach( (int tileX, ISet<int> tileYs) in myworld.GetOrbs() ) {
-				foreach( int tileY in tileYs ) {
-					int diffX = scrTileX - tileX;
-					int diffY = scrTileY - tileY;
-					int distSqr = ( diffX * diffX ) + ( diffY * diffY );
-
-					if( distSqr < biomeRadiusSqr ) {
-						this.NearbyOrbs.Add( (tileX, tileY) );
-					}
-				}
+			int i = 0;
+			foreach( (string npcKey, int kills) in this.NoSoGKillCount ) {
+				tag["sog_npc_kills_key_" + i] = npcKey;
+				tag["sog_npc_kills_" + i] = kills;
+				i++;
 			}
-		}*/
+
+			return base.Save();
+		}
 	}
 }

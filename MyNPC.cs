@@ -33,9 +33,16 @@ namespace Orbs {
 		////////////////
 
 		public override void NPCLoot( NPC npc ) {
-			if( npc.modNPC != null && OrbsConfig.Instance.TricksterPinkOrbs > 0 ) {
-				if( ModLoader.GetMod( "TheTrickster" ) != null ) {
-					this.TricksterLoot( npc );
+			if( npc.modNPC != null ) {
+				if( OrbsConfig.Instance.PinkOrbDropsViaTrickster > 0 ) {
+					if( ModLoader.GetMod( "TheTrickster" ) != null ) {
+						this.TricksterModLoot( npc );
+					}
+				}
+				if( OrbsConfig.Instance.RedOrbDropsViaNonSoGBoss > 0 ) {
+					if( ModLoader.GetMod( "StaffOfGaia" ) != null ) {
+						this.StaffOfGaiaModLoot( npc );
+					}
 				}
 			}
 		}
