@@ -61,6 +61,10 @@ namespace Orbs {
 
 		[Range( 0, 99 )]
 		[DefaultValue( 1 )]
-		public int RedOrbDropsViaNonSoGBoss { get; set; } = 2;
+		public int RedOrbDropsViaBossWithoutSoG { get; set; } = 2;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 1 )]
+		public int GreenOrbDropsViaBossWithSoG { get; set; } = 2;
 	}
 }

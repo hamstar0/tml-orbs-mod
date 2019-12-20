@@ -39,7 +39,7 @@ namespace Orbs {
 						this.TricksterModLoot( npc );
 					}
 				}
-				if( OrbsConfig.Instance.RedOrbDropsViaNonSoGBoss > 0 ) {
+				if( OrbsConfig.Instance.RedOrbDropsViaBossWithoutSoG > 0 ) {
 					if( ModLoader.GetMod( "StaffOfGaia" ) != null ) {
 						this.StaffOfGaiaModLoot( npc );
 					}

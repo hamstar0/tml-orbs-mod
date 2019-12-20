@@ -2,7 +2,7 @@ using Terraria.ModLoader;
 
 
 namespace Orbs {
-	public class OrbsMod : Mod {
+	public partial class OrbsMod : Mod {
 		public static string GithubUserName => "hamstar0";
 		public static string GithubProjectName => "tml-orbs-mod";
 
@@ -22,6 +22,9 @@ namespace Orbs {
 		////////////////
 
 		public override void Load() {
+			if( ModLoader.GetMod("StaffOfGaia") != null ) {
+				this.LoadForStaffOfGaia();
+			}
 		}
 
 		public override void Unload() {
