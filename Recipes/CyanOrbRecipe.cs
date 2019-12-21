@@ -12,7 +12,7 @@ namespace Orbs.Recipes {
 			this.AddIngredient( ModContent.ItemType<CyanOrbRightFragmentItem>(), 1 );
 			this.AddIngredient( ModContent.ItemType<CyanOrbLeftFragmentItem>(), 1 );
 			this.AddTile( TileID.WorkBenches );
-			this.SetResult( ModContent.ItemType<BlueOrbItem>(), OrbsConfig.Instance.CyanOrbCraftStack );
+			this.SetResult( ModContent.ItemType<CyanOrbItem>(), OrbsConfig.Instance.CyanOrbCraftStack );
 		}
 
 

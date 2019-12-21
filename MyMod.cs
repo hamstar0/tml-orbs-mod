@@ -1,6 +1,7 @@
 using HamstarHelpers.Services.Hooks.ExtendedHooks;
 using Microsoft.Xna.Framework;
 using Orbs.Items;
+using Orbs.Recipes;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,10 +50,43 @@ namespace Orbs {
 		}
 
 
+		////////////////
+
 		public override void AddRecipes() {
 			if( ModLoader.GetMod("FindableManaCrystals") != null ) {
-				this.AddRecipesForFindableManaCrystals();
+				var blueOrbRecipe = new BlueOrbRecipe();
+				blueOrbRecipe.AddRecipe();
 			}
+
+			var cyanOrbRecipe = new CyanOrbRecipe();
+			cyanOrbRecipe.AddRecipe();
+
+			var yellowOrbRecipe = new YellowOrbRecipe();
+			yellowOrbRecipe.AddRecipe();
+
+			var whiteOrbRecipe = new WhiteOrbRecipe();
+			whiteOrbRecipe.AddRecipe();
+		}
+
+		public override void AddRecipeGroups() {
+			var copOrTinBar = new RecipeGroup( () => "Copper or Tin Bar", ItemID.CopperBar, ItemID.TinBar );
+			var ironOrLeadBar = new RecipeGroup( () => "Copper or Tin Bar", ItemID.IronBar, ItemID.LeadBar );
+			var silvOrTungBar = new RecipeGroup( () => "Silver or Tungsten Bar", ItemID.SilverBar, ItemID.TungstenBar );
+			var goldOrPlatBar = new RecipeGroup( () => "Gold or Platinum Bar", ItemID.GoldBar, ItemID.PlatinumBar );
+			var cobOrPalBar = new RecipeGroup( () => "Cobalt or Palladium Bar", ItemID.CobaltBar, ItemID.PalladiumBar );
+			var mythOrOricBar = new RecipeGroup( () => "Mythril or Orichalcum Bar", ItemID.MythrilBar, ItemID.OrichalcumBar );
+			var adaOrTitBar = new RecipeGroup( () => "Adamantite or Titanium Bar", ItemID.AdamantiteBar, ItemID.TitaniumBar );
+			var strangePlants = new RecipeGroup( () => "Strange Plants", ItemID.StrangePlant1, ItemID.StrangePlant2, ItemID.StrangePlant3, ItemID.StrangePlant4 );
+			RecipeGroup.RegisterGroup( "Orbs:CopperOrTinBars", copOrTinBar );
+			RecipeGroup.RegisterGroup( "Orbs:IronOrLeadBars", ironOrLeadBar );
+			RecipeGroup.RegisterGroup( "Orbs:SilverOrTungstenBars", silvOrTungBar );
+			RecipeGroup.RegisterGroup( "Orbs:GoldOrPlatinumBars", goldOrPlatBar );
+
+			RecipeGroup.RegisterGroup( "Orbs:CobaltOrPalladiumBars", cobOrPalBar );
+			RecipeGroup.RegisterGroup( "Orbs:MythrilOrOrichalcumBars", mythOrOricBar );
+			RecipeGroup.RegisterGroup( "Orbs:AdamantiteOrTitaniumBars", adaOrTitBar );
+
+			RecipeGroup.RegisterGroup( "Orbs:StrangePlants", strangePlants );
 		}
 	}
 }
