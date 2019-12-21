@@ -30,5 +30,12 @@ namespace Orbs {
 		public override void Unload() {
 			OrbsMod.Instance = null;
 		}
+
+
+		public override void AddRecipes() {
+			if( ModLoader.GetMod("FindableManaCrystals") != null ) {
+				this.AddRecipesForFindableManaCrystals();
+			}
+		}
 	}
 }

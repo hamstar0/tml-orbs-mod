@@ -20,6 +20,9 @@
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FindableManaCrystals">
+      <HintPath>..\..\Findable Mana Crystals\FindableManaCrystals\bin\Release\net452\FindableManaCrystals.dll</HintPath>
+    </Reference>
     <Reference Include="HamstarHelpers">
       <HintPath>..\..\Mod Helpers\v5 (tML11)\HamstarHelpers\bin\Release\net452\HamstarHelpers.dll</HintPath>
     </Reference>

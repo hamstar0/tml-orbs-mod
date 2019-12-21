@@ -1,4 +1,5 @@
 using Orbs.Items;
+using Orbs.Recipes;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,6 +35,14 @@ namespace Orbs {
 					}
 				}
 			}
+		}
+
+
+		////
+
+		private void AddRecipesForFindableManaCrystals() {
+			var blueOrbRecipe = new BlueOrbRecipe();
+			blueOrbRecipe.AddRecipe();
 		}
 	}
 }

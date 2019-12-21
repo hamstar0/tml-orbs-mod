@@ -7,7 +7,7 @@ namespace Orbs.Items {
 	public class GreenOrbItem : OrbItemBase {
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "Green Orb" );
-			this.Tooltip.SetDefault( "Resonates with certain (cyan) areas of the world"
+			this.Tooltip.SetDefault( "Resonates with certain (green) areas of the world"
 				+"\nUsing this item will destroy nearby resonating areas" );
 		}
 
