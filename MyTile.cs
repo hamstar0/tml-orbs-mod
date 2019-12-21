@@ -1,15 +1,30 @@
-﻿using HamstarHelpers.Helpers.TModLoader;
+﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Orbs.Tiles.Base;
-using System;
 using Terraria;
 using Terraria.ModLoader;
+using Orbs.Items;
+using Terraria.ID;
 
 
 namespace Orbs {
-	/*class OrbsTile : GlobalTile {
-		public override void DrawEffects(
+	class OrbsTile : GlobalTile {
+		public override void KillTile( int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem ) {
+			if( fail || effectOnly || noItem ) {
+				return;
+			}
+
+			if( type == TileID.ShadowOrbs ) {
+				if( OrbsConfig.Instance.PurpleOrbDropsViaShadowOrb > 0 ) {
+					int itemWho = Item.NewItem(
+						new Rectangle( i << 4, j << 4, 32, 32 ),
+						ModContent.ItemType<PurpleOrbItem>()
+					);
+				}
+			}
+		}
+
+
+		/*public override void DrawEffects(
 					int i,
 					int j,
 					int type,
@@ -37,6 +52,6 @@ namespace Orbs {
 					drawColor.B = (byte)((float)drawColor.B * ((float)color.B / 255f));
 				}
 			}
-		}
-	}*/
+		}*/
+	}
 }

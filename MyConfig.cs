@@ -70,5 +70,9 @@ namespace Orbs {
 		[Range( 0, 99 )]
 		[DefaultValue( 1 )]
 		public int BlueOrbCraftStack { get; set; } = 1;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 1 )]
+		public int PurpleOrbDropsViaShadowOrb { get; set; } = 1;
 	}
 }
