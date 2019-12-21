@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Orbs.Items.Materials;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 
@@ -24,6 +26,27 @@ namespace Orbs {
 
 		public override void SetDefaults( NPC npc ) {
 			this.SetPseudoBiomeEffects( npc );
+		}
+
+
+		////////////////
+
+		public override void SetupShop( int type, Chest shop, ref int nextSlot ) {
+			switch( type ) {
+			case NPCID.GoblinTinkerer:
+				shop.item[nextSlot] = new Item();
+				shop.item[nextSlot].SetDefaults( ModContent.ItemType<CyanOrbTopFragmentItem>() );
+				break;
+			case NPCID.Mechanic:
+				shop.item[nextSlot] = new Item();
+				shop.item[nextSlot].SetDefaults( ModContent.ItemType<CyanOrbRightFragmentItem>() );
+				break;
+			case NPCID.WitchDoctor:
+				shop.item[nextSlot] = new Item();
+				shop.item[nextSlot].SetDefaults( ModContent.ItemType<CyanOrbLeftFragmentItem>() );
+				break;
+			}
+			nextSlot++;
 		}
 
 

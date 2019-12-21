@@ -1,4 +1,5 @@
 ﻿using Orbs.Items;
+using Orbs.Items.Materials;
 using System;
 using Terraria.ID;
 using Terraria.ModLoader;

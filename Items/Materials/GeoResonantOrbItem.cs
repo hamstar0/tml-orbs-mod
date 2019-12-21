@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 using Orbs.Items.Base;
 
 
-namespace Orbs.Items {
+namespace Orbs.Items.Materials {
 	public class GeoResonantOrbItem : OrbItemBase {
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "Geo-Resonant Orb" );
