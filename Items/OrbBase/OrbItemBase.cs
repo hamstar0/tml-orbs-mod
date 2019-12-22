@@ -1,9 +1,11 @@
+using HamstarHelpers.Helpers.Fx;
 using HamstarHelpers.Helpers.Tiles;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 
@@ -133,6 +135,7 @@ namespace Orbs.Items.Base {
 
 			int minX = OrbsTile.CurrentTargetTileChunk.Value.X;
 			int minY = OrbsTile.CurrentTargetTileChunk.Value.Y;
+			bool found = false;
 
 			for( int y=minY; y<minY+OrbItemBase.MaxTileChunkUseRange; y++ ) {
 				for( int x=minX; x<minX+OrbItemBase.MaxTileChunkUseRange; x++ ) {
@@ -145,7 +148,21 @@ namespace Orbs.Items.Base {
 					}
 
 					tile.inActive( true );
+					WorldGen.SquareTileFrame( x, y );
+
+					ParticleFxHelpers.MakeDustCloud(
+						position: new Vector2( (x * 16) + 8, (y * 16) + 8 ),
+						quantity: 1,
+						sprayAmount: 0.3f,
+						scale: 1.2f
+					);
+
+					found = true;
 				}
+			}
+
+			if( found ) {
+				Main.PlaySound( SoundID.Item70, (minX<<4)+128, (minY<<4)+128 );
 			}
 
 			OrbsTile.CurrentTargetTileChunk = null;
