@@ -14,6 +14,8 @@ namespace Orbs {
 		private static int _CurrentCoordCode = -1;
 		private static OrbColorCode _CurrentCoordColorCode = 0;
 
+		internal (int X, int Y)? CurrentTargetTileChunk = null;
+
 
 
 		////////////////
@@ -55,14 +57,27 @@ namespace Orbs {
 			}
 
 			if( Main.LocalPlayer.HeldItem?.active != true ) {
+				this.CurrentTargetTileChunk = null;
 				return;
 			}
 
 			//var myplayer = TmlHelpers.SafelyGetModPlayer<OrbsPlayer>( Main.LocalPlayer );
 			var myorb = Main.LocalPlayer.HeldItem.modItem as OrbItemBase;
 			if( myorb == null ) {
+				this.CurrentTargetTileChunk = null;
 				if( !OrbsConfig.Instance.DebugModeTheColorsDuke ) {
 					return;
+				}
+			}
+
+			if( this.CurrentTargetTileChunk.HasValue ) {
+				bool isWithinUseRange = OrbItemBase.IsTileChunkWithinUseRange(
+					Main.LocalPlayer.Center,
+					this.CurrentTargetTileChunk.Value
+				);
+
+				if( !isWithinUseRange ) {
+					this.CurrentTargetTileChunk = null;
 				}
 			}
 
@@ -70,7 +85,21 @@ namespace Orbs {
 			OrbColorCode plrColorCode = myorb?.ColorCode ?? (OrbColorCode)0;
 
 			if( tileColorCode == plrColorCode || OrbsConfig.Instance.DebugModeTheColorsDuke ) {
-				this.ApplyTileColor( i, j, tileColorCode, ref drawColor );
+				if( tileColorCode == plrColorCode && this.CurrentTargetTileChunk == null ) {
+					if( OrbItemBase.IsTileWithinUseRange( i, j ) ) {
+						this.CurrentTargetTileChunk = ((i >> 4) << 4, (j >> 4) << 4);
+					}
+				}
+
+				bool isWithinCurrentChunk = false;
+				if( this.CurrentTargetTileChunk != null ) {
+					isWithinCurrentChunk = i >= this.CurrentTargetTileChunk.Value.X
+						&& i < this.CurrentTargetTileChunk.Value.X + 16
+						&& j >= this.CurrentTargetTileChunk.Value.Y
+						&& j < this.CurrentTargetTileChunk.Value.Y + 16;
+				}
+
+				this.ApplyTileColor( i, j, tileColorCode, isWithinCurrentChunk, ref drawColor );
 			}
 
 			/*int biomeRadiusSqr = OrbsConfig.Instance.OrbPseudoBiomeTileRadius;
@@ -95,17 +124,31 @@ namespace Orbs {
 			}*/
 		}
 
-		public void ApplyTileColor( int i, int j, OrbColorCode tileColorCode, ref Color drawColor ) {
+
+		////
+
+		public void ApplyTileColor( int i, int j, OrbColorCode tileColorCode, bool isWithinUseRange, ref Color drawColor ) {
 			Tile tile = Main.tile[i, j];
+
 			Color color = OrbItemBase.ColorValues[(OrbColorCode)tileColorCode];
-			color *= ( (float)AnimatedColors.Air.CurrentColor.R / 255f );
+			if( isWithinUseRange ) {
+				float oscillate = ( (float)AnimatedColors.Air.CurrentColor.R / 255f );
+				oscillate *= oscillate;
+
+				color *= oscillate;
+			}
 
 			float r = (float)color.R / 255f;
 			float g = (float)color.G / 255f;
 			float b = (float)color.B / 255f;
+			if( !isWithinUseRange ) {
+				r += (1f - r) * 0.35f;
+				g += (1f - g) * 0.35f;
+				b += (1f - b) * 0.35f;
+			}
 
-			bool neighborHalfBrick = Main.tile[( i == 0 ? i : i - 1 ), j].halfBrick()
-				|| Main.tile[( i >= Main.maxTilesX - 1 ? i : i + 1 ), j].halfBrick();
+			bool neighborHalfBrick = Main.tile[ (i == 0 ? i : i - 1), j ].halfBrick()
+				 || Main.tile[ (i >= Main.maxTilesX - 1 ? i : i + 1), j ].halfBrick();
 
 			if( tile.slope() == 0 && !tile.halfBrick() && !neighborHalfBrick ) {
 				drawColor.R = (byte)( (float)drawColor.R * r );
@@ -115,6 +158,12 @@ namespace Orbs {
 				drawColor.R = (byte)( ( (float)drawColor.R + ( (float)drawColor.R * r ) ) * 0.5f );
 				drawColor.G = (byte)( ( (float)drawColor.G + ( (float)drawColor.G * g ) ) * 0.5f );
 				drawColor.B = (byte)( ( (float)drawColor.B + ( (float)drawColor.B * b ) ) * 0.5f );
+			}
+
+			if( isWithinUseRange ) {
+				drawColor.R = Math.Max( (byte)16, drawColor.R );
+				drawColor.G = Math.Max( (byte)16, drawColor.G );
+				drawColor.B = Math.Max( (byte)16, drawColor.B );
 			}
 		}
 	}

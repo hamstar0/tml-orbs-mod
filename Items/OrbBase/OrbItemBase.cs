@@ -23,6 +23,10 @@ namespace Orbs.Items.Base {
 
 
 	public abstract class OrbItemBase : ModItem {
+		public const int MaxTileChunkUseRange = 16;
+
+		////
+
 		public static IReadOnlyDictionary<OrbColorCode, Color> ColorValues;
 
 
@@ -45,6 +49,29 @@ namespace Orbs.Items.Base {
 
 
 		////////////////
+
+		public static bool IsTileWithinUseRange( int i, int j ) {
+			Player plr = Main.LocalPlayer;
+
+			int diffX = (int)( plr.Center.X * 0.0625 ) - i;
+			int diffY = (int)( plr.Center.Y * 0.0625 ) - j;
+			int distSqr = ( diffX * diffX ) + ( diffY * diffY );
+			return distSqr <= 256;
+		}
+
+
+		public static bool IsTileChunkWithinUseRange( Vector2 worldPos, (int i, int j) tileChunkPos ) {
+			int maxRange = OrbItemBase.MaxTileChunkUseRange;
+			var rect = new Rectangle(
+				(tileChunkPos.i - maxRange) << 4,
+				(tileChunkPos.j - maxRange) << 4,
+				(maxRange << 4) * 3,
+				(maxRange << 4) * 3
+			);
+
+			return rect.Contains( (int)worldPos.X, (int)worldPos.Y );
+		}
+
 
 		public static OrbColorCode GetRandomColorCode( int randSeed ) {
 			var rand = new Random( randSeed );
