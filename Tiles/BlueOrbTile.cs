@@ -1,11 +1,11 @@
 ﻿using System;
-using HamstarHelpers.Helpers.TModLoader;
 using Microsoft.Xna.Framework;
-using Orbs.Items;
-using Orbs.Tiles.Base;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using HamstarHelpers.Helpers.TModLoader;
+using Orbs.Items;
+using Orbs.Tiles.Base;
 
 
 namespace Orbs.Tiles {

@@ -7,7 +7,7 @@ using Orbs.Items;
 
 
 namespace Orbs {
-	/*class OrbsTile : GlobalTile {
+	/*partial class OrbsTile : GlobalTile {
 		public override void DrawEffects(
 					int i,
 					int j,
