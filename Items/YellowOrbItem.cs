@@ -16,14 +16,5 @@ namespace Orbs.Items {
 			this.Tooltip.SetDefault( "Resonates with certain (yellow) areas of the world"
 				+"\nUsing this item will destroy nearby resonating areas" );
 		}
-
-
-		////////////////
-
-		public override bool ConsumeItem( Player player ) {
-			// Check if nearby resonating areas
-
-			return false;
-		}
 	}
 }

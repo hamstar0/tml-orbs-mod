@@ -1,3 +1,4 @@
+using HamstarHelpers.Helpers.Tiles;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -120,6 +121,36 @@ namespace Orbs.Items.Base {
 				return true;
 			}
 			return base.UseItem( player );
+		}
+
+
+		////////////////
+
+		public override bool ConsumeItem( Player player ) {
+			if( !OrbsTile.CurrentTargetTileChunk.HasValue ) {
+				return false;
+			}
+
+			int minX = OrbsTile.CurrentTargetTileChunk.Value.X;
+			int minY = OrbsTile.CurrentTargetTileChunk.Value.Y;
+
+			for( int y=minY; y<minY+OrbItemBase.MaxTileChunkUseRange; y++ ) {
+				for( int x=minX; x<minX+OrbItemBase.MaxTileChunkUseRange; x++ ) {
+					Tile tile = Main.tile[x, y];
+					if( tile?.active() != true ) {
+						continue;
+					}
+					if( !TileGroupIdentityHelpers.VanillaEarthTiles.Contains(tile.type) ) {
+						continue;
+					}
+
+					tile.inActive( true );
+				}
+			}
+
+			OrbsTile.CurrentTargetTileChunk = null;
+
+			return true;
 		}
 	}
 }

@@ -14,7 +14,7 @@ namespace Orbs {
 		private static int _CurrentCoordCode = -1;
 		private static OrbColorCode _CurrentCoordColorCode = 0;
 
-		internal (int X, int Y)? CurrentTargetTileChunk = null;
+		internal static (int X, int Y)? CurrentTargetTileChunk = null;
 
 
 
@@ -52,32 +52,32 @@ namespace Orbs {
 					ref int nextSpecialDrawIndex ) {
 			Tile tile = Main.tile[i, j];
 
-			if( !tile.active() || !TileGroupIdentityHelpers.VanillaEarthTiles.Contains(type) ) {
+			if( !tile.active() || tile.inActive() || !TileGroupIdentityHelpers.VanillaEarthTiles.Contains(type) ) {
 				return;
 			}
 
 			if( Main.LocalPlayer.HeldItem?.active != true ) {
-				this.CurrentTargetTileChunk = null;
+				OrbsTile.CurrentTargetTileChunk = null;
 				return;
 			}
 
 			//var myplayer = TmlHelpers.SafelyGetModPlayer<OrbsPlayer>( Main.LocalPlayer );
 			var myorb = Main.LocalPlayer.HeldItem.modItem as OrbItemBase;
 			if( myorb == null ) {
-				this.CurrentTargetTileChunk = null;
+				OrbsTile.CurrentTargetTileChunk = null;
 				if( !OrbsConfig.Instance.DebugModeTheColorsDuke ) {
 					return;
 				}
 			}
 
-			if( this.CurrentTargetTileChunk.HasValue ) {
+			if( OrbsTile.CurrentTargetTileChunk.HasValue ) {
 				bool isWithinUseRange = OrbItemBase.IsTileChunkWithinUseRange(
 					Main.LocalPlayer.Center,
-					this.CurrentTargetTileChunk.Value
+					OrbsTile.CurrentTargetTileChunk.Value
 				);
 
 				if( !isWithinUseRange ) {
-					this.CurrentTargetTileChunk = null;
+					OrbsTile.CurrentTargetTileChunk = null;
 				}
 			}
 
@@ -85,18 +85,18 @@ namespace Orbs {
 			OrbColorCode plrColorCode = myorb?.ColorCode ?? (OrbColorCode)0;
 
 			if( tileColorCode == plrColorCode || OrbsConfig.Instance.DebugModeTheColorsDuke ) {
-				if( tileColorCode == plrColorCode && this.CurrentTargetTileChunk == null ) {
-					if( OrbItemBase.IsTileWithinUseRange( i, j ) ) {
-						this.CurrentTargetTileChunk = ((i >> 4) << 4, (j >> 4) << 4);
+				if( tileColorCode == plrColorCode && OrbsTile.CurrentTargetTileChunk == null ) {
+					if( OrbItemBase.IsTileWithinUseRange(i, j) ) {
+						OrbsTile.CurrentTargetTileChunk = ((i >> 4) << 4, (j >> 4) << 4);
 					}
 				}
 
 				bool isWithinCurrentChunk = false;
-				if( this.CurrentTargetTileChunk != null ) {
-					isWithinCurrentChunk = i >= this.CurrentTargetTileChunk.Value.X
-						&& i < this.CurrentTargetTileChunk.Value.X + 16
-						&& j >= this.CurrentTargetTileChunk.Value.Y
-						&& j < this.CurrentTargetTileChunk.Value.Y + 16;
+				if( OrbsTile.CurrentTargetTileChunk != null ) {
+					isWithinCurrentChunk = i >= OrbsTile.CurrentTargetTileChunk.Value.X
+						&& i < OrbsTile.CurrentTargetTileChunk.Value.X + 16
+						&& j >= OrbsTile.CurrentTargetTileChunk.Value.Y
+						&& j < OrbsTile.CurrentTargetTileChunk.Value.Y + 16;
 				}
 
 				this.ApplyTileColor( i, j, tileColorCode, isWithinCurrentChunk, ref drawColor );
