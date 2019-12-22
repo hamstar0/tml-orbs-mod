@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Orbs.Items;
-using Orbs.Tiles.Base;
 using Terraria;
 using Terraria.ModLoader;
+using Orbs.Items;
+using Orbs.Tiles.Base;
 
 
 namespace Orbs.Tiles {

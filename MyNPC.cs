@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Orbs.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Orbs.Items.Materials;
+using HamstarHelpers.Items;
+
 
 
 namespace Orbs {

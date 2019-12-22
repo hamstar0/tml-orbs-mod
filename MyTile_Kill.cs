@@ -54,15 +54,16 @@ namespace Orbs {
 		private OrbsExtendedTileHooks() { }
 
 		void ILoadable.OnModsLoad() {
-			if( OrbsConfig.Instance.PurpleOrbDropsViaShadowOrb > 0 ) {
-				ExtendedTileHooks.AddKillMultiTileHook( OrbsExtendedTileHooks.KillMultiTile );
-			}
 		}
 
 		void ILoadable.OnModsUnload() {
 		}
 
 		void ILoadable.OnPostModsLoad() {
+			if( OrbsConfig.Instance.PurpleOrbDropsViaShadowOrb > 0 ) {
+				ExtendedTileHooks.AddKillMultiTileHook( OrbsExtendedTileHooks.KillMultiTile );
+			}
+
 			var killTileHook = new ExtendedTileHooks.KillTileDelegate( OrbsExtendedTileHooks.KillTile );
 			ExtendedTileHooks.AddSafeKillTileHook( killTileHook );
 		}

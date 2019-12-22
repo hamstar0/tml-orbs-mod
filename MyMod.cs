@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Orbs.Recipes;
+using HamstarHelpers;
 
 
 namespace Orbs {
@@ -36,6 +37,14 @@ namespace Orbs {
 
 		public override void Unload() {
 			OrbsMod.Instance = null;
+		}
+
+		public override void PostSetupContent() {
+			ModHelpersConfig.Instance.OverlayChanges(
+				new ModHelpersConfig {
+					GeoResonantOrbSoldByDryad = true
+				}
+			);
 		}
 
 

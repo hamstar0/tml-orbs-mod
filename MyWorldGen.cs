@@ -1,8 +1,8 @@
-﻿using HamstarHelpers.Classes.Tiles.TilePattern;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.World.Generation;
+using HamstarHelpers.Classes.Tiles.TilePattern;
 
 
 namespace Orbs {

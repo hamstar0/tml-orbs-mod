@@ -4,7 +4,7 @@ using Orbs.Items.Base;
 
 
 namespace Orbs.Items.Materials {
-	public class CyanOrbLeftFragmentItem : OrbItemBase {
+	public class CyanOrbLeftFragmentItem : ModItem {
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "Cyan Orb Fragment (Left)" );
 			this.Tooltip.SetDefault( "Assembles into an orb that can resonate with certain (cyan) areas of the world" );
