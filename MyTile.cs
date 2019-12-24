@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using Orbs.Items.Base;
+using Terraria.ID;
 using HamstarHelpers.Classes.PlayerData;
 using HamstarHelpers.Helpers.Tiles;
 using HamstarHelpers.Services.AnimatedColor;
+using Orbs.Items.Base;
 
 
 namespace Orbs {
@@ -62,10 +63,14 @@ namespace Orbs {
 			}
 
 			//var myplayer = TmlHelpers.SafelyGetModPlayer<OrbsPlayer>( Main.LocalPlayer );
-			var myorb = Main.LocalPlayer.HeldItem.modItem as OrbItemBase;
+			Item heldItem = Main.LocalPlayer.HeldItem;
+			bool isBinoculars = heldItem.type == ItemID.Binoculars;
+
+			var myorb = heldItem.modItem as OrbItemBase;
 			if( myorb == null ) {
 				OrbsTile.CurrentTargetTileChunk = null;
-				if( !OrbsConfig.Instance.DebugModeTheColorsDuke ) {
+
+				if( !isBinoculars && !OrbsConfig.Instance.DebugModeTheColorsDuke ) {
 					return;
 				}
 			}
@@ -83,8 +88,11 @@ namespace Orbs {
 
 			OrbColorCode tileColorCode = OrbsTile.GetTileColorCode( i, j );
 			OrbColorCode plrColorCode = myorb?.ColorCode ?? (OrbColorCode)0;
+			bool canSeeColor = tileColorCode == plrColorCode
+				|| isBinoculars
+				|| OrbsConfig.Instance.DebugModeTheColorsDuke;
 
-			if( tileColorCode == plrColorCode || OrbsConfig.Instance.DebugModeTheColorsDuke ) {
+			if( canSeeColor ) {
 				if( tileColorCode == plrColorCode && OrbsTile.CurrentTargetTileChunk == null ) {
 					if( OrbItemBase.IsTileWithinUseRange(i, j) ) {
 						OrbsTile.CurrentTargetTileChunk = ((i >> 4) << 4, (j >> 4) << 4);
