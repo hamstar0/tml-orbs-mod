@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using HamstarHelpers.Classes.Loadable;
+using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.TModLoader;
 using HamstarHelpers.Services.Hooks.ExtendedHooks;
 using Orbs.Items;
@@ -12,13 +13,16 @@ using Orbs.Items;
 namespace Orbs {
 	class OrbsExtendedTileHooks : ILoadable {
 		private static void KillTile( int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem, bool isNonGameplay ) {
-			if( Main.gameMenu ) {
+			if( Main.gameMenu && Main.netMode != 2 ) {
 				return;
 			}
 			if( fail || effectOnly || isNonGameplay ) {
 				return;
 			}
-			if( Main.netMode != 2 && !LoadHelpers.IsCurrentPlayerInGame() ) {
+			//if( Main.netMode != 2 && !LoadHelpers.IsCurrentPlayerInGame() ) {
+			//	return;
+			//}
+			if( !LoadHelpers.IsWorldBeingPlayed() ) {
 				return;
 			}
 
