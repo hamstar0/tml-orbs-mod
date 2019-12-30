@@ -138,7 +138,7 @@ namespace Orbs {
 		public void ApplyTileColor( int i, int j, OrbColorCode tileColorCode, bool isWithinUseRange, ref Color drawColor ) {
 			Tile tile = Main.tile[i, j];
 
-			Color color = OrbItemBase.ColorValues[(OrbColorCode)tileColorCode];
+			Color color = OrbItemBase.ColorValues[ (OrbColorCode)tileColorCode ];
 			if( isWithinUseRange ) {
 				float oscillate = ( (float)AnimatedColors.Air.CurrentColor.R / 255f );
 				oscillate *= oscillate;
@@ -146,13 +146,15 @@ namespace Orbs {
 				color *= oscillate;
 			}
 
+			float lightness = 0.15f;
+
 			float r = (float)color.R / 255f;
 			float g = (float)color.G / 255f;
 			float b = (float)color.B / 255f;
 			if( !isWithinUseRange ) {
-				r += (1f - r) * 0.35f;
-				g += (1f - g) * 0.35f;
-				b += (1f - b) * 0.35f;
+				r += (1f - r) * lightness;
+				g += (1f - g) * lightness;
+				b += (1f - b) * lightness;
 			}
 
 			bool neighborHalfBrick = Main.tile[ (i == 0 ? i : i - 1), j ].halfBrick()
