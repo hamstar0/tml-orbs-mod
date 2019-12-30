@@ -11,6 +11,7 @@ namespace Orbs {
 			TileID.GetUniqueKey( TileID.PiggyBank ),
 			TileID.GetUniqueKey( TileID.Safes ),
 			TileID.GetUniqueKey( TileID.Extractinator ),
+			TileID.GetUniqueKey( TileID.SharpeningStation ),
 			TileID.GetUniqueKey( TileID.DefendersForge ),
 			TileID.GetUniqueKey( TileID.LunarCraftingStation ),
 			TileID.GetUniqueKey( TileID.Cannon ),
