@@ -6,7 +6,7 @@ using Terraria.Utilities;
 using HamstarHelpers.Helpers.TModLoader;
 using Orbs.Items;
 using Orbs.Recipes;
-
+using HamstarHelpers.Helpers.Debug;
 
 namespace Orbs {
 	public partial class OrbsMod : Mod {
@@ -60,7 +60,7 @@ namespace Orbs {
 
 				float countedWeight = 0f;
 				foreach( (float weight, int checkOrbItemType) in weights ) {
-					if( weight < weightRand ) {
+					if( (countedWeight + weight) < weightRand ) {
 						countedWeight += weight;
 						continue;
 					}
@@ -70,6 +70,7 @@ namespace Orbs {
 				}
 
 				if( orbItemType == -1 ) {
+					LogHelpers.Warn( "Could not pick random orb to implant in chest." );
 					return;
 				}
 
@@ -82,6 +83,8 @@ namespace Orbs {
 					chest.item[i] = new Item();
 					chest.item[i].SetDefaults( orbItemType );
 					chest.item[i].stack = 1;
+
+					LogHelpers.Log( "Implanted "+chest.item[i].Name+" in chest." );
 					break;
 				}
 			} );
