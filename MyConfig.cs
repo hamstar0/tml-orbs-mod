@@ -141,6 +141,10 @@ namespace Orbs {
 		public float YellowOrbPercentChanceForOrbChest { get; set; } = 0.1f;
 
 
+		[DefaultValue(true)]
+		public bool OnlyGenOrbsInUndergroundChests { get; set; } = true;
+
+
 
 		////////////////
 

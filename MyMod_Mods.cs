@@ -43,8 +43,10 @@ namespace Orbs {
 
 		private void LoadForChestImplants() {
 			ChestImplants.ChestImplantsAPI.AddCustomImplanter( ( context, chest ) => {
-				if( !ChestImplants.ChestImplanter.IsChestMatch( context, "Vanilla Underground World Chest" ) ) {
-					return;
+				if( OrbsConfig.Instance.OnlyGenOrbsInUndergroundChests ) {
+					if( !ChestImplants.ChestImplanter.IsChestMatch( context, "Vanilla Underground World Chest" ) ) {
+						return;
+					}
 				}
 
 				UnifiedRandom rand = TmlHelpers.SafelyGetRand();
