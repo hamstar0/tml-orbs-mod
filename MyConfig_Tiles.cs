@@ -13,6 +13,9 @@ namespace Orbs {
 			TileID.GetUniqueKey( TileID.Extractinator ),
 			TileID.GetUniqueKey( TileID.DefendersForge ),
 			TileID.GetUniqueKey( TileID.LunarCraftingStation ),
+			TileID.GetUniqueKey( TileID.Cannon ),
+			TileID.GetUniqueKey( TileID.SnowballLauncher ),
+			TileID.GetUniqueKey( TileID.LandMine ),
 			//
 			TileID.GetUniqueKey( TileID.WoodBlock ),
 			TileID.GetUniqueKey( TileID.BorealWood ),
