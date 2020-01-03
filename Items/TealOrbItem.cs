@@ -13,8 +13,8 @@ namespace Orbs.Items {
 
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "Teal Orb" );
-			this.Tooltip.SetDefault( "Resonates with certain (teal) areas of the world"
-				+ "\nUsing this item will destroy nearby resonating areas"
+			this.Tooltip.SetDefault( "Resonates with a specific (teal) world terrain type"
+				+ "\nUsing this item will destroy a nearby resonating area"
 				+ "\nConsumed on use" );
 		}
 	}

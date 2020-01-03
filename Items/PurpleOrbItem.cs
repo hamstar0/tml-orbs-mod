@@ -13,8 +13,8 @@ namespace Orbs.Items {
 
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "Purple Orb" );
-			this.Tooltip.SetDefault( "Resonates with certain (purple) areas of the world"
-				+ "\nUsing this item will destroy nearby resonating areas"
+			this.Tooltip.SetDefault( "Resonates with a specific (purple) world terrain type"
+				+ "\nUsing this item will destroy a nearby resonating area"
 				+ "\nConsumed on use" );
 		}
 	}
