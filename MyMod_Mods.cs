@@ -8,6 +8,7 @@ using Orbs.Items;
 using Orbs.Recipes;
 using HamstarHelpers.Helpers.Debug;
 
+
 namespace Orbs {
 	public partial class OrbsMod : Mod {
 		private void LoadForStaffOfGaia() {
@@ -42,7 +43,7 @@ namespace Orbs {
 
 
 		private void LoadForChestImplants() {
-			ChestImplants.ChestImplantsAPI.AddCustomImplanter( ( context, chest ) => {
+			ChestImplants.ChestImplantsAPI.AddCustomImplanter( "Random Orb", ( context, chest ) => {
 				if( OrbsConfig.Instance.OnlyGenOrbsInUndergroundChests ) {
 					if( !ChestImplants.ChestImplanter.IsChestMatch( context, "Vanilla Underground World Chest" ) ) {
 						return;
