@@ -1,11 +1,9 @@
-using HamstarHelpers.Helpers.Fx;
-using HamstarHelpers.Helpers.Tiles;
-using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Microsoft.Xna.Framework;
+using Orbs.Protocols;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 
@@ -25,7 +23,7 @@ namespace Orbs.Items.Base {
 
 
 
-	public abstract class OrbItemBase : ModItem {
+	public abstract partial class OrbItemBase : ModItem {
 		public const int MaxTileChunkUseRange = 16;
 
 		////
@@ -48,47 +46,6 @@ namespace Orbs.Items.Base {
 				{ OrbColorCode.Yellow, Color.Yellow },
 			};
 			OrbItemBase.ColorValues = new ReadOnlyDictionary<OrbColorCode, Color>( colors );
-		}
-
-
-		////////////////
-
-		public static bool IsTileWithinUseRange( int i, int j ) {
-			Player plr = Main.LocalPlayer;
-
-			int diffX = (int)( plr.Center.X * 0.0625 ) - i;
-			int diffY = (int)( plr.Center.Y * 0.0625 ) - j;
-			int distSqr = ( diffX * diffX ) + ( diffY * diffY );
-			return distSqr <= 256;
-		}
-
-
-		public static bool IsTileChunkWithinUseRange( Vector2 worldPos, (int i, int j) tileChunkPos ) {
-			int maxRange = OrbItemBase.MaxTileChunkUseRange;
-			var rect = new Rectangle(
-				(tileChunkPos.i - maxRange) << 4,
-				(tileChunkPos.j - maxRange) << 4,
-				(maxRange << 4) * 3,
-				(maxRange << 4) * 3
-			);
-
-			return rect.Contains( (int)worldPos.X, (int)worldPos.Y );
-		}
-
-
-		public static OrbColorCode GetRandomColorCode( int randSeed ) {
-			var rand = new Random( randSeed );
-			int maxColors = Enum.GetValues( typeof(OrbColorCode) ).Length;
-
-			int tileColorCode = rand.Next( maxColors + 1 );
-
-			if( tileColorCode >= maxColors ) {
-				tileColorCode = (int)OrbColorCode.White;
-			} else {
-				tileColorCode += 1;
-			}
-
-			return (OrbColorCode)tileColorCode;
 		}
 
 
@@ -133,41 +90,23 @@ namespace Orbs.Items.Base {
 				return false;
 			}
 
-			int minX = OrbsTile.CurrentTargetTileChunk.Value.X;
-			int minY = OrbsTile.CurrentTargetTileChunk.Value.Y;
-			bool found = false;
-
-			for( int y=minY; y<minY+OrbItemBase.MaxTileChunkUseRange; y++ ) {
-				for( int x=minX; x<minX+OrbItemBase.MaxTileChunkUseRange; x++ ) {
-					Tile tile = Main.tile[x, y];
-					if( tile?.active() != true ) {
-						continue;
-					}
-					if( !TileGroupIdentityHelpers.VanillaEarthTiles.Contains(tile.type) ) {
-						continue;
-					}
-
-					tile.inActive( true );
-					WorldGen.SquareTileFrame( x, y );
-
-					ParticleFxHelpers.MakeDustCloud(
-						position: new Vector2( (x * 16) + 8, (y * 16) + 8 ),
-						quantity: 1,
-						sprayAmount: 0.3f,
-						scale: 1.2f
+			if( OrbItemBase.CanActivateOrb() ) {
+				if( Main.netMode == 0 ) {
+					OrbItemBase.ActivateOrb( OrbsTile.CurrentTargetTileChunk.Value.X, OrbsTile.CurrentTargetTileChunk.Value.Y );
+					OrbsTile.CurrentTargetTileChunk = null;
+				} else if( Main.netMode == 1 ) {
+					OrbActivateProtocol.Broadcast(
+						this.ColorCode,
+						OrbsTile.CurrentTargetTileChunk.Value.X,
+						OrbsTile.CurrentTargetTileChunk.Value.Y
 					);
 
-					found = true;
+					OrbItemBase.ActivateOrb( OrbsTile.CurrentTargetTileChunk.Value.X, OrbsTile.CurrentTargetTileChunk.Value.Y );
 				}
+				return true;
 			}
 
-			if( found ) {
-				Main.PlaySound( SoundID.Item70, (minX<<4)+128, (minY<<4)+128 );
-			}
-
-			OrbsTile.CurrentTargetTileChunk = null;
-
-			return true;
+			return false;
 		}
 	}
 }
