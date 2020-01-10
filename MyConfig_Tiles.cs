@@ -10,6 +10,8 @@ namespace Orbs {
 		public List<string> TileKillWhitelist { get; set; } = new List<string> {
 			TileID.GetUniqueKey( TileID.Campfire ),
 			TileID.GetUniqueKey( TileID.HangingLanterns ),
+			TileID.GetUniqueKey( TileID.Banners ),
+			TileID.GetUniqueKey( TileID.WarTableBanner ),
 			TileID.GetUniqueKey( TileID.PiggyBank ),
 			TileID.GetUniqueKey( TileID.Safes ),
 			TileID.GetUniqueKey( TileID.Extractinator ),
