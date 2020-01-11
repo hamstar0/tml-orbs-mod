@@ -162,6 +162,17 @@ namespace Orbs {
 			TileID.GetUniqueKey( TileID.Boulder ),
 			TileID.GetUniqueKey( TileID.BeeHive ),
 			TileID.GetUniqueKey( TileID.Tombstones ),
+			//
+			TileID.GetUniqueKey( TileID.Painting2X3 ),
+			TileID.GetUniqueKey( TileID.Painting3X2 ),
+			TileID.GetUniqueKey( TileID.Painting3X3 ),
+			TileID.GetUniqueKey( TileID.Painting4X3 ),
+			TileID.GetUniqueKey( TileID.Painting6X4 ),
+			TileID.GetUniqueKey( TileID.ChristmasTree ),
+			TileID.GetUniqueKey( TileID.HolidayLights ),
+			TileID.GetUniqueKey( TileID.SillyStreamerBlue ),
+			TileID.GetUniqueKey( TileID.SillyStreamerGreen ),
+			TileID.GetUniqueKey( TileID.SillyStreamerPink ),
 		};
 
 		[DefaultValue( true )]
