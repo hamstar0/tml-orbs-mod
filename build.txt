@@ -1,6 +1,6 @@
 displayName = Orbs
 author = hamstar
-version = 1.0.0.4
+version = 1.0.0.6
 modReferences = HamstarHelpers@5.4.2
 weakReferences = TheTrickster@1.0.1, StaffOfGaia@1.0.0, FindableManaCrystals@1.0.0, ChestImplants@1.1.1
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*

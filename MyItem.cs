@@ -5,14 +5,25 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using HamstarHelpers.Services.Timers;
+using HamstarHelpers.Helpers.Items.Attributes;
 
 
 namespace Orbs {
 	class MyItem : GlobalItem {
 		public override void ModifyTooltips( Item item, List<TooltipLine> tooltips ) {
-			if( item.type == ItemID.Binoculars ) {
-				var tip = new TooltipLine( this.mod, "OrbsBinoculars", "Reveals patches of orb-resonant terrain (by color)" );
-				tooltips.Add( tip );
+			TooltipLine tip;
+
+			switch( item.type ) {
+			case ItemID.Binoculars:
+				tip = new TooltipLine( this.mod, "OrbsBinoculars", "Reveals patches of orb-resonant terrain (by color)" );
+				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
+				break;
+			default:
+				if( item.pick > 0 ) {
+					tip = new TooltipLine( this.mod, "OrbsPick", "Able to break ores, plants, gems, sand, snow, silt, obsidian, and wood" );
+					ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
+				}
+				break;
 			}
 		}
 
