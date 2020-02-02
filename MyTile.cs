@@ -20,6 +20,13 @@ namespace Orbs {
 
 
 		////////////////
+		
+		public static bool IsOrbTileType( int tileType ) {
+			return tileType == TileID.ObsidianBrick
+				|| TileGroupIdentityHelpers.VanillaEarthTiles.Contains(tileType);
+		}
+
+		////////////////
 
 		public static OrbColorCode GetTileColorCode( int i, int j ) {
 			int coordCode = ( i / 16 ) + ( ( j / 16 ) << 16 );
@@ -53,7 +60,7 @@ namespace Orbs {
 					ref int nextSpecialDrawIndex ) {
 			Tile tile = Main.tile[i, j];
 
-			if( !tile.active() || tile.inActive() || !TileGroupIdentityHelpers.VanillaEarthTiles.Contains(type) ) {
+			if( !tile.active() || tile.inActive() || !OrbsTile.IsOrbTileType(type) ) {
 				return;
 			}
 

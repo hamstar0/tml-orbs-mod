@@ -57,10 +57,7 @@ namespace Orbs.Items.Base {
 			for( int y = minY; y < minY + OrbItemBase.MaxTileChunkUseRange; y++ ) {
 				for( int x = minX; x < minX + OrbItemBase.MaxTileChunkUseRange; x++ ) {
 					Tile tile = Main.tile[x, y];
-					if( tile?.active() != true ) {
-						continue;
-					}
-					if( !TileGroupIdentityHelpers.VanillaEarthTiles.Contains( tile.type ) ) {
+					if( tile?.active() != true || !OrbsTile.IsOrbTileType(tile.type) ) {
 						continue;
 					}
 
@@ -76,10 +73,7 @@ namespace Orbs.Items.Base {
 			for( int y = chunkTileY; y < chunkTileY + OrbItemBase.MaxTileChunkUseRange; y++ ) {
 				for( int x = chunkTileX; x < chunkTileX + OrbItemBase.MaxTileChunkUseRange; x++ ) {
 					Tile tile = Main.tile[x, y];
-					if( tile?.active() != true ) {
-						continue;
-					}
-					if( !TileGroupIdentityHelpers.VanillaEarthTiles.Contains( tile.type ) ) {
+					if( tile?.active() != true || !OrbsTile.IsOrbTileType(tile.type) ) {
 						continue;
 					}
 
