@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Orbs.Recipes;
 using HamstarHelpers;
-
+using Orbs.Items;
 
 namespace Orbs {
 	public partial class OrbsMod : Mod {
@@ -74,6 +74,7 @@ namespace Orbs {
 			var mythOrOricBar = new RecipeGroup( () => "Mythril or Orichalcum Bar", ItemID.MythrilBar, ItemID.OrichalcumBar );
 			var adaOrTitBar = new RecipeGroup( () => "Adamantite or Titanium Bar", ItemID.AdamantiteBar, ItemID.TitaniumBar );
 			var strangePlants = new RecipeGroup( () => "Strange Plants", ItemID.StrangePlant1, ItemID.StrangePlant2, ItemID.StrangePlant3, ItemID.StrangePlant4 );
+
 			RecipeGroup.RegisterGroup( "Orbs:CopperOrTinBars", copOrTinBar );
 			RecipeGroup.RegisterGroup( "Orbs:IronOrLeadBars", ironOrLeadBar );
 			RecipeGroup.RegisterGroup( "Orbs:SilverOrTungstenBars", silvOrTungBar );
@@ -84,6 +85,19 @@ namespace Orbs {
 			RecipeGroup.RegisterGroup( "Orbs:AdamantiteOrTitaniumBars", adaOrTitBar );
 
 			RecipeGroup.RegisterGroup( "Orbs:StrangePlants", strangePlants );
+
+			RecipeGroup.RegisterGroup( "Orbs:ChromaticOrbs", new RecipeGroup(
+				() => "Chromatic Orbs",
+				ModContent.ItemType<BlueOrbItem>(),
+				ModContent.ItemType<CyanOrbItem>(),
+				ModContent.ItemType<GreenOrbItem>(),
+				ModContent.ItemType<PinkOrbItem>(),
+				ModContent.ItemType<PurpleOrbItem>(),
+				ModContent.ItemType<RedOrbItem>(),
+				ModContent.ItemType<TealOrbItem>(),
+				ModContent.ItemType<WhiteOrbItem>(),
+				ModContent.ItemType<YellowOrbItem>()
+			) );
 		}
 	}
 }
