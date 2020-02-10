@@ -45,6 +45,8 @@ namespace Orbs {
 			TileID.GetUniqueKey( TileID.Trees ),
 			TileID.GetUniqueKey( TileID.MushroomTrees ),
 			TileID.GetUniqueKey( TileID.PalmTree ),
+			TileID.GetUniqueKey( TileID.Saplings ),
+			TileID.GetUniqueKey( TileID.Sunflower ),
 			TileID.GetUniqueKey( TileID.Plants ),
 			TileID.GetUniqueKey( TileID.Plants2 ),
 			TileID.GetUniqueKey( TileID.Vines ),
