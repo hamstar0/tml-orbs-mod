@@ -40,6 +40,7 @@ namespace Orbs {
 			TileID.GetUniqueKey( TileID.OpenDoor ),
 			TileID.GetUniqueKey( TileID.MushroomBlock ),
 			TileID.GetUniqueKey( TileID.CactusBlock ),
+			TileID.GetUniqueKey( TileID.LivingMahogany ),
 			TileID.GetUniqueKey( TileID.LivingMahoganyLeaves ),
 			//
 			TileID.GetUniqueKey( TileID.Trees ),
