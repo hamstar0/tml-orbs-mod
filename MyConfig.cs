@@ -145,6 +145,10 @@ namespace Orbs {
 		public bool OnlyGenOrbsInUndergroundChests { get; set; } = true;
 
 
+		[DefaultValue( true )]
+		public bool CanDestroyActuatedTiles { get; set; } = true;
+
+
 
 		////////////////
 
