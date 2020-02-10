@@ -33,10 +33,15 @@ namespace Orbs {
 			}
 
 			if( !OrbsTile.IsKillable( type ) ) {
-				if( !OrbsConfig.Instance.CanDestroyActuatedTiles
-					|| (OrbsConfig.Instance.CanDestroyActuatedTiles && !Main.tile[i, j].inActive()) ) {
+				if( !OrbsConfig.Instance.CanDestroyActuatedTiles ) {
 					fail = true;
 					effectOnly = true;
+					noItem = true;
+				} else if( !Main.tile[i, j].inActive() ) {
+					fail = true;
+					effectOnly = true;
+					noItem = true;
+				} else {
 					noItem = true;
 				}
 			}
