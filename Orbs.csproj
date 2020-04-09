@@ -33,7 +33,7 @@
       <HintPath>..\..\Staff Of Gaia\StaffOfGaia\bin\Release\net452\StaffOfGaia.dll</HintPath>
     </Reference>
     <Reference Include="TheTrickster">
-      <HintPath>..\..\The Trickster\TheTrickster\bin\Release\net452\TheTrickster.dll</HintPath>
+      <HintPath>..\..\The Trickster\Project\TheTrickster\bin\Release\net452\TheTrickster.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

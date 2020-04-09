@@ -3,10 +3,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.TModLoader;
 using Orbs.Items;
 using Orbs.Recipes;
-using HamstarHelpers.Helpers.Debug;
 
 
 namespace Orbs {
@@ -54,7 +54,7 @@ namespace Orbs {
 				if( rand.NextFloat() >= OrbsConfig.Instance.AnyOrbPercentChancePerChest ) {
 					return;
 				}
-				
+
 				int orbItemType = -1;
 
 				float totalWeight;

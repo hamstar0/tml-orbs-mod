@@ -5,6 +5,7 @@ using Orbs.Recipes;
 using HamstarHelpers;
 using Orbs.Items;
 
+
 namespace Orbs {
 	public partial class OrbsMod : Mod {
 		public static string GithubUserName => "hamstar0";
@@ -14,6 +15,12 @@ namespace Orbs {
 		////////////////
 
 		public static OrbsMod Instance { get; private set; }
+
+
+
+		////////////////
+
+		public bool IsMapOverlayOn { get; private set; } = false;
 
 
 
@@ -32,6 +39,10 @@ namespace Orbs {
 			
 			if( ModLoader.GetMod("ChestImplants") != null ) {
 				this.LoadForChestImplants();
+			}
+
+			if( Main.netMode != 2 && !Main.dedServ ) {
+				this.InitializeMapUI();
 			}
 		}
 
