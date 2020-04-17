@@ -100,18 +100,19 @@ namespace Orbs {
 				|| OrbsConfig.Instance.DebugModeTheColorsDuke;
 
 			if( canSeeColor ) {
-				if( tileColorCode == plrColorCode && OrbsTile.CurrentTargetTileChunk == null ) {
+				if( tileColorCode == plrColorCode && !OrbsTile.CurrentTargetTileChunk.HasValue ) {
 					if( OrbItemBase.IsTileWithinUseRange(i, j) ) {
 						OrbsTile.CurrentTargetTileChunk = ((i >> 4) << 4, (j >> 4) << 4);
 					}
 				}
 
 				bool isWithinCurrentChunk = false;
-				if( OrbsTile.CurrentTargetTileChunk != null ) {
-					isWithinCurrentChunk = i >= OrbsTile.CurrentTargetTileChunk.Value.X
-						&& i < OrbsTile.CurrentTargetTileChunk.Value.X + 16
-						&& j >= OrbsTile.CurrentTargetTileChunk.Value.Y
-						&& j < OrbsTile.CurrentTargetTileChunk.Value.Y + 16;
+				if( OrbsTile.CurrentTargetTileChunk.HasValue ) {
+					(int x, int y) chunkTile = OrbsTile.CurrentTargetTileChunk.Value;
+					isWithinCurrentChunk = i >= chunkTile.x
+						&& i < chunkTile.x + 16
+						&& j >= chunkTile.y
+						&& j < chunkTile.y + 16;
 				}
 
 				this.ApplyTileColor( i, j, tileColorCode, isWithinCurrentChunk, ref drawColor );

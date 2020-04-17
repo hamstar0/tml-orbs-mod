@@ -90,18 +90,15 @@ namespace Orbs.Items.Base {
 				return false;
 			}
 
-			if( OrbItemBase.CanActivateOrb() ) {
+			(int X, int Y) chunkTile = OrbsTile.CurrentTargetTileChunk.Value;
+
+			if( OrbItemBase.CanActivateOrb(chunkTile.X, chunkTile.Y) ) {
 				if( Main.netMode == 0 ) {
-					OrbItemBase.ActivateOrb( OrbsTile.CurrentTargetTileChunk.Value.X, OrbsTile.CurrentTargetTileChunk.Value.Y );
+					OrbItemBase.ActivateOrb( chunkTile.X, chunkTile.Y );
 					OrbsTile.CurrentTargetTileChunk = null;
 				} else if( Main.netMode == 1 ) {
-					OrbActivateProtocol.Broadcast(
-						this.ColorCode,
-						OrbsTile.CurrentTargetTileChunk.Value.X,
-						OrbsTile.CurrentTargetTileChunk.Value.Y
-					);
-
-					OrbItemBase.ActivateOrb( OrbsTile.CurrentTargetTileChunk.Value.X, OrbsTile.CurrentTargetTileChunk.Value.Y );
+					OrbActivateProtocol.Broadcast( this.ColorCode, chunkTile.X, chunkTile.Y );
+					OrbItemBase.ActivateOrb( chunkTile.X, chunkTile.Y );
 				}
 				return true;
 			}

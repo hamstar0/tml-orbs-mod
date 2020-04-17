@@ -133,31 +133,25 @@ namespace Orbs {
 
 		////
 
-		private void DrawMapChunk( int tileX, int tileY, Vector2 screenPos ) {
+		private bool DrawMapChunk( int tileX, int tileY, Vector2 screenPos ) {
 			if( tileX < 0 || tileY < 0 || tileX >= Main.maxTilesX || tileY >= Main.maxTilesY ) {
-				return;
+				return false;
 			}
 
-			bool isAir = true;
-			for( int i=tileX; i<tileX+16; i++ ) {
-				for( int j=tileY; j<tileY+16; j++ ) {
-					Tile tile = Main.tile[i, j];
-					if( tile?.active() == true ) {
-						isAir = false;
-						break;
-					}
-				}
-				if( !isAir ) {
-					break;
-				}
+			int chunkTileX = ( (tileX>>4) << 4 );
+			int chunkTileY = ( (tileY>>4) << 4 );
+
+			if( !OrbItemBase.CanActivateOrb( chunkTileX, chunkTileY ) ) {
+				return false;
 			}
-			if( isAir ) {
-				return;
+
+			if( !OrbsConfig.Instance.DebugModeTheColorsDuke && !Main.Map.IsRevealed(chunkTileX + 8, chunkTileY + 8) ) {
+				return false;
 			}
 
 			OrbColorCode colorCode = OrbsTile.GetTileColorCode( tileX, tileY );
 			if( colorCode == 0 ) {
-				return;
+				return false;
 			}
 
 			float scale = HUDMapHelpers.GetFullMapScale();
@@ -173,6 +167,7 @@ namespace Orbs {
 				),
 				color: color * 0.5f
 			);
+			return true;
 		}
 	}
 }

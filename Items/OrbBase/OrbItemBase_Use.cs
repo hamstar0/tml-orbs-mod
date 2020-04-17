@@ -50,14 +50,14 @@ namespace Orbs.Items.Base {
 
 		////////////////
 
-		public static bool CanActivateOrb() {
-			int minX = OrbsTile.CurrentTargetTileChunk.Value.X;
-			int minY = OrbsTile.CurrentTargetTileChunk.Value.Y;
+		public static bool CanActivateOrb( int chunkTileX, int chunkTileY ) {
+			int maxX = chunkTileX + OrbItemBase.MaxTileChunkUseRange;
+			int maxY = chunkTileY + OrbItemBase.MaxTileChunkUseRange;
 
-			for( int y = minY; y < minY + OrbItemBase.MaxTileChunkUseRange; y++ ) {
-				for( int x = minX; x < minX + OrbItemBase.MaxTileChunkUseRange; x++ ) {
+			for( int y = chunkTileY; y < maxY; y++ ) {
+				for( int x = chunkTileX; x < maxX; x++ ) {
 					Tile tile = Main.tile[x, y];
-					if( tile?.active() != true || !OrbsTile.IsOrbTileType(tile.type) ) {
+					if( tile?.active() != true || tile.inActive() || !OrbsTile.IsOrbTileType(tile.type) ) {
 						continue;
 					}
 
