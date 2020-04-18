@@ -1,0 +1,102 @@
+Future consideration:
+-	Implement world gen
+-	Add Black Orbs (crafted from Luminite + Geo-resonant Orbs; removes any type of chunk)
+
+
+
+v1.1
+-	Release Orbs mod
+
+-	@Fix world gen of color chunks
+-	Add map button to toggle tile color overlay (Orb Resonance Map View)
+	-	Draw color grid overlay
+		-	Add cheat mode to view all chunks
+		-	Filter activated chunks
+		-	Filter unexplored tiles
+		-	Filter empty tiles
+		-	Implement drawing
+	-	Define modes
+	-	Add button
+v1
+-	Set purification powder to turn ebon/crimstone into ebon/crimsand (pre-hardmode only)
+-	Set binoculars to show orb color grid
+-	@AM: Implement tips for each orb type via. Traveling Merchant (as treasure hunting rumors?)
+	-	@Tips
+		-	Other Orbs: "<Dryad Name> doesn't know what sort of power she carries. If only she wasn't so pressed to
+			have to settle with mere capitalism. I don't know where she gets those orbs she's selling, but they can
+			sure open up a world of possibilities to whoever knows how to use them. <Guide Name> might know more."
+		-	Red & Green Orbs: "Though <Dryad Name> gives warnings about using the <Staff of Gaia>, more practically
+			I think some things of value might be lost from those it's used upon. Conversely, I hear it also gives
+			back a portion of what it takes, in a different form."
+		-	Pink Orb: "Ever encounter that annoying Trickster fellow? I hear it likes to reward those who think they
+			can outwit them extra quickly. If you ask me, I think it's up to something..."
+-	Implement orb tile removing
+	-	Create effect for actuating tiles
+	-	Actuate all tiles of the given chunk on orb use, then consume orb (if settings indicate to do so)
+	-	Increase tile chunk color intensity with an orb equipped when close enough to use it
+-	Implement world color grid (20% white, 10% others)
+	-	Set whites to be 2x color
+	-	If held orb's color code matches tile's current color code, animate tile glow
+	-	Pick color (of a set) for coordinate
+	-	Get random seed for tile coordinate (world UID + x/16 + y/16)
+-	@Set Staff of Gaia to be crafted from a Geo-Resonant Orb + Gem Staff
+-	Migrate tile kill functionality from Adventure Mode to Orbs
+	-	@Set House Kits to indicate non-gameplay tile kills itself
+	-	@Test
+	-	Migrate code
+-	Add Geo-Resonant Orb to Dryad's shop
+-	Implement orb sources
+	-	All colors: Found in random chests
+	-	White Orb: Crafted from hard mode ores (e.g. cobalt+mythril+adamantium) + Geo-Resonant Orb
+	-	Yellow Orb: Crafted from Strange Plant + base ores (e.g. copper+silver+gold) + Geo-Resonant Orb
+	-	Cyan Orb: Pieces bought from NPCs (goblin, mechanic, witch doctor)
+		-	Add to shops
+		-	Create cyan orb pieces
+		-	Create ord graphics
+	-	Purple Orb: Shadow Orb fragment (from corruption or crimson Shadow Orbs)
+	-	Blue Orb: Crafted from Mana Crystal Shards + Geo-Resonant Orb
+	-	Green Orb: Drops from using a Staff of Gaia successfully used with +50% world power
+	-	Red Orb: First kill of a boss without Staff of Gaia hit (@Staff of Gaia)
+	-	Pink Orb: Each defeated Trickster without it attacking (@Trickster)
+-	Define orb types
+-	Setup orb world gen
+-	Define orb item
+-	Define orb tile
+-	Setup project
+
+
+
+Plan v2
+-	Orb sources
+	-	Black Orb: Crafted from Mana Crystal, Life Crystal, Guide Voodoo Doll, Staff of Gaia
+	-	White Orb: Crafted from hard mode ores + Staff of Gaia
+	-	Cyan Orb: Pieces bought from NPCs (goblin, mechanic, witch doctor)
+	-	Purple Orb: Smashed Shadow Orb + 20 Gels
+	-	Blue Orb: Crafted from base ores + Staff of Gaia
+	-	Yellow Orb: Crafted from meteor ore + Staff of Gaia
+	-	Green Orb: Crafted from Strange Plant + Staff of Gaia (create a Guide info prompt)
+	-	Red Orb: Kill a boss the first time without Staff of Gaia hit (@Staff of Gaia)
+	-	Pink Orb: Defeat Trickster without it getting to attack (@Trickster)
+Plan v1
+-	Orbs generate with the world in random, non-dungeon, non-temple, non-underworld areas
+-	Orbs apply a tinting effect to the surrounding area according to their color
+-	Fix orb fx particles
+-	Orb colors (types) each have their own properties (including visual hue shifts)
+	-	Blue
+		-	Enemies heal rapidly
+		-	Enemies become briefly invincible when low on health
+	-	Teal
+		-	Enemies reflect projectiles
+		-	Enemies fire projectiles periodically
+	-	Yellow
+		-	Enemies apply an On Fire debuff on hit
+		-	Enemies resist debuffs
+		-	Enemies resist melee damage
+	-	Pink
+		-	Enemies teleport randomly on taking damage
+-	When an orb is smashed, a guardian appears (reduced stats)
+	-	Blue: Stargazer
+	-	Teal: Storm Diver
+	-	Orange: Selenian
+	-	Pink: Nebula Floater
+
