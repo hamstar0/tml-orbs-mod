@@ -1,1 +1,6 @@
-Prevents players from breaking tiles (except things like wood and ores) and requires using special colored orbs to clear specific areas of terrain. These may be acquired in a variety of ways (some requiring other mods), but each type will only work on its corresponding terrain (color) type. Configurable.
+Prevents players from breaking tiles (except things like wood and ores) and requires using special colored orbs to clear specific areas of terrain. Each orb type will only work on its corresponding terrain (color) type. Holding an orb reveals any nearby terrain chunks that resonate with it. The binocular item and the full screen map also allow viewing orb-resonating colored terrain chunks. Configurable.
+
+This mod is intended primarily as one of the core mods of Adventure Mode (WIP), as it is built with game mode use in mind.
+
+
+Note: To have orbs supplied with your world, you'll also need to install Chest Implants mod. Otherwise, orbs won't be available without cheating.
