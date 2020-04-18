@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using HamstarHelpers.Helpers.DotNET.Extensions;
 using HamstarHelpers.Helpers.World;
+using HamstarHelpers.Helpers.Debug;
 using Orbs.Items.Base;
 
 
@@ -29,14 +30,14 @@ namespace Orbs {
 
 		////////////////
 		
-		private void InitTileChunkColors( UnifiedRandom rand ) {
-			ushort maxX = (ushort)( Main.maxTilesX >> 4 );
-			ushort maxY = (ushort)( Main.maxTilesY >> 4 );
+		private void InitTileChunkColors() {
+			int worldCode = OrbsWorld.GetWorldCode();
+			var rand = new UnifiedRandom( worldCode );
 
 			this.TileChunkColors = new ConcurrentDictionary<int, OrbColorCode>();
-
-			for( ushort i = 0; i < maxX; i += 16 ) {
-				for( ushort j = 0; j < maxY; j += 16 ) {
+			
+			for( int i = 0; i < Main.maxTilesX; i += 16 ) {
+				for( int j = 0; j < Main.maxTilesY; j += 16 ) {
 					OrbColorCode color = OrbItemBase.GetNextRandomColorCode( rand );
 					int code = OrbsWorld.GetTileChunkCode( i, j );
 
@@ -50,10 +51,7 @@ namespace Orbs {
 
 		public OrbColorCode GetTileColorCode( int tileX, int tileY ) {
 			if( this.TileChunkColors == null ) {
-				int worldCode = OrbsWorld.GetWorldCode();
-				var rand = new UnifiedRandom( worldCode );
-
-				this.InitTileChunkColors( rand );
+				this.InitTileChunkColors();
 			}
 
 			int code = OrbsWorld.GetTileChunkCode( tileX, tileY );
