@@ -144,7 +144,7 @@ namespace Orbs {
 					width: (int)(16f * scale),
 					height: (int)(16f * scale)
 				),
-				color: color * 0.5f
+				color: color * 0.15f
 			);
 			return true;
 		}

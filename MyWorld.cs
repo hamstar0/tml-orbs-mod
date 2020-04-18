@@ -13,7 +13,7 @@ using Orbs.Items.Base;
 namespace Orbs {
 	partial class OrbsWorld : ModWorld {
 		public static int GetTileChunkCode( int tileX, int tileY ) {
-			return (tileX >> 4) + ((tileY * Main.maxTilesX) >> 4);
+			return (tileX >> 4) + ((tileY>>4) * (Main.maxTilesX >> 4));
 		}
 
 		public static int GetWorldCode() {

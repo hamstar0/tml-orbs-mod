@@ -26,6 +26,7 @@ namespace Orbs {
 
 		////////////////
 
+//private IDictionary<OrbColorCode, int> FoundColors = new Dictionary<OrbColorCode, int>();
 		public override void DrawEffects(
 					int i,
 					int j,
@@ -44,7 +45,6 @@ namespace Orbs {
 				return;
 			}
 
-			//var myplayer = TmlHelpers.SafelyGetModPlayer<OrbsPlayer>( Main.LocalPlayer );
 			Item heldItem = Main.LocalPlayer.HeldItem;
 			bool isBinoculars = heldItem.type == ItemID.Binoculars;
 
@@ -70,50 +70,40 @@ namespace Orbs {
 
 			var orbWld = ModContent.GetInstance<OrbsWorld>();
 			OrbColorCode tileColorCode = orbWld.GetTileColorCode( i, j );
+/*FoundColors.AddOrSet( tileColorCode, 1 );
+Timers.SetTimer("testcolor", 0, false, () => {
+	DebugHelpers.Print( "colors found", string.Join(", ", FoundColors.Select(kv=>kv.Key+":"+kv.Value)));
+	FoundColors.Clear();
+	return false;
+} );*/
+			if( tileColorCode == 0 ) {
+				return;
+			}
+
 			OrbColorCode plrColorCode = myorb?.ColorCode ?? (OrbColorCode)0;
 			bool canSeeColor = tileColorCode == plrColorCode
 				|| isBinoculars
 				|| OrbsConfig.Instance.DebugModeTheColorsDuke;
-
-			if( tileColorCode != 0 && canSeeColor ) {
-				if( tileColorCode == plrColorCode && !OrbsTile.CurrentTargetTileChunk.HasValue ) {
-					if( OrbItemBase.IsTileWithinUseRange(i, j) ) {
-						OrbsTile.CurrentTargetTileChunk = ((i >> 4) << 4, (j >> 4) << 4);
-					}
-				}
-
-				bool isWithinCurrentChunk = false;
-				if( OrbsTile.CurrentTargetTileChunk.HasValue ) {
-					(int x, int y) chunkTile = OrbsTile.CurrentTargetTileChunk.Value;
-					isWithinCurrentChunk = i >= chunkTile.x
-						&& i < chunkTile.x + 16
-						&& j >= chunkTile.y
-						&& j < chunkTile.y + 16;
-				}
-
-				this.ApplyTileColor( i, j, tileColorCode, isWithinCurrentChunk, ref drawColor );
+			if( !canSeeColor ) {
+				return;
 			}
 
-			/*int biomeRadiusSqr = OrbsConfig.Instance.OrbPseudoBiomeTileRadius;
-			biomeRadiusSqr *= biomeRadiusSqr;
-
-			foreach( (int x, int y) in myplayer.NearbyOrbs ) {
-				int diffX = i - x;
-				int diffY = j - y;
-				int distSqr = (diffX*diffX) + (diffY*diffY);
-
-				if( distSqr < biomeRadiusSqr ) {
-					ModTile rawMyTile = ModContent.GetModTile( Main.tile[x, y].type );
-					if( rawMyTile == null || !(rawMyTile is OrbTileBase) ) { continue; }
-
-					var mytile = (OrbTileBase)rawMyTile;
-					Color color = mytile.PrimaryColor;
-
-					drawColor.R = (byte)((float)drawColor.R * ((float)color.R / 255f));
-					drawColor.G = (byte)((float)drawColor.G * ((float)color.G / 255f));
-					drawColor.B = (byte)((float)drawColor.B * ((float)color.B / 255f));
+			if( tileColorCode == plrColorCode && !OrbsTile.CurrentTargetTileChunk.HasValue ) {
+				if( OrbItemBase.IsTileWithinUseRange(i, j) ) {
+					OrbsTile.CurrentTargetTileChunk = ((i >> 4) << 4, (j >> 4) << 4);
 				}
-			}*/
+			}
+
+			bool isWithinCurrentChunk = false;
+			if( OrbsTile.CurrentTargetTileChunk.HasValue ) {
+				(int x, int y) chunkTile = OrbsTile.CurrentTargetTileChunk.Value;
+				isWithinCurrentChunk = i >= chunkTile.x
+					&& i < chunkTile.x + 16
+					&& j >= chunkTile.y
+					&& j < chunkTile.y + 16;
+			}
+
+			this.ApplyTileColor( i, j, tileColorCode, isWithinCurrentChunk, ref drawColor );
 		}
 
 
