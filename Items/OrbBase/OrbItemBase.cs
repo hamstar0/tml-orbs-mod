@@ -51,7 +51,7 @@ namespace Orbs.Items.Base {
 
 
 		////////////////
-
+		
 		public abstract OrbColorCode ColorCode { get; }
 
 

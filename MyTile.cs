@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using HamstarHelpers.Classes.PlayerData;
+using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.Tiles;
 using HamstarHelpers.Services.AnimatedColor;
 using Orbs.Items.Base;
@@ -12,9 +12,6 @@ using Orbs.Items.Base;
 
 namespace Orbs {
 	partial class OrbsTile : GlobalTile {
-		private static int _CurrentCoordCode = -1;
-		private static OrbColorCode _CurrentCoordColorCode = 0;
-
 		internal static (int X, int Y)? CurrentTargetTileChunk = null;
 
 
@@ -25,28 +22,6 @@ namespace Orbs {
 			return tileType == TileID.ObsidianBrick
 				|| TileGroupIdentityHelpers.VanillaEarthTiles.Contains(tileType);
 		}
-
-		////////////////
-
-		public static OrbColorCode GetTileColorCode( int i, int j ) {
-			int coordCode = ( i / 16 ) + ( ( j / 16 ) << 16 );
-			if( OrbsTile._CurrentCoordCode == coordCode ) {
-				return OrbsTile._CurrentCoordColorCode;
-			}
-
-			var mycustomplr = CustomPlayerData.GetPlayerData<OrbsPlayerData>( Main.LocalPlayer.whoAmI );
-			if( mycustomplr == null ) {
-				return 0;
-			}
-
-			OrbColorCode tileColorCode = OrbItemBase.GetRandomColorCode( mycustomplr.WorldCode + coordCode );
-
-			OrbsTile._CurrentCoordCode = coordCode;
-			OrbsTile._CurrentCoordColorCode = tileColorCode;
-
-			return OrbsTile._CurrentCoordColorCode;
-		}
-
 
 
 		////////////////
@@ -93,13 +68,14 @@ namespace Orbs {
 				}
 			}
 
-			OrbColorCode tileColorCode = OrbsTile.GetTileColorCode( i, j );
+			var orbWld = ModContent.GetInstance<OrbsWorld>();
+			OrbColorCode tileColorCode = orbWld.GetTileColorCode( i, j );
 			OrbColorCode plrColorCode = myorb?.ColorCode ?? (OrbColorCode)0;
 			bool canSeeColor = tileColorCode == plrColorCode
 				|| isBinoculars
 				|| OrbsConfig.Instance.DebugModeTheColorsDuke;
 
-			if( canSeeColor ) {
+			if( tileColorCode != 0 && canSeeColor ) {
 				if( tileColorCode == plrColorCode && !OrbsTile.CurrentTargetTileChunk.HasValue ) {
 					if( OrbItemBase.IsTileWithinUseRange(i, j) ) {
 						OrbsTile.CurrentTargetTileChunk = ((i >> 4) << 4, (j >> 4) << 4);

@@ -97,6 +97,46 @@ namespace Orbs {
 
 			(int x, int y, bool isOnScreen) topLeftTile = HUDMapHelpers.FindTopLeftTileOfFullscreenMap();
 //Main.spriteBatch.DrawString( Main.fontMouseText, "top left: "+topLeft.x+","+topLeft.y, new Vector2(16,400), Color.White );
+			int minX = Math.Max( topLeftTile.x, 0 );
+			int minY = Math.Max( topLeftTile.y, 0 );
+			minX = (minX >> 4) << 4;
+			minY = (minY >> 4) << 4;
+
+			for( int tileY = minY; tileY < Main.maxTilesY; tileY += 16 ) {
+				bool rowIsInBounds = false;
+				bool colIsInBounds = false;
+
+				for( int tileX = minX; tileX < Main.maxTilesX; tileX += 16 ) {
+					var mapPos = HUDMapHelpers.GetFullMapPositionAsScreenPosition( new Vector2( tileX << 4, tileY << 4 ) );
+					if( !mapPos.IsOnScreen ) {
+						if( !rowIsInBounds ) {
+							continue;
+						} else {
+							break;
+						}
+					}
+
+					rowIsInBounds = true;
+
+					this.DrawMapChunk( tileX, tileY, mapPos.ScreenPosition );
+				}
+
+				if( rowIsInBounds ) {
+					colIsInBounds = true;
+				} else if( colIsInBounds ) {
+					break;
+				}
+			}
+		}
+		/*public override void PostDrawFullscreenMap( ref string mouseText ) {
+			this.MapOverlayButton.Draw( Main.spriteBatch );
+
+			if( !this.IsMapOverlayOn ) {
+				return;
+			}
+
+			(int x, int y, bool isOnScreen) topLeftTile = HUDMapHelpers.FindTopLeftTileOfFullscreenMap();
+//Main.spriteBatch.DrawString( Main.fontMouseText, "top left: "+topLeft.x+","+topLeft.y, new Vector2(16,400), Color.White );
 			topLeftTile.x = Math.Max( (topLeftTile.x / 16) * 16, 0 );
 			topLeftTile.y = Math.Max( (topLeftTile.y / 16) * 16, 0 );
 			int maxX = Main.maxTilesX;
@@ -128,7 +168,7 @@ namespace Orbs {
 					break;
 				}
 			}
-		}
+		}*/
 
 
 		////
@@ -149,7 +189,8 @@ namespace Orbs {
 				return false;
 			}
 
-			OrbColorCode colorCode = OrbsTile.GetTileColorCode( tileX, tileY );
+			var orbWld = ModContent.GetInstance<OrbsWorld>();
+			OrbColorCode colorCode = orbWld.GetTileColorCode( tileX, tileY );
 			if( colorCode == 0 ) {
 				return false;
 			}

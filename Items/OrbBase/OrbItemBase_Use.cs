@@ -1,10 +1,10 @@
-using HamstarHelpers.Helpers.Fx;
-using HamstarHelpers.Helpers.Tiles;
-using Microsoft.Xna.Framework;
 using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
+using HamstarHelpers.Helpers.Fx;
 
 
 namespace Orbs.Items.Base {
@@ -22,20 +22,18 @@ namespace Orbs.Items.Base {
 		public static bool IsTileChunkWithinUseRange( Vector2 worldPos, (int i, int j) tileChunkPos ) {
 			int maxRange = OrbItemBase.MaxTileChunkUseRange;
 			var rect = new Rectangle(
-				( tileChunkPos.i - maxRange ) << 4,
-				( tileChunkPos.j - maxRange ) << 4,
-				( maxRange << 4 ) * 3,
-				( maxRange << 4 ) * 3
+				(tileChunkPos.i - maxRange) << 4,
+				(tileChunkPos.j - maxRange) << 4,
+				maxRange * 3,
+				maxRange * 3
 			);
 
 			return rect.Contains( (int)worldPos.X, (int)worldPos.Y );
 		}
 
 
-		public static OrbColorCode GetRandomColorCode( int randSeed ) {
-			var rand = new Random( randSeed );
-			int maxColors = Enum.GetValues( typeof( OrbColorCode ) ).Length;
-
+		public static OrbColorCode GetNextRandomColorCode( UnifiedRandom rand ) {
+			int maxColors = Enum.GetValues( typeof(OrbColorCode) ).Length;
 			int tileColorCode = rand.Next( maxColors + 1 );
 
 			if( tileColorCode >= maxColors ) {
@@ -51,8 +49,8 @@ namespace Orbs.Items.Base {
 		////////////////
 
 		public static bool CanActivateOrb( int chunkTileX, int chunkTileY ) {
-			int maxX = chunkTileX + OrbItemBase.MaxTileChunkUseRange;
-			int maxY = chunkTileY + OrbItemBase.MaxTileChunkUseRange;
+			int maxX = chunkTileX + 16;
+			int maxY = chunkTileY + 16;
 
 			for( int y = chunkTileY; y < maxY; y++ ) {
 				for( int x = chunkTileX; x < maxX; x++ ) {
