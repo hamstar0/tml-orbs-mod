@@ -10,6 +10,7 @@ using Orbs.Items;
 
 namespace Orbs {
 	class MyFloatInputElement : FloatInputElement { }
+	//[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 
 
 

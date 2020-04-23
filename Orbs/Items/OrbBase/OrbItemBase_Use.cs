@@ -9,23 +9,21 @@ using HamstarHelpers.Helpers.Fx;
 
 namespace Orbs.Items.Base {
 	public abstract partial class OrbItemBase : ModItem {
-		public static bool IsTileWithinUseRange( int i, int j ) {
-			Player plr = Main.LocalPlayer;
-
+		public static bool IsTileWithinUseRange( Player plr, int i, int j ) {
 			int diffX = (int)( plr.Center.X * 0.0625 ) - i;
 			int diffY = (int)( plr.Center.Y * 0.0625 ) - j;
 			int distSqr = ( diffX * diffX ) + ( diffY * diffY );
-			return distSqr <= 256;
+			return distSqr <= 256;	//16 tiles
 		}
 
 
-		public static bool IsTileChunkWithinUseRange( Vector2 worldPos, (int i, int j) tileChunkPos ) {
+		public static bool IsTileChunkWithinUseRange( Vector2 worldPos, (int i, int j) tileChunkTilePos ) {
 			int maxRange = OrbItemBase.MaxTileChunkUseRange;
 			var rect = new Rectangle(
-				(tileChunkPos.i - maxRange) << 4,
-				(tileChunkPos.j - maxRange) << 4,
-				maxRange * 3,
-				maxRange * 3
+				(tileChunkTilePos.i - maxRange) << 4,
+				(tileChunkTilePos.j - maxRange) << 4,
+				(maxRange * 3) << 4,
+				(maxRange * 3) << 4
 			);
 
 			return rect.Contains( (int)worldPos.X, (int)worldPos.Y );
@@ -89,7 +87,11 @@ namespace Orbs.Items.Base {
 
 			int midwayRange = (OrbItemBase.MaxTileChunkUseRange * 16) / 2;
 
-			Main.PlaySound( SoundID.Item70, (chunkTileX << 4) + midwayRange, (chunkTileY << 4) + midwayRange );
+			Main.PlaySound(
+				SoundID.Item70,
+				(chunkTileX << 4) + midwayRange,
+				(chunkTileY << 4) + midwayRange
+			);
 		}
 	}
 }

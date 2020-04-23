@@ -86,16 +86,17 @@ namespace Orbs.Items.Base {
 		////////////////
 
 		public override bool ConsumeItem( Player player ) {
-			if( !OrbsTile.CurrentTargetTileChunk.HasValue ) {
+			var myplayer = player.GetModPlayer<OrbsPlayer>();
+			if( !myplayer.CurrentTargetTileChunk.HasValue ) {
 				return false;
 			}
 
-			(int X, int Y) chunkTile = OrbsTile.CurrentTargetTileChunk.Value;
-
+			(int X, int Y) chunkTile = myplayer.CurrentTargetTileChunk.Value;
+			
 			if( OrbItemBase.CanActivateOrb(chunkTile.X, chunkTile.Y) ) {
 				if( Main.netMode == 0 ) {
 					OrbItemBase.ActivateOrb( chunkTile.X, chunkTile.Y );
-					OrbsTile.CurrentTargetTileChunk = null;
+					myplayer.ClearTargetChunk();
 				} else if( Main.netMode == 1 ) {
 					OrbActivateProtocol.Broadcast( this.ColorCode, chunkTile.X, chunkTile.Y );
 					OrbItemBase.ActivateOrb( chunkTile.X, chunkTile.Y );

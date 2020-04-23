@@ -12,12 +12,6 @@ using Orbs.Items.Base;
 
 namespace Orbs {
 	partial class OrbsTile : GlobalTile {
-		internal static (int X, int Y)? CurrentTargetTileChunk = null;
-
-
-
-		////////////////
-		
 		public static bool IsOrbTileType( int tileType ) {
 			return tileType == TileID.ObsidianBrick
 				|| TileGroupIdentityHelpers.VanillaEarthTiles.Contains(tileType);
@@ -26,7 +20,6 @@ namespace Orbs {
 
 		////////////////
 
-//private IDictionary<OrbColorCode, int> FoundColors = new Dictionary<OrbColorCode, int>();
 		public override void DrawEffects(
 					int i,
 					int j,
@@ -35,74 +28,28 @@ namespace Orbs {
 					ref Color drawColor,
 					ref int nextSpecialDrawIndex ) {
 			Tile tile = Main.tile[i, j];
-
-			if( !tile.active() || tile.inActive() || !OrbsTile.IsOrbTileType(type) ) {
+			if( !tile.active() || tile.inActive() || !OrbsTile.IsOrbTileType( type ) ) {
 				return;
 			}
 
-			if( Main.LocalPlayer.HeldItem?.active != true ) {
-				OrbsTile.CurrentTargetTileChunk = null;
+			var myplayer = Main.LocalPlayer.GetModPlayer<OrbsPlayer>();
+			(int x, int y)? chunkTile = myplayer.GetTargetTileChunk( i, j );
+			if( !chunkTile.HasValue ) {
 				return;
-			}
-
-			Item heldItem = Main.LocalPlayer.HeldItem;
-			bool isBinoculars = heldItem.type == ItemID.Binoculars;
-
-			var myorb = heldItem.modItem as OrbItemBase;
-			if( myorb == null ) {
-				OrbsTile.CurrentTargetTileChunk = null;
-
-				if( !isBinoculars && !OrbsConfig.Instance.DebugModeTheColorsDuke ) {
-					return;
-				}
-			}
-
-			if( OrbsTile.CurrentTargetTileChunk.HasValue ) {
-				bool isWithinUseRange = OrbItemBase.IsTileChunkWithinUseRange(
-					Main.LocalPlayer.Center,
-					OrbsTile.CurrentTargetTileChunk.Value
-				);
-
-				if( !isWithinUseRange ) {
-					OrbsTile.CurrentTargetTileChunk = null;
-				}
 			}
 
 			var orbWld = ModContent.GetInstance<OrbsWorld>();
 			OrbColorCode tileColorCode = orbWld.GetTileColorCode( i, j );
-/*FoundColors.AddOrSet( tileColorCode, 1 );
-Timers.SetTimer("testcolor", 0, false, () => {
-	DebugHelpers.Print( "colors found", string.Join(", ", FoundColors.Select(kv=>kv.Key+":"+kv.Value)));
-	FoundColors.Clear();
-	return false;
-} );*/
 			if( tileColorCode == 0 ) {
 				return;
 			}
 
-			OrbColorCode plrColorCode = myorb?.ColorCode ?? (OrbColorCode)0;
-			bool canSeeColor = tileColorCode == plrColorCode
-				|| isBinoculars
-				|| OrbsConfig.Instance.DebugModeTheColorsDuke;
-			if( !canSeeColor ) {
-				return;
-			}
-
-			if( tileColorCode == plrColorCode && !OrbsTile.CurrentTargetTileChunk.HasValue ) {
-				if( OrbItemBase.IsTileWithinUseRange(i, j) ) {
-					OrbsTile.CurrentTargetTileChunk = ((i >> 4) << 4, (j >> 4) << 4);
-				}
-			}
-
-			bool isWithinCurrentChunk = false;
-			if( OrbsTile.CurrentTargetTileChunk.HasValue ) {
-				(int x, int y) chunkTile = OrbsTile.CurrentTargetTileChunk.Value;
-				isWithinCurrentChunk = i >= chunkTile.x
-					&& i < chunkTile.x + 16
-					&& j >= chunkTile.y
-					&& j < chunkTile.y + 16;
-			}
-
+			(int x, int y) chunkTileVal = chunkTile.Value;
+			bool isWithinCurrentChunk = i >= chunkTileVal.x
+				&& i < chunkTileVal.x + 16
+				&& j >= chunkTileVal.y
+				&& j < chunkTileVal.y + 16;
+			
 			this.ApplyTileColor( i, j, tileColorCode, isWithinCurrentChunk, ref drawColor );
 		}
 
