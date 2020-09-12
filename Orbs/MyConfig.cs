@@ -1,11 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Collections.Generic;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
-using HamstarHelpers.Services.Configs;
+using HamstarHelpers.Classes.Errors;
 using HamstarHelpers.Classes.UI.ModConfig;
-using Orbs.Items;
 
 
 namespace Orbs {
@@ -71,14 +69,6 @@ namespace Orbs {
 		public int PinkOrbDropsViaTrickster { get; set; } = 2;
 
 		[Range( 0, 99 )]
-		[DefaultValue( 2 )]
-		public int RedOrbDropsViaBossWithoutSoG { get; set; } = 2;
-
-		[Range( 0, 99 )]
-		[DefaultValue( 2 )]
-		public int GreenOrbDropsViaBossWithSoG { get; set; } = 2;
-
-		[Range( 0, 99 )]
 		[DefaultValue( 1 )]
 		public int BlueOrbCraftStack { get; set; } = 1;
 
@@ -132,11 +122,11 @@ namespace Orbs {
 		[Range( 0f, 1f )]
 		[DefaultValue( 0.1f )]
 		public float TealOrbPercentChanceForOrbChest { get; set; } = 0.1f;
-		
+
 		[Range( 0f, 1f )]
 		[DefaultValue( 0.1f )]
 		public float WhiteOrbPercentChanceForOrbChest { get; set; } = 0.1f;
-		
+
 		[Range( 0f, 1f )]
 		[DefaultValue( 0.1f )]
 		public float YellowOrbPercentChanceForOrbChest { get; set; } = 0.1f;
@@ -148,34 +138,5 @@ namespace Orbs {
 
 		[DefaultValue( true )]
 		public bool CanDestroyActuatedTiles { get; set; } = true;
-
-
-
-		////////////////
-
-		public IEnumerable<(float Weight, int OrbItemType)> GetOrbChestWeights( out float totalWeight ) {
-			totalWeight = this.BlueOrbPercentChanceForOrbChest;
-			totalWeight += this.CyanOrbPercentChanceForOrbChest;
-			totalWeight += this.GreenOrbPercentChanceForOrbChest;
-			totalWeight += this.PinkOrbPercentChanceForOrbChest;
-			totalWeight += this.PurpleOrbPercentChanceForOrbChest;
-			totalWeight += this.RedOrbPercentChanceForOrbChest;
-			totalWeight += this.TealOrbPercentChanceForOrbChest;
-			totalWeight += this.WhiteOrbPercentChanceForOrbChest;
-			totalWeight += this.YellowOrbPercentChanceForOrbChest;
-
-			IEnumerable<(float, int)> getOrbs() {
-				yield return (this.BlueOrbPercentChanceForOrbChest, ModContent.ItemType<BlueOrbItem>());
-				yield return (this.CyanOrbPercentChanceForOrbChest, ModContent.ItemType<CyanOrbItem>());
-				yield return (this.GreenOrbPercentChanceForOrbChest, ModContent.ItemType<GreenOrbItem>());
-				yield return (this.PinkOrbPercentChanceForOrbChest, ModContent.ItemType<PinkOrbItem>());
-				yield return (this.PurpleOrbPercentChanceForOrbChest, ModContent.ItemType<PurpleOrbItem>());
-				yield return (this.RedOrbPercentChanceForOrbChest, ModContent.ItemType<RedOrbItem>());
-				yield return (this.TealOrbPercentChanceForOrbChest, ModContent.ItemType<TealOrbItem>());
-				yield return (this.WhiteOrbPercentChanceForOrbChest, ModContent.ItemType<WhiteOrbItem>());
-				yield return (this.YellowOrbPercentChanceForOrbChest, ModContent.ItemType<YellowOrbItem>());
-			}
-			return getOrbs();
-		}
 	}
 }
