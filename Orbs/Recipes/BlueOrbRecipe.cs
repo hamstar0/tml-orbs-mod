@@ -1,7 +1,6 @@
 ﻿using System;
 using Terraria.ID;
 using Terraria.ModLoader;
-using HamstarHelpers.Items;
 using Orbs.Items;
 using Orbs.Items.Materials;
 

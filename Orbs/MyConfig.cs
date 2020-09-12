@@ -15,8 +15,8 @@ namespace Orbs {
 
 
 
-	public partial class OrbsConfig : StackableModConfig {
-		public static OrbsConfig Instance => ModConfigStack.GetMergedConfigs<OrbsConfig>();
+	public partial class OrbsConfig : ModConfig {
+		public static OrbsConfig Instance => ModContent.GetInstance<OrbsConfig>();
 
 
 

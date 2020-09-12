@@ -33,10 +33,6 @@ namespace Orbs {
 		////////////////
 
 		public override void Load() {
-			if( ModLoader.GetMod("StaffOfGaia") != null ) {
-				this.LoadForStaffOfGaia();
-			}
-			
 			if( ModLoader.GetMod("ChestImplants") != null ) {
 				this.LoadForChestImplants();
 			}
@@ -51,11 +47,11 @@ namespace Orbs {
 		}
 
 		public override void PostSetupContent() {
-			ModHelpersConfig.Instance.OverlayChanges(
+			/*ModHelpersConfig.Instance.OverlayChanges(
 				new ModHelpersConfig {
 					GeoResonantOrbSoldByDryad = true
 				}
-			);
+			);*/
 		}
 
 

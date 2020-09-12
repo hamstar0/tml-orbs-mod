@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Orbs.Items.Materials;
-using HamstarHelpers.Items;
 
 
 
@@ -71,11 +70,6 @@ namespace Orbs {
 				if( OrbsConfig.Instance.PinkOrbDropsViaTrickster > 0 ) {
 					if( ModLoader.GetMod( "TheTrickster" ) != null ) {
 						this.TricksterModLoot( npc );
-					}
-				}
-				if( OrbsConfig.Instance.RedOrbDropsViaBossWithoutSoG > 0 ) {
-					if( ModLoader.GetMod( "StaffOfGaia" ) != null ) {
-						this.StaffOfGaiaModLoot( npc );
 					}
 				}
 			}

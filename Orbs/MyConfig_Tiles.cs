@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Collections.Generic;
-using HamstarHelpers.Services.Configs;
 using Terraria.ID;
+using Terraria.ModLoader.Config;
 
 
 namespace Orbs {
-	public partial class OrbsConfig : StackableModConfig {
+	public partial class OrbsConfig : ModConfig {
 		public List<string> TileKillWhitelist { get; set; } = new List<string> {
 			TileID.GetUniqueKey( TileID.Campfire ),
 			TileID.GetUniqueKey( TileID.HangingLanterns ),
