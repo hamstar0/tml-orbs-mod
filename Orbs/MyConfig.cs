@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Collections.Generic;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using HamstarHelpers.Classes.Errors;
 using HamstarHelpers.Classes.UI.ModConfig;
+using Orbs.Items;
 
 
 namespace Orbs {
@@ -138,5 +140,35 @@ namespace Orbs {
 
 		[DefaultValue( true )]
 		public bool CanDestroyActuatedTiles { get; set; } = true;
+
+
+
+		////////////////
+
+		public IEnumerable<(float Weight, int OrbItemType)> GetOrbChestWeights( out float totalWeight ) {
+			float blueOrb = this.Get<float>( nameof(OrbsConfig.BlueOrbPercentChanceForOrbChest) );
+			float cyanOrb = this.Get<float>( nameof(OrbsConfig.CyanOrbPercentChanceForOrbChest) );
+			float greenOrb = this.Get<float>( nameof(OrbsConfig.GreenOrbPercentChanceForOrbChest) );
+			float pinkOrb = this.Get<float>( nameof(OrbsConfig.PinkOrbPercentChanceForOrbChest) );
+			float purpleOrb = this.Get<float>( nameof(OrbsConfig.PurpleOrbPercentChanceForOrbChest) );
+			float redOrb = this.Get<float>( nameof(OrbsConfig.RedOrbPercentChanceForOrbChest) );
+			float tealOrb = this.Get<float>( nameof(OrbsConfig.TealOrbPercentChanceForOrbChest) );
+			float whiteOrb = this.Get<float>( nameof(OrbsConfig.WhiteOrbPercentChanceForOrbChest) );
+			float yellowOrb = this.Get<float>( nameof(OrbsConfig.YellowOrbPercentChanceForOrbChest) );
+			totalWeight = blueOrb + cyanOrb + greenOrb + pinkOrb + purpleOrb + redOrb + tealOrb + whiteOrb + yellowOrb;
+
+			IEnumerable<(float, int)> getOrbs() {
+				yield return (blueOrb, ModContent.ItemType<BlueOrbItem>());
+				yield return (cyanOrb, ModContent.ItemType<CyanOrbItem>());
+				yield return (greenOrb, ModContent.ItemType<GreenOrbItem>());
+				yield return (pinkOrb, ModContent.ItemType<PinkOrbItem>());
+				yield return (purpleOrb, ModContent.ItemType<PurpleOrbItem>());
+				yield return (redOrb, ModContent.ItemType<RedOrbItem>());
+				yield return (tealOrb, ModContent.ItemType<TealOrbItem>());
+				yield return (whiteOrb, ModContent.ItemType<WhiteOrbItem>());
+				yield return (yellowOrb, ModContent.ItemType<YellowOrbItem>());
+			}
+			return getOrbs();
+		}
 	}
 }

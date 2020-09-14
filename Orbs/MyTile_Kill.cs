@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -26,14 +27,16 @@ namespace Orbs {
 				return;
 			}
 
-			if( OrbsConfig.Instance.HardmodeBreakableDirt && Main.hardMode ) {
+			var config = OrbsConfig.Instance;
+
+			if( config.Get<bool>( nameof(OrbsConfig.HardmodeBreakableDirt) ) && Main.hardMode ) {
 				if( type == TileID.Dirt ) {
 					return;
 				}
 			}
 
 			if( !OrbsTile.IsKillable( type ) ) {
-				if( !OrbsConfig.Instance.CanDestroyActuatedTiles ) {
+				if( !config.Get<bool>( nameof(OrbsConfig.CanDestroyActuatedTiles) ) ) {
 					fail = true;
 					effectOnly = true;
 					noItem = true;
@@ -51,7 +54,7 @@ namespace Orbs {
 		private static void KillMultiTile( int i, int j, int type, bool isNonGameplay ) {
 			if( type != TileID.ShadowOrbs ) { return; }
 			if( isNonGameplay ) { return; }
-			if( OrbsConfig.Instance.PurpleOrbDropsViaShadowOrb == 0 ) { return; }
+			if( OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.PurpleOrbDropsViaShadowOrb) ) == 0 ) { return; }
 			
 			int itemWho = Item.NewItem(
 				new Rectangle( i << 4, j << 4, 32, 32 ),
@@ -72,7 +75,7 @@ namespace Orbs {
 		}
 
 		void ILoadable.OnPostModsLoad() {
-			if( OrbsConfig.Instance.PurpleOrbDropsViaShadowOrb > 0 ) {
+			if( OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.PurpleOrbDropsViaShadowOrb) ) > 0 ) {
 				ExtendedTileHooks.AddKillMultiTileHook( OrbsExtendedTileHooks.KillMultiTile );
 			}
 
@@ -86,7 +89,9 @@ namespace Orbs {
 	
 	partial class OrbsTile : GlobalTile {
 		public static bool IsKillable( int tileType ) {
-			return OrbsConfig.Instance.TileKillWhitelist.Contains( TileID.GetUniqueKey( tileType ) );
+			return OrbsConfig.Instance
+				.Get<List<string>>( nameof(OrbsConfig.TileKillWhitelist) )
+				.Contains( TileID.GetUniqueKey(tileType) );
 		}
 
 

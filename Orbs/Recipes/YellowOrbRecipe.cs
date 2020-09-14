@@ -15,12 +15,15 @@ namespace Orbs.Recipes {
 			this.AddRecipeGroup( "Orbs:StrangePlants", 1 );
 			this.AddIngredient( ModContent.ItemType<GeoResonantOrbItem>(), 1 );
 			this.AddTile( TileID.WorkBenches );
-			this.SetResult( ModContent.ItemType<YellowOrbItem>(), OrbsConfig.Instance.YellowOrbCraftStack );
+			this.SetResult(
+				ModContent.ItemType<YellowOrbItem>(),
+				OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.YellowOrbCraftStack) )
+			);
 		}
 
 
 		public override bool RecipeAvailable() {
-			return OrbsConfig.Instance.YellowOrbCraftStack > 0;
+			return OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.YellowOrbCraftStack) ) > 0;
 		}
 	}
 }

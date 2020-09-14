@@ -12,12 +12,15 @@ namespace Orbs.Recipes {
 			this.AddIngredient( ModContent.ItemType<CyanOrbRightFragmentItem>(), 1 );
 			this.AddIngredient( ModContent.ItemType<CyanOrbLeftFragmentItem>(), 1 );
 			this.AddTile( TileID.WorkBenches );
-			this.SetResult( ModContent.ItemType<CyanOrbItem>(), OrbsConfig.Instance.CyanOrbCraftStack );
+			this.SetResult(
+				ModContent.ItemType<CyanOrbItem>(),
+				OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.CyanOrbCraftStack) )
+			);
 		}
 
 
 		public override bool RecipeAvailable() {
-			return OrbsConfig.Instance.CyanOrbCraftStack > 0;
+			return OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.CyanOrbCraftStack) ) > 0;
 		}
 	}
 }

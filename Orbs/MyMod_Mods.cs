@@ -11,21 +11,23 @@ namespace Orbs {
 	public partial class OrbsMod : Mod {
 		private void LoadForChestImplants() {
 			ChestImplants.ChestImplantsAPI.AddCustomImplanter( "Random Orb", ( context, chest ) => {
-				if( OrbsConfig.Instance.OnlyGenOrbsInUndergroundChests ) {
+				var config = OrbsConfig.Instance;
+
+				if( config.Get<bool>( nameof(OrbsConfig.OnlyGenOrbsInUndergroundChests) ) ) {
 					if( !ChestImplants.ChestImplanter.IsChestMatch( context, "Vanilla Underground World Chest" ) ) {
 						return;
 					}
 				}
 
 				UnifiedRandom rand = TmlHelpers.SafelyGetRand();
-				if( rand.NextFloat() >= OrbsConfig.Instance.AnyOrbPercentChancePerChest ) {
+				if( rand.NextFloat() >= config.Get<float>( nameof(OrbsConfig.AnyOrbPercentChancePerChest) ) ) {
 					return;
 				}
 
 				int orbItemType = -1;
 
 				float totalWeight;
-				IEnumerable<(float, int)> weights = OrbsConfig.Instance.GetOrbChestWeights( out totalWeight );
+				IEnumerable<(float, int)> weights = config.GetOrbChestWeights( out totalWeight );
 				float weightRand = rand.NextFloat() * totalWeight;
 
 				float countedWeight = 0f;

@@ -11,12 +11,15 @@ namespace Orbs.Recipes {
 			this.AddIngredient( ModContent.ItemType<GeoResonantOrbItem>(), 1 );
 			this.AddIngredient( ModContent.ItemType<FindableManaCrystals.Items.ManaCrystalShardItem>(), 1 );
 			this.AddTile( TileID.WorkBenches );
-			this.SetResult( ModContent.ItemType<BlueOrbItem>(), OrbsConfig.Instance.BlueOrbCraftStack );
+			this.SetResult(
+				ModContent.ItemType<BlueOrbItem>(),
+				OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.BlueOrbCraftStack) )
+			);
 		}
 
 
 		public override bool RecipeAvailable() {
-			return OrbsConfig.Instance.BlueOrbCraftStack > 0;
+			return OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.BlueOrbCraftStack) ) > 0;
 		}
 	}
 }

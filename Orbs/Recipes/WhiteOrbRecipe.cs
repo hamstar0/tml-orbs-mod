@@ -13,12 +13,15 @@ namespace Orbs.Recipes {
 			this.AddRecipeGroup( "Orbs:AdamantiteOrTitaniumBars", 8 );
 			this.AddIngredient( ModContent.ItemType<GeoResonantOrbItem>(), 1 );
 			this.AddTile( TileID.WorkBenches );
-			this.SetResult( ModContent.ItemType<WhiteOrbItem>(), OrbsConfig.Instance.WhiteOrbCraftStack );
+			this.SetResult(
+				ModContent.ItemType<WhiteOrbItem>(),
+				OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.WhiteOrbCraftStack) )
+			);
 		}
 
 
 		public override bool RecipeAvailable() {
-			return OrbsConfig.Instance.WhiteOrbCraftStack > 0;
+			return OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.WhiteOrbCraftStack) ) > 0;
 		}
 	}
 }

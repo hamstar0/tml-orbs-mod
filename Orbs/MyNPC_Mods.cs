@@ -20,7 +20,7 @@ namespace Orbs {
 				int itemWho = Item.NewItem(
 					npc.getRect(),
 					ModContent.ItemType<PinkOrbItem>(),
-					OrbsConfig.Instance.PinkOrbDropsViaTrickster
+					OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.PinkOrbDropsViaTrickster) )
 				);
 				NetMessage.SendData( MessageID.SyncItem, -1, -1, null, itemWho );
 			}

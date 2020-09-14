@@ -19,7 +19,7 @@ namespace Orbs {
 
 			int npcTileX = (int)( npc.position.X / 16f );
 			int npcTileY = (int)( npc.position.Y / 16f );
-			int biomeRadiusSqr = OrbsConfig.Instance.OrbPseudoBiomeTileRadius;
+			int biomeRadiusSqr = OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.OrbPseudoBiomeTileRadius) );
 			biomeRadiusSqr *= biomeRadiusSqr;
 
 			foreach( (int tileX, ISet<int> tileYs) in myworld.GetOrbs() ) {

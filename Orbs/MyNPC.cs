@@ -33,27 +33,29 @@ namespace Orbs {
 		////////////////
 
 		public override void SetupShop( int type, Chest shop, ref int nextSlot ) {
+			var config = OrbsConfig.Instance;
+
 			switch( type ) {
 			case NPCID.GoblinTinkerer:
-				if( OrbsConfig.Instance.CyanOrbCraftStack > 0 ) {
+				if( config.Get<int>( nameof(OrbsConfig.CyanOrbCraftStack) ) > 0 ) {
 					shop.item[nextSlot] = new Item();
 					shop.item[nextSlot].SetDefaults( ModContent.ItemType<CyanOrbTopFragmentItem>() );
 				}
 				break;
 			case NPCID.Mechanic:
-				if( OrbsConfig.Instance.CyanOrbCraftStack > 0 ) {
+				if( config.Get<int>( nameof(OrbsConfig.CyanOrbCraftStack) ) > 0 ) {
 					shop.item[nextSlot] = new Item();
 					shop.item[nextSlot].SetDefaults( ModContent.ItemType<CyanOrbRightFragmentItem>() );
 				}
 				break;
 			case NPCID.WitchDoctor:
-				if( OrbsConfig.Instance.CyanOrbCraftStack > 0 ) {
+				if( config.Get<int>( nameof(OrbsConfig.CyanOrbCraftStack) ) > 0 ) {
 					shop.item[nextSlot] = new Item();
 					shop.item[nextSlot].SetDefaults( ModContent.ItemType<CyanOrbLeftFragmentItem>() );
 				}
 				break;
 			case NPCID.Dryad:
-				if( OrbsConfig.Instance.IsGeoResonantOrbSoldByDryad ) {
+				if( config.Get<bool>( nameof(OrbsConfig.IsGeoResonantOrbSoldByDryad) ) ) {
 					shop.item[nextSlot] = new Item();
 					shop.item[nextSlot].SetDefaults( ModContent.ItemType<GeoResonantOrbItem>() );
 				}
@@ -67,7 +69,7 @@ namespace Orbs {
 
 		public override void NPCLoot( NPC npc ) {
 			if( npc.modNPC != null ) {
-				if( OrbsConfig.Instance.PinkOrbDropsViaTrickster > 0 ) {
+				if( OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.PinkOrbDropsViaTrickster) ) > 0 ) {
 					if( ModLoader.GetMod( "TheTrickster" ) != null ) {
 						this.TricksterModLoot( npc );
 					}
