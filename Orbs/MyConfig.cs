@@ -65,30 +65,90 @@ namespace Orbs {
 		public bool IsGeoResonantOrbSoldByDryad { get; set; } = true;
 
 		////
-
-		[Range( 0, 99 )]
-		[DefaultValue( 2 )]
-		public int PinkOrbDropsViaTrickster { get; set; } = 2;
-
+		
 		[Range( 0, 99 )]
 		[DefaultValue( 1 )]
-		public int BlueOrbCraftStack { get; set; } = 1;
+		public int PinkOrbDropsViaTrickster { get; set; } = 1;
 
 		[Range( 0, 99 )]
 		[DefaultValue( 1 )]
 		public int PurpleOrbDropsViaShadowOrb { get; set; } = 1;
 
-		[Range( 0, 99 )]
-		[DefaultValue( 1 )]
-		public int CyanOrbCraftStack { get; set; } = 1;
+		////
 
 		[Range( 0, 99 )]
 		[DefaultValue( 1 )]
-		public int YellowOrbCraftStack { get; set; } = 1;
+		public int BlueOrbRecipeUniqueIngredientCount { get; set; } = 1;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 5 )]
+		public int CyanOrbRecipeUniqueIngredientCount { get; set; } = 5;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 3 )]
+		public int GreenOrbRecipeUniqueIngredientCount { get; set; } = 3;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 5 )]
+		public int PinkOrbRecipeUniqueIngredientCount { get; set; } = 5;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 5 )]
+		public int PurpleOrbRecipeUniqueIngredientCount { get; set; } = 5;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 8 )]
+		public int RedOrbRecipeUniqueIngredientCount { get; set; } = 8;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 5 )]
+		public int TealOrbRecipeUniqueIngredientCount { get; set; } = 5;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 5 )]
+		public int YellowOrbRecipeUniqueIngredientCount { get; set; } = 5;
 
 		[Range( 0, 99 )]
 		[DefaultValue( 1 )]
-		public int WhiteOrbCraftStack { get; set; } = 1;
+		public int WhiteOrbRecipeUniqueIngredientCount { get; set; } = 1;
+
+		////
+
+		[Range( 0, 99 )]
+		[DefaultValue( 2 )]
+		public int BlueOrbRecipeStack { get; set; } = 2;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 1 )]
+		public int CyanOrbRecipeStack { get; set; } = 1;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 1 )]
+		public int GreenOrbRecipeStack { get; set; } = 1;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 1 )]
+		public int PinkOrbRecipeStack { get; set; } = 1;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 1 )]
+		public int PurpleOrbRecipeStack { get; set; } = 1;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 1 )]
+		public int RedOrbRecipeStack { get; set; } = 1;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 1 )]
+		public int TealOrbRecipeStack { get; set; } = 1;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 1 )]
+		public int YellowOrbRecipeStack { get; set; } = 1;
+
+		[Range( 0, 99 )]
+		[DefaultValue( 1 )]
+		public int WhiteOrbRecipeStack { get; set; } = 1;
 
 
 		////

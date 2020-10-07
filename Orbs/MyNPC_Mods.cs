@@ -17,12 +17,12 @@ namespace Orbs {
 			}
 
 			if( !tricksterNpc.HasAttacked ) {
-				int itemWho = Item.NewItem(
-					npc.getRect(),
-					ModContent.ItemType<PinkOrbItem>(),
-					OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.PinkOrbDropsViaTrickster) )
-				);
-				NetMessage.SendData( MessageID.SyncItem, -1, -1, null, itemWho );
+				int stack = OrbsConfig.Instance.Get<int>( nameof( OrbsConfig.PinkOrbDropsViaTrickster ) );
+
+				if( stack > 0 ) {
+					int itemWho = Item.NewItem( npc.getRect(), ModContent.ItemType<PinkOrbItem>(), stack );
+					NetMessage.SendData( MessageID.SyncItem, -1, -1, null, itemWho );
+				}
 			}
 		}
 	}

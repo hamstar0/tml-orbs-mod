@@ -8,22 +8,29 @@ using Orbs.Items.Materials;
 namespace Orbs.Recipes {
 	class YellowOrbRecipe : ModRecipe {
 		public YellowOrbRecipe() : base( OrbsMod.Instance ) {
-			this.AddRecipeGroup( "Orbs:CopperOrTinBars", 15 );
-			this.AddRecipeGroup( "Orbs:IronOrLeadBars", 15 );
-			this.AddRecipeGroup( "Orbs:SilverOrTungstenBars", 12 );
-			this.AddRecipeGroup( "Orbs:GoldOrPlatinumBars", 10 );
-			this.AddRecipeGroup( "Orbs:StrangePlants", 1 );
-			this.AddIngredient( ModContent.ItemType<GeoResonantOrbItem>(), 1 );
+			int ingredientCount = OrbsConfig.Instance.Get<int>( nameof( OrbsConfig.YellowOrbRecipeUniqueIngredientCount ) );
+			if( ingredientCount == 0 ) {
+				return;
+			}
+			int stack = OrbsConfig.Instance.Get<int>( nameof( OrbsConfig.YellowOrbRecipeStack ) );
+			if( stack == 0 ) {
+				return;
+			}
+
+			//this.AddRecipeGroup( "Orbs:CopperOrTinBars", 15 );
+			//this.AddRecipeGroup( "Orbs:IronOrLeadBars", 15 );
+			//this.AddRecipeGroup( "Orbs:SilverOrTungstenBars", 12 );
+			//this.AddRecipeGroup( "Orbs:GoldOrPlatinumBars", 10 );
+			//this.AddRecipeGroup( "Orbs:StrangePlants", 1 );
+			this.AddIngredient( ModContent.ItemType<GeoResonantOrbItem>(), stack );
+			this.AddIngredient( ItemID.BeeWax, ingredientCount );
 			this.AddTile( TileID.WorkBenches );
-			this.SetResult(
-				ModContent.ItemType<YellowOrbItem>(),
-				OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.YellowOrbCraftStack) )
-			);
+			this.SetResult( ModContent.ItemType<YellowOrbItem>(), stack );
 		}
 
 
 		public override bool RecipeAvailable() {
-			return OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.YellowOrbCraftStack) ) > 0;
+			return OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.YellowOrbRecipeStack) ) > 0;
 		}
 	}
 }

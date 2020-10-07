@@ -36,7 +36,7 @@ namespace Orbs {
 			var config = OrbsConfig.Instance;
 
 			switch( type ) {
-			case NPCID.GoblinTinkerer:
+			/*case NPCID.GoblinTinkerer:
 				if( config.Get<int>( nameof(OrbsConfig.CyanOrbCraftStack) ) > 0 ) {
 					shop.item[nextSlot] = new Item();
 					shop.item[nextSlot].SetDefaults( ModContent.ItemType<CyanOrbTopFragmentItem>() );
@@ -53,7 +53,7 @@ namespace Orbs {
 					shop.item[nextSlot] = new Item();
 					shop.item[nextSlot].SetDefaults( ModContent.ItemType<CyanOrbLeftFragmentItem>() );
 				}
-				break;
+				break;*/
 			case NPCID.Dryad:
 				if( config.Get<bool>( nameof(OrbsConfig.IsGeoResonantOrbSoldByDryad) ) ) {
 					shop.item[nextSlot] = new Item();
