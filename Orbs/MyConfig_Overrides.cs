@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using HamstarHelpers.Classes.Errors;
 using HamstarHelpers.Helpers.DotNET.Reflection;
-using Orbs.Items;
 
 
 namespace Orbs {

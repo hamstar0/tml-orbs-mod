@@ -1,18 +1,17 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Orbs.Items.Base;
 using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.DotNET.Extensions;
+using Orbs.Items.Base;
 
 
 namespace Orbs {
 	partial class OrbsPlayer : ModPlayer {
 		public static (int x, int y)? GetTileChunkIfValidTarget( Player player, int tileX, int tileY ) {
 			Item heldItem = player.HeldItem;
-			bool isBinoculars = heldItem?.type == ItemID.Binoculars;
+			bool isBinoculars = heldItem?.active == true && heldItem.type == ItemID.Binoculars;
+			bool canSeeAllColors = isBinoculars || OrbsConfig.Instance.DebugModeTheColorsDuke;
 
 			var myorb = heldItem.modItem as OrbItemBase;
 			if( myorb == null ) {
@@ -28,15 +27,8 @@ namespace Orbs {
 			}
 
 			OrbColorCode plrColorCode = myorb?.ColorCode ?? (OrbColorCode)0;
-			bool canSeeColor = tileColorCode == plrColorCode
-				|| isBinoculars
-				|| OrbsConfig.Instance.DebugModeTheColorsDuke;
+			bool canSeeColor = tileColorCode == plrColorCode || canSeeAllColors;
 			if( !canSeeColor ) {
-				return null;
-			}
-
-			// Found an orb-resonating tile chunk?
-			if( tileColorCode != plrColorCode ) {
 				return null;
 			}
 
@@ -52,11 +44,11 @@ DebugHelpers.Print( "orb",
 	+" - "+tileColorCode.ToString()
 	+", match?"+(tileColorCode == plrColorCode)
 	+", within?"+(OrbItemBase.IsTileWithinUseRange(player, tileX, tileY)) );*/
-			if( !OrbItemBase.IsTileWithinUseRange(player, tileX, tileY) ) {
+			if( !canSeeAllColors && !OrbItemBase.IsTileWithinUseRange(player, tileX, tileY) ) {
 				return null;
 			}
 
-			return ((tileX >> 4) << 4, (tileY >> 4) << 4);
+			return ((tileX/16) * 16, (tileY/16) * 16);
 		}
 
 

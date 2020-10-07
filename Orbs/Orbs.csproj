@@ -12,8 +12,11 @@
   </Target>
   <ItemGroup>
     <Compile Remove="Image Sources\**" />
+    <Compile Remove="NewFolder\**" />
     <EmbeddedResource Remove="Image Sources\**" />
+    <EmbeddedResource Remove="NewFolder\**" />
     <None Remove="Image Sources\**" />
+    <None Remove="NewFolder\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove=".gitattributes" />
@@ -32,8 +35,5 @@
     <Reference Include="TheTrickster">
       <HintPath>..\..\..\The Trickster\Project\TheTrickster\bin\Release\net452\TheTrickster.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NewFolder\" />
   </ItemGroup>
 </Project>

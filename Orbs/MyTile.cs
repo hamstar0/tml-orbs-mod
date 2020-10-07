@@ -38,6 +38,7 @@ namespace Orbs {
 				return;
 			}
 
+
 			var orbWld = ModContent.GetInstance<OrbsWorld>();
 			OrbColorCode tileColorCode = orbWld.GetTileColorCode( i, j );
 			if( tileColorCode == 0 ) {
@@ -45,10 +46,15 @@ namespace Orbs {
 			}
 
 			(int x, int y) chunkTileVal = chunkTile.Value;
-			bool isWithinCurrentChunk = i >= chunkTileVal.x
-				&& i < chunkTileVal.x + 16
-				&& j >= chunkTileVal.y
-				&& j < chunkTileVal.y + 16;
+			bool isWithinCurrentChunk = false;
+
+			Item heldItem = Main.LocalPlayer.HeldItem;
+			if( heldItem?.active != true || heldItem.type != ItemID.Binoculars ) {
+				isWithinCurrentChunk = i >= chunkTileVal.x
+					&& i < chunkTileVal.x + 16
+					&& j >= chunkTileVal.y
+					&& j < chunkTileVal.y + 16;
+			}
 			
 			this.ApplyTileColor( i, j, tileColorCode, isWithinCurrentChunk, ref drawColor );
 		}

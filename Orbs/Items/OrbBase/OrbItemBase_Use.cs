@@ -10,8 +10,8 @@ using HamstarHelpers.Helpers.Fx;
 namespace Orbs.Items.Base {
 	public abstract partial class OrbItemBase : ModItem {
 		public static bool IsTileWithinUseRange( Player plr, int i, int j ) {
-			int diffX = (int)( plr.Center.X * 0.0625 ) - i;
-			int diffY = (int)( plr.Center.Y * 0.0625 ) - j;
+			int diffX = (int)( plr.Center.X * 0.0625f ) - i;
+			int diffY = (int)( plr.Center.Y * 0.0625f ) - j;
 			int distSqr = ( diffX * diffX ) + ( diffY * diffY );
 			return distSqr <= 256;	//16 tiles
 		}
