@@ -65,9 +65,11 @@ namespace Orbs {
 
 		////
 
-		private void LoadRecipesForFindableManaCrystals() {
+		/*private void LoadRecipesForFindableManaCrystals() {
 			var blueOrbRecipe = new BlueOrbRecipe();
-			blueOrbRecipe.AddRecipe();
-		}
+			if( blueOrbRecipe.RecipeAvailable() ) {
+				blueOrbRecipe.AddRecipe();
+			}
+		}*/
 	}
 }

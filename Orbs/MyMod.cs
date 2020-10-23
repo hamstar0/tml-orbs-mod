@@ -57,9 +57,9 @@ namespace Orbs {
 		////////////////
 
 		public override void AddRecipes() {
-			if( ModLoader.GetMod("FindableManaCrystals") != null ) {
-				this.LoadRecipesForFindableManaCrystals();
-			}
+			//if( ModLoader.GetMod("FindableManaCrystals") != null ) {
+			//	this.LoadRecipesForFindableManaCrystals();
+			//}
 
 			var blueOrbRecipe = new BlueOrbRecipe();
 			if( blueOrbRecipe.RecipeAvailable() ) {
