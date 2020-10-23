@@ -61,16 +61,38 @@ namespace Orbs {
 				this.LoadRecipesForFindableManaCrystals();
 			}
 
+			var blueOrbRecipe = new BlueOrbRecipe();
+			if( blueOrbRecipe.RecipeAvailable() ) {
+				blueOrbRecipe.AddRecipe();
+			}
 			var cyanOrbRecipe = new CyanOrbRecipe();
 			if( cyanOrbRecipe.RecipeAvailable() ) {
 				cyanOrbRecipe.AddRecipe();
 			}
-
+			var greenOrbRecipe = new GreenOrbRecipe();
+			if( greenOrbRecipe.RecipeAvailable() ) {
+				greenOrbRecipe.AddRecipe();
+			}
+			var pinkOrbRecipe = new PinkOrbRecipe();
+			if( pinkOrbRecipe.RecipeAvailable() ) {
+				pinkOrbRecipe.AddRecipe();
+			}
+			var purpleOrbRecipe = new PurpleOrbRecipe();
+			if( purpleOrbRecipe.RecipeAvailable() ) {
+				purpleOrbRecipe.AddRecipe();
+			}
+			var redOrbRecipe = new RedOrbRecipe();
+			if( redOrbRecipe.RecipeAvailable() ) {
+				redOrbRecipe.AddRecipe();
+			}
+			var tealOrbRecipe = new TealOrbRecipe();
+			if( tealOrbRecipe.RecipeAvailable() ) {
+				tealOrbRecipe.AddRecipe();
+			}
 			var yellowOrbRecipe = new YellowOrbRecipe();
 			if( yellowOrbRecipe.RecipeAvailable() ) {
 				yellowOrbRecipe.AddRecipe();
 			}
-
 			var whiteOrbRecipe = new WhiteOrbRecipe();
 			if( whiteOrbRecipe.RecipeAvailable() ) {
 				whiteOrbRecipe.AddRecipe();
