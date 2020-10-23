@@ -8,11 +8,12 @@ using Orbs.Items.Materials;
 namespace Orbs.Recipes {
 	class WhiteOrbRecipe : ModRecipe {
 		public WhiteOrbRecipe() : base( OrbsMod.Instance ) {
-			int ingredientCount = OrbsConfig.Instance.Get<int>( nameof( OrbsConfig.WhiteOrbRecipeUniqueIngredientCount ) );
+			var config = OrbsConfig.Instance;
+			int ingredientCount = config.Get<int>( nameof( config.WhiteOrbRecipeUniqueIngredientCount ) );
 			if( ingredientCount == 0 ) {
 				return;
 			}
-			int stack = OrbsConfig.Instance.Get<int>( nameof( OrbsConfig.WhiteOrbRecipeStack ) );
+			int stack = config.Get<int>( nameof( config.WhiteOrbRecipeStack ) );
 			if( stack == 0 ) {
 				return;
 			}

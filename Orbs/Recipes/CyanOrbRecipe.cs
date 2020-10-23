@@ -1,18 +1,19 @@
-﻿using Orbs.Items;
-using Orbs.Items.Materials;
-using System;
+﻿using System;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Orbs.Items;
+using Orbs.Items.Materials;
 
 
 namespace Orbs.Recipes {
 	class CyanOrbRecipe : ModRecipe {
 		public CyanOrbRecipe() : base( OrbsMod.Instance ) {
-			int ingredientCount = OrbsConfig.Instance.Get<int>( nameof( OrbsConfig.CyanOrbRecipeUniqueIngredientCount ) );
+			var config = OrbsConfig.Instance;
+			int ingredientCount = config.Get<int>( nameof( config.CyanOrbRecipeUniqueIngredientCount ) );
 			if( ingredientCount == 0 ) {
 				return;
 			}
-			int stack = OrbsConfig.Instance.Get<int>( nameof( OrbsConfig.CyanOrbRecipeStack ) );
+			int stack = config.Get<int>( nameof( config.CyanOrbRecipeStack ) );
 			if( stack == 0 ) {
 				return;
 			}

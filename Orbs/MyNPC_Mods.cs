@@ -13,7 +13,7 @@ namespace Orbs {
 
 			var tricksterNpc = npc.modNPC as TheTrickster.NPCs.TricksterNPC;
 			if( tricksterNpc == null ) {
-				throw new ArgumentException( "TricksterModLoot "+npc );
+				return;
 			}
 
 			if( !tricksterNpc.HasAttacked ) {

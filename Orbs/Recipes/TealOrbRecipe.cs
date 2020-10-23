@@ -16,11 +16,12 @@ namespace Orbs.Recipes {
 		////////////////
 
 		public TealOrbRecipe() : base( OrbsMod.Instance ) {
-			int ingredientCount = OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.TealOrbRecipeUniqueIngredientCount ) );
+			var config = OrbsConfig.Instance;
+			int ingredientCount = config.Get<int>( nameof( config.TealOrbRecipeUniqueIngredientCount ) );
 			if( ingredientCount == 0 ) {
 				return;
 			}
-			int stack = OrbsConfig.Instance.Get<int>( nameof( OrbsConfig.TealOrbRecipeStack ) );
+			int stack = config.Get<int>( nameof( config.TealOrbRecipeStack ) );
 			if( stack == 0 ) {
 				return;
 			}

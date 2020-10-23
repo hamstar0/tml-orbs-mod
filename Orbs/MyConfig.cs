@@ -206,15 +206,15 @@ namespace Orbs {
 		////////////////
 
 		public IEnumerable<(float Weight, int OrbItemType)> GetOrbChestWeights( out float totalWeight ) {
-			float blueOrb = this.Get<float>( nameof(OrbsConfig.BlueOrbPercentChanceForOrbChest) );
-			float cyanOrb = this.Get<float>( nameof(OrbsConfig.CyanOrbPercentChanceForOrbChest) );
-			float greenOrb = this.Get<float>( nameof(OrbsConfig.GreenOrbPercentChanceForOrbChest) );
-			float pinkOrb = this.Get<float>( nameof(OrbsConfig.PinkOrbPercentChanceForOrbChest) );
-			float purpleOrb = this.Get<float>( nameof(OrbsConfig.PurpleOrbPercentChanceForOrbChest) );
-			float redOrb = this.Get<float>( nameof(OrbsConfig.RedOrbPercentChanceForOrbChest) );
-			float tealOrb = this.Get<float>( nameof(OrbsConfig.TealOrbPercentChanceForOrbChest) );
-			float whiteOrb = this.Get<float>( nameof(OrbsConfig.WhiteOrbPercentChanceForOrbChest) );
-			float yellowOrb = this.Get<float>( nameof(OrbsConfig.YellowOrbPercentChanceForOrbChest) );
+			float blueOrb = this.Get<float>( nameof(this.BlueOrbPercentChanceForOrbChest) );
+			float cyanOrb = this.Get<float>( nameof(this.CyanOrbPercentChanceForOrbChest) );
+			float greenOrb = this.Get<float>( nameof(this.GreenOrbPercentChanceForOrbChest) );
+			float pinkOrb = this.Get<float>( nameof(this.PinkOrbPercentChanceForOrbChest) );
+			float purpleOrb = this.Get<float>( nameof(this.PurpleOrbPercentChanceForOrbChest) );
+			float redOrb = this.Get<float>( nameof(this.RedOrbPercentChanceForOrbChest) );
+			float tealOrb = this.Get<float>( nameof(this.TealOrbPercentChanceForOrbChest) );
+			float whiteOrb = this.Get<float>( nameof(this.WhiteOrbPercentChanceForOrbChest) );
+			float yellowOrb = this.Get<float>( nameof(this.YellowOrbPercentChanceForOrbChest) );
 			totalWeight = blueOrb + cyanOrb + greenOrb + pinkOrb + purpleOrb + redOrb + tealOrb + whiteOrb + yellowOrb;
 
 			IEnumerable<(float, int)> getOrbs() {
