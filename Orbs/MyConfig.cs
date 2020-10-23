@@ -157,41 +157,50 @@ namespace Orbs {
 		[DefaultValue( 0.5f )]
 		public float AnyOrbPercentChancePerChest { get; set; } = 0.5f;
 
-		[Range( 0f, 1f )]
-		[DefaultValue( 0.1f )]
-		public float BlueOrbPercentChanceForOrbChest { get; set; } = 0.1f;
+		[Range( 0f, 100f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float BlueOrbWeightPerOrbChest { get; set; } = 1f;
 
-		[Range( 0f, 1f )]
-		[DefaultValue( 0.1f )]
-		public float CyanOrbPercentChanceForOrbChest { get; set; } = 0.1f;
+		[Range( 0f, 100f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float CyanOrbWeightPerOrbChest { get; set; } = 1f;
 
-		[Range( 0f, 1f )]
-		[DefaultValue( 0.1f )]
-		public float GreenOrbPercentChanceForOrbChest { get; set; } = 0.1f;
+		[Range( 0f, 100f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float GreenOrbWeightPerOrbChest { get; set; } = 1f;
 
-		[Range( 0f, 1f )]
-		[DefaultValue( 0.1f )]
-		public float PinkOrbPercentChanceForOrbChest { get; set; } = 0.1f;
+		[Range( 0f, 100f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float PinkOrbWeightPerOrbChest { get; set; } = 1f;
 
-		[Range( 0f, 1f )]
-		[DefaultValue( 0.1f )]
-		public float PurpleOrbPercentChanceForOrbChest { get; set; } = 0.1f;
+		[Range( 0f, 100f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float PurpleOrbWeightPerOrbChest { get; set; } = 1f;
 
-		[Range( 0f, 1f )]
-		[DefaultValue( 0.1f )]
-		public float RedOrbPercentChanceForOrbChest { get; set; } = 0.1f;
+		[Range( 0f, 100f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float RedOrbWeightPerOrbChest { get; set; } = 1f;
 
-		[Range( 0f, 1f )]
-		[DefaultValue( 0.1f )]
-		public float TealOrbPercentChanceForOrbChest { get; set; } = 0.1f;
+		[Range( 0f, 100f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float TealOrbWeightPerOrbChest { get; set; } = 1f;
 
-		[Range( 0f, 1f )]
-		[DefaultValue( 0.1f )]
-		public float WhiteOrbPercentChanceForOrbChest { get; set; } = 0.1f;
+		[Range( 0f, 100f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float WhiteOrbWeightPerOrbChest { get; set; } = 1f;
 
-		[Range( 0f, 1f )]
-		[DefaultValue( 0.1f )]
-		public float YellowOrbPercentChanceForOrbChest { get; set; } = 0.1f;
+		[Range( 0f, 100f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float YellowOrbWeightPerOrbChest { get; set; } = 1f;
 
 
 		[DefaultValue(true)]
@@ -206,15 +215,15 @@ namespace Orbs {
 		////////////////
 
 		public IEnumerable<(float Weight, int OrbItemType)> GetOrbChestWeights( out float totalWeight ) {
-			float blueOrb = this.Get<float>( nameof(this.BlueOrbPercentChanceForOrbChest) );
-			float cyanOrb = this.Get<float>( nameof(this.CyanOrbPercentChanceForOrbChest) );
-			float greenOrb = this.Get<float>( nameof(this.GreenOrbPercentChanceForOrbChest) );
-			float pinkOrb = this.Get<float>( nameof(this.PinkOrbPercentChanceForOrbChest) );
-			float purpleOrb = this.Get<float>( nameof(this.PurpleOrbPercentChanceForOrbChest) );
-			float redOrb = this.Get<float>( nameof(this.RedOrbPercentChanceForOrbChest) );
-			float tealOrb = this.Get<float>( nameof(this.TealOrbPercentChanceForOrbChest) );
-			float whiteOrb = this.Get<float>( nameof(this.WhiteOrbPercentChanceForOrbChest) );
-			float yellowOrb = this.Get<float>( nameof(this.YellowOrbPercentChanceForOrbChest) );
+			float blueOrb = this.Get<float>( nameof(this.BlueOrbWeightPerOrbChest) );
+			float cyanOrb = this.Get<float>( nameof(this.CyanOrbWeightPerOrbChest) );
+			float greenOrb = this.Get<float>( nameof(this.GreenOrbWeightPerOrbChest) );
+			float pinkOrb = this.Get<float>( nameof(this.PinkOrbWeightPerOrbChest) );
+			float purpleOrb = this.Get<float>( nameof(this.PurpleOrbWeightPerOrbChest) );
+			float redOrb = this.Get<float>( nameof(this.RedOrbWeightPerOrbChest) );
+			float tealOrb = this.Get<float>( nameof(this.TealOrbWeightPerOrbChest) );
+			float whiteOrb = this.Get<float>( nameof(this.WhiteOrbWeightPerOrbChest) );
+			float yellowOrb = this.Get<float>( nameof(this.YellowOrbWeightPerOrbChest) );
 			totalWeight = blueOrb + cyanOrb + greenOrb + pinkOrb + purpleOrb + redOrb + tealOrb + whiteOrb + yellowOrb;
 
 			IEnumerable<(float, int)> getOrbs() {
