@@ -2,7 +2,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Orbs.Recipes;
-using HamstarHelpers;
 using Orbs.Items;
 
 
@@ -63,13 +62,19 @@ namespace Orbs {
 			}
 
 			var cyanOrbRecipe = new CyanOrbRecipe();
-			cyanOrbRecipe.AddRecipe();
+			if( cyanOrbRecipe.RecipeAvailable() ) {
+				cyanOrbRecipe.AddRecipe();
+			}
 
 			var yellowOrbRecipe = new YellowOrbRecipe();
-			yellowOrbRecipe.AddRecipe();
+			if( yellowOrbRecipe.RecipeAvailable() ) {
+				yellowOrbRecipe.AddRecipe();
+			}
 
 			var whiteOrbRecipe = new WhiteOrbRecipe();
-			whiteOrbRecipe.AddRecipe();
+			if( whiteOrbRecipe.RecipeAvailable() ) {
+				whiteOrbRecipe.AddRecipe();
+			}
 		}
 
 		public override void AddRecipeGroups() {
