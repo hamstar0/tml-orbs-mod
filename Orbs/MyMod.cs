@@ -85,9 +85,9 @@ namespace Orbs {
 			if( redOrbRecipe.RecipeAvailable() ) {
 				redOrbRecipe.AddRecipe();
 			}
-			var tealOrbRecipe = new TealOrbRecipe();
-			if( tealOrbRecipe.RecipeAvailable() ) {
-				tealOrbRecipe.AddRecipe();
+			var brownOrbRecipe = new BrownOrbRecipe();
+			if( brownOrbRecipe.RecipeAvailable() ) {
+				brownOrbRecipe.AddRecipe();
 			}
 			var yellowOrbRecipe = new YellowOrbRecipe();
 			if( yellowOrbRecipe.RecipeAvailable() ) {
@@ -128,7 +128,7 @@ namespace Orbs {
 				ModContent.ItemType<PinkOrbItem>(),
 				ModContent.ItemType<PurpleOrbItem>(),
 				ModContent.ItemType<RedOrbItem>(),
-				ModContent.ItemType<TealOrbItem>(),
+				ModContent.ItemType<BrownOrbItem>(),
 				ModContent.ItemType<WhiteOrbItem>(),
 				ModContent.ItemType<YellowOrbItem>()
 			) );

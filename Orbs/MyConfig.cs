@@ -102,7 +102,7 @@ namespace Orbs {
 
 		[Range( 0, 99 )]
 		[DefaultValue( 5 )]
-		public int TealOrbRecipeUniqueIngredientCount { get; set; } = 5;
+		public int BrownOrbRecipeUniqueIngredientCount { get; set; } = 5;
 
 		[Range( 0, 99 )]
 		[DefaultValue( 5 )]
@@ -140,7 +140,7 @@ namespace Orbs {
 
 		[Range( 0, 99 )]
 		[DefaultValue( 1 )]
-		public int TealOrbRecipeStack { get; set; } = 1;
+		public int BrownOrbRecipeStack { get; set; } = 1;
 
 		[Range( 0, 99 )]
 		[DefaultValue( 1 )]
@@ -190,7 +190,7 @@ namespace Orbs {
 		[Range( 0f, 100f )]
 		[DefaultValue( 1f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float TealOrbWeightPerOrbChest { get; set; } = 1f;
+		public float BrownOrbWeightPerOrbChest { get; set; } = 1f;
 
 		[Range( 0f, 100f )]
 		[DefaultValue( 1f )]
@@ -221,10 +221,10 @@ namespace Orbs {
 			float pinkOrb = this.Get<float>( nameof(this.PinkOrbWeightPerOrbChest) );
 			float purpleOrb = this.Get<float>( nameof(this.PurpleOrbWeightPerOrbChest) );
 			float redOrb = this.Get<float>( nameof(this.RedOrbWeightPerOrbChest) );
-			float tealOrb = this.Get<float>( nameof(this.TealOrbWeightPerOrbChest) );
+			float brownOrb = this.Get<float>( nameof(this.BrownOrbWeightPerOrbChest) );
 			float whiteOrb = this.Get<float>( nameof(this.WhiteOrbWeightPerOrbChest) );
 			float yellowOrb = this.Get<float>( nameof(this.YellowOrbWeightPerOrbChest) );
-			totalWeight = blueOrb + cyanOrb + greenOrb + pinkOrb + purpleOrb + redOrb + tealOrb + whiteOrb + yellowOrb;
+			totalWeight = blueOrb + cyanOrb + greenOrb + pinkOrb + purpleOrb + redOrb + brownOrb + whiteOrb + yellowOrb;
 
 			IEnumerable<(float, int)> getOrbs() {
 				yield return (blueOrb, ModContent.ItemType<BlueOrbItem>());
@@ -233,7 +233,7 @@ namespace Orbs {
 				yield return (pinkOrb, ModContent.ItemType<PinkOrbItem>());
 				yield return (purpleOrb, ModContent.ItemType<PurpleOrbItem>());
 				yield return (redOrb, ModContent.ItemType<RedOrbItem>());
-				yield return (tealOrb, ModContent.ItemType<TealOrbItem>());
+				yield return (brownOrb, ModContent.ItemType<BrownOrbItem>());
 				yield return (whiteOrb, ModContent.ItemType<WhiteOrbItem>());
 				yield return (yellowOrb, ModContent.ItemType<YellowOrbItem>());
 			}

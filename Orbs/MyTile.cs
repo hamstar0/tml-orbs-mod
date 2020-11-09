@@ -12,60 +12,11 @@ using Orbs.Items.Base;
 
 namespace Orbs {
 	partial class OrbsTile : GlobalTile {
-		public static bool IsOrbTileType( int tileType ) {
-			return tileType == TileID.ObsidianBrick
-				|| TileGroupIdentityHelpers.VanillaEarthTiles.Contains(tileType);
-		}
-
-
-		////////////////
-
-		public override void DrawEffects(
-					int i,
-					int j,
-					int type,
-					SpriteBatch sb,
-					ref Color drawColor,
-					ref int nextSpecialDrawIndex ) {
-			Tile tile = Main.tile[i, j];
-			if( !tile.active() || tile.inActive() || !OrbsTile.IsOrbTileType( type ) ) {
-				return;
-			}
-
-			var myplayer = Main.LocalPlayer.GetModPlayer<OrbsPlayer>();
-			(int x, int y)? chunkTile = myplayer.GetTargetTileChunk( i, j );
-			if( !chunkTile.HasValue ) {
-				return;
-			}
-
-
-			var orbWld = ModContent.GetInstance<OrbsWorld>();
-			OrbColorCode tileColorCode = orbWld.GetTileColorCode( i, j );
-			if( tileColorCode == 0 ) {
-				return;
-			}
-
-			(int x, int y) chunkTileVal = chunkTile.Value;
-			bool isWithinCurrentChunk = false;
-
-			Item heldItem = Main.LocalPlayer.HeldItem;
-			if( heldItem?.active != true || heldItem.type != ItemID.Binoculars ) {
-				isWithinCurrentChunk = i >= chunkTileVal.x
-					&& i < chunkTileVal.x + 16
-					&& j >= chunkTileVal.y
-					&& j < chunkTileVal.y + 16;
-			}
-			
-			this.ApplyTileColor( i, j, tileColorCode, isWithinCurrentChunk, ref drawColor );
-		}
-
-
-		////
-
-		public void ApplyTileColor( int i, int j, OrbColorCode tileColorCode, bool isWithinUseRange, ref Color drawColor ) {
+		public static Color GetOrbChunkTintColorForTile( int i, int j, OrbColorCode tileColorCode, bool isWithinUseRange ) {
+			Color drawColor = default( Color );
 			Tile tile = Main.tile[i, j];
 
-			Color color = OrbItemBase.ColorValues[ (OrbColorCode)tileColorCode ];
+			Color color = OrbItemBase.ColorValues[(OrbColorCode)tileColorCode];
 			if( isWithinUseRange ) {
 				float oscillate = ( (float)AnimatedColors.Air.CurrentColor.R / 255f );
 				oscillate *= oscillate;
@@ -101,6 +52,47 @@ namespace Orbs {
 				drawColor.R = Math.Max( (byte)16, drawColor.R );
 				drawColor.G = Math.Max( (byte)16, drawColor.G );
 				drawColor.B = Math.Max( (byte)16, drawColor.B );
+			}
+
+			return drawColor;
+		}
+
+
+		////////////////
+
+		public static bool IsTileTypeOrbable( int tileType ) {
+			return tileType == TileID.ObsidianBrick
+				|| tileType == TileID.HellstoneBrick
+				|| TileGroupIdentityHelpers.VanillaEarthTiles.Contains(tileType);
+		}
+
+
+
+		////////////////
+
+		public override void DrawEffects(
+					int i,
+					int j,
+					int type,
+					SpriteBatch sb,
+					ref Color drawColor,
+					ref int nextSpecialDrawIndex ) {
+			Tile tile = Main.tile[i, j];
+			if( tile?.active() != true || tile.inActive() || !OrbsTile.IsTileTypeOrbable(type) ) {
+				return;
+			}
+
+			var orbWld = ModContent.GetInstance<OrbsWorld>();
+			OrbColorCode tileColorCode = orbWld.GetColorCodeOfOrbChunkOfTile( i, j );
+			if( tileColorCode == 0 ) {
+				return;
+			}
+
+			var myplayer = Main.LocalPlayer.GetModPlayer<OrbsPlayer>();
+			(int x, int y)? targettedChunk = myplayer.GetOrbChunkIfTargetted( i, j );
+
+			if( targettedChunk.HasValue || myplayer.CanViewAllOrbChunks() ) {
+				drawColor = OrbsTile.GetOrbChunkTintColorForTile( i, j, tileColorCode, targettedChunk.HasValue );
 			}
 		}
 	}

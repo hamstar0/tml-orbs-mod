@@ -17,7 +17,7 @@ namespace Orbs.Items.Base {
 		}
 
 
-		public static bool IsTileChunkWithinUseRange( Vector2 worldPos, (int i, int j) tileChunkTilePos ) {
+		public static bool IsOrbChunkWithinUseRange( Vector2 worldPos, (int i, int j) tileChunkTilePos ) {
 			int maxRange = OrbItemBase.MaxTileChunkUseRange;
 			var rect = new Rectangle(
 				(tileChunkTilePos.i - maxRange) << 4,
@@ -53,7 +53,7 @@ namespace Orbs.Items.Base {
 			for( int y = chunkTileY; y < maxY; y++ ) {
 				for( int x = chunkTileX; x < maxX; x++ ) {
 					Tile tile = Main.tile[x, y];
-					if( tile?.active() != true || tile.inActive() || !OrbsTile.IsOrbTileType(tile.type) ) {
+					if( tile?.active() != true || tile.inActive() || !OrbsTile.IsTileTypeOrbable(tile.type) ) {
 						continue;
 					}
 
@@ -69,7 +69,7 @@ namespace Orbs.Items.Base {
 			for( int y = chunkTileY; y < chunkTileY + OrbItemBase.MaxTileChunkUseRange; y++ ) {
 				for( int x = chunkTileX; x < chunkTileX + OrbItemBase.MaxTileChunkUseRange; x++ ) {
 					Tile tile = Main.tile[x, y];
-					if( tile?.active() != true || !OrbsTile.IsOrbTileType(tile.type) ) {
+					if( tile?.active() != true || !OrbsTile.IsTileTypeOrbable(tile.type) ) {
 						continue;
 					}
 

@@ -15,7 +15,7 @@ namespace Orbs.Items.Base {
 		Pink=4,
 		Purple=5,
 		Red=6,
-		Teal=7,
+		Brown=7,
 		White=8,
 		Yellow=9
 	}
@@ -41,7 +41,7 @@ namespace Orbs.Items.Base {
 				{ OrbColorCode.Pink, Color.HotPink },
 				{ OrbColorCode.Purple, Color.DarkMagenta },
 				{ OrbColorCode.Red, Color.Red },
-				{ OrbColorCode.Teal, Color.LightSeaGreen },
+				{ OrbColorCode.Brown, Color.LightSeaGreen },
 				{ OrbColorCode.White, Color.White },
 				{ OrbColorCode.Yellow, Color.Yellow },
 			};
@@ -87,16 +87,16 @@ namespace Orbs.Items.Base {
 
 		public override bool ConsumeItem( Player player ) {
 			var myplayer = player.GetModPlayer<OrbsPlayer>();
-			if( !myplayer.CurrentTargetTileChunk.HasValue ) {
+			if( !myplayer.CurrentTargetOrbChunk.HasValue ) {
 				return false;
 			}
 
-			(int X, int Y) chunkTile = myplayer.CurrentTargetTileChunk.Value;
+			(int X, int Y) chunkTile = myplayer.CurrentTargetOrbChunk.Value;
 			
 			if( OrbItemBase.CanActivateOrb(chunkTile.X, chunkTile.Y) ) {
 				if( Main.netMode == 0 ) {
 					OrbItemBase.ActivateOrb( chunkTile.X, chunkTile.Y );
-					myplayer.ClearTargetChunk();
+					myplayer.ClearTargetOrbChunk();
 				} else if( Main.netMode == 1 ) {
 					OrbActivateProtocol.Broadcast( this.ColorCode, chunkTile.X, chunkTile.Y );
 					OrbItemBase.ActivateOrb( chunkTile.X, chunkTile.Y );

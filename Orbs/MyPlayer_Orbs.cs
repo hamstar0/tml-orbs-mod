@@ -8,33 +8,24 @@ using Orbs.Items.Base;
 
 namespace Orbs {
 	partial class OrbsPlayer : ModPlayer {
-		public static (int x, int y)? GetTileChunkIfValidTarget( Player player, int tileX, int tileY ) {
-			Item heldItem = player.HeldItem;
-			bool isBinoculars = heldItem?.active == true && heldItem.type == ItemID.Binoculars;
-			bool canSeeAllColors = isBinoculars || OrbsConfig.Instance.DebugModeTheColorsDuke;
-
-			var myorb = heldItem.modItem as OrbItemBase;
-			if( myorb == null ) {
-				if( !isBinoculars && !OrbsConfig.Instance.DebugModeTheColorsDuke ) {
-					return null;
-				}
+		public static bool IsTargettingOrbChunkOfTile( Player player, int tileX, int tileY ) {
+			var orbWld = ModContent.GetInstance<OrbsWorld>();
+			OrbColorCode tileColorCode = orbWld.GetColorCodeOfOrbChunkOfTile( tileX, tileY );
+			if( tileColorCode == 0 ) {
+				return false;
 			}
 
-			var orbWld = ModContent.GetInstance<OrbsWorld>();
-			OrbColorCode tileColorCode = orbWld.GetTileColorCode( tileX, tileY );
-			if( tileColorCode == 0 ) {
-				return null;
+			Item heldItem = player.HeldItem;
+			OrbItemBase myorb = heldItem?.modItem as OrbItemBase;
+			if( myorb == null ) {
+				return false;
 			}
 
 			OrbColorCode plrColorCode = myorb?.ColorCode ?? (OrbColorCode)0;
-			bool canSeeColor = tileColorCode == plrColorCode || canSeeAllColors;
+			bool canSeeColor = tileColorCode == plrColorCode;// || canSeeAllColors;
 			if( !canSeeColor ) {
-				return null;
+				return false;
 			}
-
-			//if( this.CurrentTargetTileChunk.HasValue ) {
-			//	return null;
-			//}
 
 /*var myplayer = player.GetModPlayer<OrbsPlayer>();
 DebugHelpers.Print( "orb",
@@ -44,26 +35,26 @@ DebugHelpers.Print( "orb",
 	+" - "+tileColorCode.ToString()
 	+", match?"+(tileColorCode == plrColorCode)
 	+", within?"+(OrbItemBase.IsTileWithinUseRange(player, tileX, tileY)) );*/
-			if( !canSeeAllColors && !OrbItemBase.IsTileWithinUseRange(player, tileX, tileY) ) {
-				return null;
+			if( !OrbItemBase.IsTileWithinUseRange(player, tileX, tileY) ) {
+				return false;
 			}
 
-			return ((tileX/16) * 16, (tileY/16) * 16);
+			return true;
 		}
 
 
 
 		////////////////
 
-		public (int X, int Y)? CurrentTargetTileChunk { get; private set; } = null;
+		public (int ChunkX, int ChunkY)? CurrentTargetOrbChunk { get; private set; } = null;
 
 
 
 		////////////////
 
 		public override void PreUpdate() {
-			if( !this.IsTargetTileChunkAvailable() ) {
-				this.CurrentTargetTileChunk = null;
+			if( !this.IsTargetOrbChunkAvailable() ) {
+				this.CurrentTargetOrbChunk = null;
 			}
 
 			/*if( this.player.whoAmI == Main.myPlayer ) {
@@ -114,8 +105,20 @@ DebugHelpers.Print( "orb",
 
 		////////////////
 
-		private bool IsTargetTileChunkAvailable() {
-			(int x, int y)? chunk = this.CurrentTargetTileChunk;
+		public bool CanViewAllOrbChunks() {
+			if( OrbsConfig.Instance.Get<bool>( nameof( OrbsConfig.DebugModeTheColorsDuke ) ) ) {
+				return true;
+			}
+
+			Item heldItem = this.player.HeldItem;
+			return heldItem?.active == true && heldItem.type == ItemID.Binoculars;
+		}
+
+
+		////////////////
+
+		private bool IsTargetOrbChunkAvailable() {
+			(int x, int y)? chunk = this.CurrentTargetOrbChunk;
 			if( !chunk.HasValue ) {
 				return false;
 			}
@@ -137,32 +140,39 @@ DebugHelpers.Print( "orb",
 			}
 
 			// Is nearby targetted orb still within range?
-			bool isWithinRange = OrbItemBase.IsTileChunkWithinUseRange( this.player.Center, chunk.Value );
+			bool isWithinRange = OrbItemBase.IsOrbChunkWithinUseRange( this.player.Center, chunk.Value );
 
 			return isWithinRange;
 		}
 
 		////
 
-		//private int _PrevTargetCheckTileChunkCode = 0;
-
-		public (int x, int y)? GetTargetTileChunk( int tileX, int tileY ) {
-			if( !this.CurrentTargetTileChunk.HasValue ) {
-				//int code = OrbsWorld.GetTileChunkCode( tileX, tileY );
-				//if( code == this._PrevTargetCheckTileChunkCode ) {
-				//	return;
-				//}
-				//this._PrevTargetCheckTileChunkCode = code;
-
-				this.CurrentTargetTileChunk = OrbsPlayer.GetTileChunkIfValidTarget( this.player, tileX, tileY );
+		/// <summary>
+		/// Gets the orb chunk of a given tile, if the player is targetting it.
+		/// </summary>
+		/// <param name="tileX"></param>
+		/// <param name="tileY"></param>
+		/// <returns></returns>
+		public (int ChunkX, int ChunkY)? GetOrbChunkIfTargetted( int tileX, int tileY ) {
+			if( !this.CurrentTargetOrbChunk.HasValue ) {
+				if( OrbsPlayer.IsTargettingOrbChunkOfTile(this.player, tileX, tileY) ) {
+					this.CurrentTargetOrbChunk = (tileX / 16, tileY / 16);
+				}
+			} else {
+				if( this.CurrentTargetOrbChunk.Value.ChunkX != (tileX/16) ) {
+					return null;
+				}
+				if( this.CurrentTargetOrbChunk.Value.ChunkY != (tileY/16) ) {
+					return null;
+				}
 			}
-			return this.CurrentTargetTileChunk;
+			return this.CurrentTargetOrbChunk;
 		}
 
 		////////////////
 
-		public void ClearTargetChunk() {
-			this.CurrentTargetTileChunk = null;
+		public void ClearTargetOrbChunk() {
+			this.CurrentTargetOrbChunk = null;
 		}
 	}
 }

@@ -128,7 +128,7 @@ namespace Orbs {
 			}
 
 			var orbWld = ModContent.GetInstance<OrbsWorld>();
-			OrbColorCode colorCode = orbWld.GetTileColorCode( tileX, tileY );
+			OrbColorCode colorCode = orbWld.GetColorCodeOfOrbChunkOfTile( tileX, tileY );
 			if( colorCode == 0 ) {
 				return false;
 			}

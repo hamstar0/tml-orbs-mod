@@ -9,8 +9,8 @@ using Orbs.Tiles.Base;
 
 
 namespace Orbs.Tiles {
-	class TealOrbTile : OrbTileBase {
-		public override string MyName => "Teal Orb";
+	class BrownOrbTile : OrbTileBase {
+		public override string MyName => "Brown Orb";
 
 		public override Color PrimaryColor => new Color( 72, 224, 142 );
 
@@ -24,7 +24,7 @@ namespace Orbs.Tiles {
 				Y: j * 16,
 				Width: 24,
 				Height: 24,
-				Type: ModContent.ItemType<TealOrbItem>(),
+				Type: ModContent.ItemType<BrownOrbItem>(),
 				Stack: 4
 			);
 		}

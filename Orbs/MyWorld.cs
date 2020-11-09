@@ -4,16 +4,33 @@ using System.Collections.Concurrent;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using HamstarHelpers.Helpers.DotNET.Extensions;
+using HamstarHelpers.Classes.Loadable;
 using HamstarHelpers.Helpers.World;
 using HamstarHelpers.Helpers.Debug;
+using HamstarHelpers.Services.Hooks.LoadHooks;
 using Orbs.Items.Base;
 
 
 namespace Orbs {
+	class OrbsCustomWorld : ILoadable {
+		void ILoadable.OnModsLoad() { }
+
+		void ILoadable.OnModsUnload() { }
+
+		void ILoadable.OnPostModsLoad() {
+			LoadHooks.AddPostWorldUnloadEachHook( () => {
+				var myworld = ModContent.GetInstance<OrbsWorld>();
+				myworld.ResetChunks();
+			} );
+		}
+	}
+
+
+
+
 	partial class OrbsWorld : ModWorld {
-		public static int GetTileChunkCode( int tileX, int tileY ) {
-			return (tileX >> 4) + ((tileY>>4) * (Main.maxTilesX >> 4));
+		public static int GetOrbChunkCodeOfTile( int tileX, int tileY ) {
+			return (tileX/16) + ( (tileY/16) * (Main.maxTilesX/16) );
 		}
 
 		public static int GetWorldCode() {
@@ -24,24 +41,37 @@ namespace Orbs {
 
 		////////////////
 
-		private IDictionary<int, OrbColorCode> TileChunkColors = null;
+		private IDictionary<int, OrbColorCode> OrbChunkColorCodes = null;
 
 
 
 		////////////////
-		
-		private void InitTileChunkColors() {
+
+		public override void Initialize() {
+			this.InitOrbChunkColors();
+		}
+
+		////
+
+		internal void ResetChunks() {
+			this.OrbChunkColorCodes.Clear();
+		}
+
+
+		////////////////
+
+		private void InitOrbChunkColors() {
 			int worldCode = OrbsWorld.GetWorldCode();
 			var rand = new UnifiedRandom( worldCode );
 
-			this.TileChunkColors = new ConcurrentDictionary<int, OrbColorCode>();
+			this.OrbChunkColorCodes = new ConcurrentDictionary<int, OrbColorCode>();
 			
 			for( int i = 0; i < Main.maxTilesX; i += 16 ) {
 				for( int j = 0; j < Main.maxTilesY; j += 16 ) {
 					OrbColorCode color = OrbItemBase.GetNextRandomColorCode( rand );
-					int code = OrbsWorld.GetTileChunkCode( i, j );
+					int code = OrbsWorld.GetOrbChunkCodeOfTile( i, j );
 
-					this.TileChunkColors[ code ] = color;
+					this.OrbChunkColorCodes[ code ] = color;
 				}
 			}
 		}
@@ -49,13 +79,13 @@ namespace Orbs {
 
 		////////////////
 
-		public OrbColorCode GetTileColorCode( int tileX, int tileY ) {
-			if( this.TileChunkColors == null ) {
-				this.InitTileChunkColors();
+		public OrbColorCode GetColorCodeOfOrbChunkOfTile( int tileX, int tileY ) {
+			int chunkCode = OrbsWorld.GetOrbChunkCodeOfTile( tileX, tileY );
+			
+			if( this.OrbChunkColorCodes.TryGetValue(chunkCode, out OrbColorCode colorCode) ) {
+				return colorCode;
 			}
-
-			int code = OrbsWorld.GetTileChunkCode( tileX, tileY );
-			return this.TileChunkColors.GetOrDefault( code );
+			return 0;
 		}
 	}
 }

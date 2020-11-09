@@ -29,6 +29,8 @@ namespace Orbs {
 			TileID.GetUniqueKey( TileID.OutletPump ),
 			TileID.GetUniqueKey( TileID.Statues ),
 			TileID.GetUniqueKey( TileID.Explosives ),
+			TileID.GetUniqueKey( TileID.PressurePlates ),
+			TileID.GetUniqueKey( TileID.WeightedPressurePlate ),
 			//
 			TileID.GetUniqueKey( TileID.WoodBlock ),
 			TileID.GetUniqueKey( TileID.BorealWood ),

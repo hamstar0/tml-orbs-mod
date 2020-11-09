@@ -40,7 +40,7 @@ namespace Orbs.Tiles.Base {
 			if( tileType == ModContent.TileType<PinkOrbTile>() ) {
 				return 2;
 			}
-			if( tileType == ModContent.TileType<TealOrbTile>() ) {
+			if( tileType == ModContent.TileType<BrownOrbTile>() ) {
 				return 3;
 			}
 			if( tileType == ModContent.TileType<YellowOrbTile>() ) {
@@ -56,7 +56,7 @@ namespace Orbs.Tiles.Base {
 			case 2:
 				return ModContent.TileType<PinkOrbTile>();
 			case 3:
-				return ModContent.TileType<TealOrbTile>();
+				return ModContent.TileType<BrownOrbTile>();
 			case 4:
 				return ModContent.TileType<YellowOrbTile>();
 			}

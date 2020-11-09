@@ -47,6 +47,10 @@ namespace Orbs {
 				} else {
 					noItem = true;
 				}
+			} else {
+				if( type == TileID.PressurePlates || type == TileID.WeightedPressurePlate ) {
+					noItem = true;
+				}
 			}
 		}
 
