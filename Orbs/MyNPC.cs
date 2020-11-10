@@ -37,31 +37,34 @@ namespace Orbs {
 
 			switch( type ) {
 			/*case NPCID.GoblinTinkerer:
-				if( config.Get<int>( nameof(OrbsConfig.CyanOrbCraftStack) ) > 0 ) {
+				if( config.Get<int>( nameof(config.CyanOrbCraftStack) ) > 0 ) {
 					shop.item[nextSlot] = new Item();
 					shop.item[nextSlot].SetDefaults( ModContent.ItemType<CyanOrbTopFragmentItem>() );
+					nextSlot++;
 				}
 				break;
 			case NPCID.Mechanic:
-				if( config.Get<int>( nameof(OrbsConfig.CyanOrbCraftStack) ) > 0 ) {
+				if( config.Get<int>( nameof(config.CyanOrbCraftStack) ) > 0 ) {
 					shop.item[nextSlot] = new Item();
 					shop.item[nextSlot].SetDefaults( ModContent.ItemType<CyanOrbRightFragmentItem>() );
+					nextSlot++;
 				}
 				break;
 			case NPCID.WitchDoctor:
-				if( config.Get<int>( nameof(OrbsConfig.CyanOrbCraftStack) ) > 0 ) {
+				if( config.Get<int>( nameof(config.CyanOrbCraftStack) ) > 0 ) {
 					shop.item[nextSlot] = new Item();
 					shop.item[nextSlot].SetDefaults( ModContent.ItemType<CyanOrbLeftFragmentItem>() );
+					nextSlot++;
 				}
 				break;*/
 			case NPCID.Dryad:
-				if( config.Get<bool>( nameof(OrbsConfig.IsGeoResonantOrbSoldByDryad) ) ) {
+				if( config.Get<bool>( nameof(config.IsGeoResonantOrbSoldByDryad) ) ) {
 					shop.item[nextSlot] = new Item();
 					shop.item[nextSlot].SetDefaults( ModContent.ItemType<GeoResonantOrbItem>() );
+					nextSlot++;
 				}
 				break;
 			}
-			nextSlot++;
 		}
 
 
