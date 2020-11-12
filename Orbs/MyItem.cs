@@ -9,18 +9,19 @@ using HamstarHelpers.Helpers.Items.Attributes;
 
 
 namespace Orbs {
-	class MyItem : GlobalItem {
+	class OrbsItem : GlobalItem {
 		public override void ModifyTooltips( Item item, List<TooltipLine> tooltips ) {
+			string modName = "[c / FFFF88"+OrbsMod.Instance.DisplayName+":] ";
 			TooltipLine tip;
 
 			switch( item.type ) {
 			case ItemID.Binoculars:
-				tip = new TooltipLine( this.mod, "OrbsBinoculars", "Reveals patches of orb-resonant terrain (by color)" );
+				tip = new TooltipLine( this.mod, "OrbsBinoculars", modName+"Reveals patches of orb-resonant terrain (by color)" );
 				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
 				break;
 			default:
 				if( item.pick > 0 ) {
-					tip = new TooltipLine( this.mod, "OrbsPick", "Able to break ores, plants, gems, sand, snow, silt, obsidian, and wood" );
+					tip = new TooltipLine( this.mod, "OrbsPick", modName+"Able to break ores, plants, gems, sand, snow, silt, obsidian, and wood" );
 					ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
 				}
 				break;

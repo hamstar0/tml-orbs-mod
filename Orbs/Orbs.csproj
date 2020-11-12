@@ -8,16 +8,8 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <Target Name="BuildMod" AfterTargets="Build">
-    <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
+    <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -unsafe $(AllowUnsafeBlocks)" />
   </Target>
-  <ItemGroup>
-    <Compile Remove="Image Sources\**" />
-    <Compile Remove="NewFolder\**" />
-    <EmbeddedResource Remove="Image Sources\**" />
-    <EmbeddedResource Remove="NewFolder\**" />
-    <None Remove="Image Sources\**" />
-    <None Remove="NewFolder\**" />
-  </ItemGroup>
   <ItemGroup>
     <None Remove=".gitattributes" />
     <None Remove=".gitignore" />
