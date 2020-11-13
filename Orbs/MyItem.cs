@@ -11,7 +11,7 @@ using HamstarHelpers.Helpers.Items.Attributes;
 namespace Orbs {
 	class OrbsItem : GlobalItem {
 		public override void ModifyTooltips( Item item, List<TooltipLine> tooltips ) {
-			string modName = "[c / FFFF88"+OrbsMod.Instance.DisplayName+":] ";
+			string modName = "[c/FFFF88"+OrbsMod.Instance.DisplayName+":] ";
 			TooltipLine tip;
 
 			switch( item.type ) {
