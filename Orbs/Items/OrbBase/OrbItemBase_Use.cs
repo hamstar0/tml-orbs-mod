@@ -46,7 +46,7 @@ namespace Orbs.Items.Base {
 
 		////////////////
 
-		public static bool CanActivateOrb( int chunkTileX, int chunkTileY ) {
+		public static bool CanActivateOrbForTileChunk( int chunkTileX, int chunkTileY ) {
 			int maxX = chunkTileX + 16;
 			int maxY = chunkTileY + 16;
 
@@ -65,7 +65,7 @@ namespace Orbs.Items.Base {
 		}
 
 
-		public static void ActivateOrb( int chunkTileX, int chunkTileY ) {
+		public static void ActivateOrbUponTileChunk( int chunkTileX, int chunkTileY ) {
 			for( int y = chunkTileY; y < chunkTileY + OrbItemBase.MaxTileChunkUseRange; y++ ) {
 				for( int x = chunkTileX; x < chunkTileX + OrbItemBase.MaxTileChunkUseRange; x++ ) {
 					Tile tile = Main.tile[x, y];

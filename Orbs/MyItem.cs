@@ -15,6 +15,10 @@ namespace Orbs {
 			TooltipLine tip;
 
 			switch( item.type ) {
+			case ItemID.PurificationPowder:
+				tip = new TooltipLine( this.mod, "OrbsPurificationPowder", modName + "Converts ebonstone and crimstone into sand." );
+				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
+				break;
 			case ItemID.Binoculars:
 				tip = new TooltipLine( this.mod, "OrbsBinoculars", modName+"Reveals patches of orb-resonant terrain (by color)" );
 				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );

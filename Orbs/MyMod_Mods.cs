@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.TModLoader;
-using Orbs.Recipes;
 
 
 namespace Orbs {
@@ -64,7 +64,7 @@ namespace Orbs {
 
 
 		////
-
+		
 		/*private void LoadRecipesForFindableManaCrystals() {
 			var blueOrbRecipe = new BlueOrbRecipe();
 			if( blueOrbRecipe.RecipeAvailable() ) {

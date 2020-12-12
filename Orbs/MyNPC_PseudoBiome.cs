@@ -14,12 +14,17 @@ namespace Orbs {
 				return;
 			}
 
+			var config = OrbsConfig.Instance;
+			if( !config.Get<bool>( nameof(config.EnableOrbPseudoBiomeForTiles) ) ) {
+				return;
+			}
+
 			var myworld = ModContent.GetInstance<OrbsWorld>();
 			if( myworld == null ) { return; }
 
 			int npcTileX = (int)( npc.position.X / 16f );
 			int npcTileY = (int)( npc.position.Y / 16f );
-			int biomeRadiusSqr = OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.OrbPseudoBiomeTileRadius) );
+			int biomeRadiusSqr = config.Get<int>( nameof(config.OrbPseudoBiomeTileRadius) );
 			biomeRadiusSqr *= biomeRadiusSqr;
 
 			foreach( (int tileX, ISet<int> tileYs) in myworld.GetOrbs() ) {

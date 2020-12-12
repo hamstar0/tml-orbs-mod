@@ -91,15 +91,25 @@ namespace Orbs.Items.Base {
 				return false;
 			}
 
+			var config = OrbsConfig.Instance;
+			if( !config.Get<bool>( nameof(config.EnableOrbUseUponTiles) ) ) {
+				string disabledMessage = config.Get<string>( nameof(config.OrbDisabledMessage) );
+				if( !string.IsNullOrEmpty(disabledMessage) ) {
+					Main.NewText( disabledMessage, Color.Yellow );
+				}
+
+				return false;
+			}
+
 			(int X, int Y) chunkTile = myplayer.CurrentTargetOrbChunk.Value;
 			
-			if( OrbItemBase.CanActivateOrb(chunkTile.X, chunkTile.Y) ) {
+			if( OrbItemBase.CanActivateOrbForTileChunk(chunkTile.X, chunkTile.Y) ) {
 				if( Main.netMode == 0 ) {
-					OrbItemBase.ActivateOrb( chunkTile.X, chunkTile.Y );
+					OrbItemBase.ActivateOrbUponTileChunk( chunkTile.X, chunkTile.Y );
 					myplayer.ClearTargetOrbChunk();
 				} else if( Main.netMode == 1 ) {
 					OrbActivateProtocol.Broadcast( this.ColorCode, chunkTile.X, chunkTile.Y );
-					OrbItemBase.ActivateOrb( chunkTile.X, chunkTile.Y );
+					OrbItemBase.ActivateOrbUponTileChunk( chunkTile.X, chunkTile.Y );
 				}
 				return true;
 			}

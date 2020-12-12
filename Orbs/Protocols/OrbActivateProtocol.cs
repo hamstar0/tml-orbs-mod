@@ -39,11 +39,11 @@ namespace Orbs.Protocols {
 		////////////////
 
 		protected override void ReceiveOnClient() {
-			OrbItemBase.ActivateOrb( this.TileX, this.TileY );
+			OrbItemBase.ActivateOrbUponTileChunk( this.TileX, this.TileY );
 		}
 
 		protected override void ReceiveOnServer( int fromWho ) {
-			OrbItemBase.ActivateOrb( this.TileX, this.TileY );
+			OrbItemBase.ActivateOrbUponTileChunk( this.TileX, this.TileY );
 		}
 	}
 }

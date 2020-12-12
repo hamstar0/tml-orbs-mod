@@ -54,6 +54,18 @@ namespace Orbs {
 
 		////
 
+		[DefaultValue( true )]
+		public bool EnableOrbUseUponTiles { get; set; } = true;
+
+		[DefaultValue( false )]
+		public bool EnableOrbPseudoBiomeForTiles { get; set; } = false;
+
+		////
+
+		public string OrbDisabledMessage { get; set; } = "";
+
+		////
+
 		[Range( 0, 1000 )]
 		[DefaultValue( 80 )]
 		public int OrbPseudoBiomeTileRadius { get; set; } = 80;
