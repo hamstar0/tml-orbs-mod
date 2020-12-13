@@ -4,8 +4,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using HamstarHelpers.Services.Timers;
 using HamstarHelpers.Helpers.Items.Attributes;
+using HamstarHelpers.Services.Timers;
 
 
 namespace Orbs {

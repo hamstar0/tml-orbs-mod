@@ -36,5 +36,12 @@ namespace Orbs {
 			}
 			this.Overrides[propName] = value;
 		}
+
+		public void UnsetOverride<T>( string propName ) {
+			if( !ReflectionHelpers.Get( this, propName, out T _ ) ) {
+				throw new ModHelpersException( "Invalid property " + propName + " of type " + typeof( T ).Name );
+			}
+			this.Overrides.Remove( propName );
+		}
 	}
 }
