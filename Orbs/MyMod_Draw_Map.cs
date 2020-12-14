@@ -119,7 +119,7 @@ namespace Orbs {
 			int chunkTileX = ( (tileX>>4) << 4 );
 			int chunkTileY = ( (tileY>>4) << 4 );
 
-			if( !OrbItemBase.CanActivateOrbForTileChunk( chunkTileX, chunkTileY ) ) {
+			if( !OrbItemBase.CanActivateOrbForChunk(chunkTileX, chunkTileY) ) {
 				return false;
 			}
 

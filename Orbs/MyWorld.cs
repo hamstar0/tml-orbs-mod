@@ -30,7 +30,12 @@ namespace Orbs {
 
 	partial class OrbsWorld : ModWorld {
 		public static int GetOrbChunkCodeOfTile( int tileX, int tileY ) {
-			return (tileX/16) + ( (tileY/16) * (Main.maxTilesX/16) );
+			int chunkTileSize = OrbItemBase.ChunkTileSize;
+			int chunkColumn = tileX / chunkTileSize;
+			int chunkRow = tileY / chunkTileSize;
+			int maxChunkColumns = Main.maxTilesX / chunkTileSize;
+
+			return chunkColumn + (chunkRow * maxChunkColumns);
 		}
 
 		public static int GetWorldCode() {

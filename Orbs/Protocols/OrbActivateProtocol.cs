@@ -1,16 +1,16 @@
-﻿using HamstarHelpers.Classes.Errors;
+﻿using System;
+using Terraria;
+using HamstarHelpers.Classes.Errors;
 using HamstarHelpers.Classes.Protocols.Packet.Interfaces;
 using Orbs.Items.Base;
-using System;
-using Terraria;
 
 
 namespace Orbs.Protocols {
 	class OrbActivateProtocol : PacketProtocolBroadcast {
-		public static void Broadcast( OrbColorCode colorCode, int tileX, int tileY ) {
+		public static void Broadcast( OrbColorCode colorCode, int chunkGridX, int chunkGridY ) {
 			if( Main.netMode != 1 ) { throw new ModHelpersException( "Not client" ); }
 
-			var protocol = new OrbActivateProtocol( (int)colorCode, tileX, tileY );
+			var protocol = new OrbActivateProtocol( (int)colorCode, chunkGridX, chunkGridY );
 
 			protocol.SendToServer( true );
 		}
@@ -20,8 +20,8 @@ namespace Orbs.Protocols {
 		////////////////
 
 		public int ColorCode;
-		public int TileX;
-		public int TileY;
+		public int ChunkGridX;
+		public int ChunkGridY;
 
 
 
@@ -29,21 +29,21 @@ namespace Orbs.Protocols {
 
 		private OrbActivateProtocol() { }
 
-		private OrbActivateProtocol( int colorCode, int tileX, int tileY ) {
+		private OrbActivateProtocol( int colorCode, int chunkGridX, int chunkGridY ) {
 			this.ColorCode = colorCode;
-			this.TileX = tileX;
-			this.TileY = tileY;
+			this.ChunkGridX = chunkGridX;
+			this.ChunkGridY = chunkGridY;
 		}
 
 
 		////////////////
 
 		protected override void ReceiveOnClient() {
-			OrbItemBase.ActivateOrbUponTileChunk( this.TileX, this.TileY );
+			OrbItemBase.ActivateOrbUponTileChunk( this.ChunkGridX, this.ChunkGridY );
 		}
 
 		protected override void ReceiveOnServer( int fromWho ) {
-			OrbItemBase.ActivateOrbUponTileChunk( this.TileX, this.TileY );
+			OrbItemBase.ActivateOrbUponTileChunk( this.ChunkGridX, this.ChunkGridY );
 		}
 	}
 }

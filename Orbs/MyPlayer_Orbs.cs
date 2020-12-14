@@ -46,7 +46,7 @@ DebugHelpers.Print( "orb",
 
 		////////////////
 
-		public (int ChunkX, int ChunkY)? CurrentTargetOrbChunk { get; private set; } = null;
+		public (int ChunkX, int ChunkY)? CurrentTargetOrbChunkGridPos { get; private set; } = null;
 
 
 
@@ -54,7 +54,7 @@ DebugHelpers.Print( "orb",
 
 		public override void PreUpdate() {
 			if( !this.IsTargetOrbChunkAvailable() ) {
-				this.CurrentTargetOrbChunk = null;
+				this.CurrentTargetOrbChunkGridPos = null;
 			}
 
 			/*if( this.player.whoAmI == Main.myPlayer ) {
@@ -118,8 +118,8 @@ DebugHelpers.Print( "orb",
 		////////////////
 
 		private bool IsTargetOrbChunkAvailable() {
-			(int x, int y)? chunk = this.CurrentTargetOrbChunk;
-			if( !chunk.HasValue ) {
+			(int x, int y)? chunkGridPos = this.CurrentTargetOrbChunkGridPos;
+			if( !chunkGridPos.HasValue ) {
 				return false;
 			}
 
@@ -140,8 +140,8 @@ DebugHelpers.Print( "orb",
 			}
 
 			// Is nearby targetted orb still within range?
-			bool isWithinRange = OrbItemBase.IsOrbChunkWithinUseRange( this.player.Center, chunk.Value );
-
+			bool isWithinRange = OrbItemBase.IsOrbChunkWithinUseRange( this.player.Center, chunkGridPos.Value );
+			
 			return isWithinRange;
 		}
 
@@ -154,25 +154,27 @@ DebugHelpers.Print( "orb",
 		/// <param name="tileY"></param>
 		/// <returns></returns>
 		public (int ChunkX, int ChunkY)? GetOrbChunkIfTargetted( int tileX, int tileY ) {
-			if( !this.CurrentTargetOrbChunk.HasValue ) {
+			int chunkTileSize = OrbItemBase.ChunkTileSize;
+
+			if( !this.CurrentTargetOrbChunkGridPos.HasValue ) {
 				if( OrbsPlayer.IsTargettingOrbChunkOfTile(this.player, tileX, tileY) ) {
-					this.CurrentTargetOrbChunk = (tileX / 16, tileY / 16);
+					this.CurrentTargetOrbChunkGridPos = (tileX / chunkTileSize, tileY / chunkTileSize);
 				}
 			} else {
-				if( this.CurrentTargetOrbChunk.Value.ChunkX != (tileX/16) ) {
+				if( this.CurrentTargetOrbChunkGridPos.Value.ChunkX != (tileX / chunkTileSize) ) {
 					return null;
 				}
-				if( this.CurrentTargetOrbChunk.Value.ChunkY != (tileY/16) ) {
+				if( this.CurrentTargetOrbChunkGridPos.Value.ChunkY != (tileY / chunkTileSize) ) {
 					return null;
 				}
 			}
-			return this.CurrentTargetOrbChunk;
+			return this.CurrentTargetOrbChunkGridPos;
 		}
 
 		////////////////
 
 		public void ClearTargetOrbChunk() {
-			this.CurrentTargetOrbChunk = null;
+			this.CurrentTargetOrbChunkGridPos = null;
 		}
 	}
 }

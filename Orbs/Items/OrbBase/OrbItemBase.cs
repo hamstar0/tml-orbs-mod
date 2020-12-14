@@ -24,7 +24,7 @@ namespace Orbs.Items.Base {
 
 
 	public abstract partial class OrbItemBase : ModItem {
-		public const int MaxTileChunkUseRange = 16;
+		public const int ChunkTileSize = 16;
 
 		////
 
@@ -41,7 +41,7 @@ namespace Orbs.Items.Base {
 				{ OrbColorCode.Pink, Color.HotPink },
 				{ OrbColorCode.Purple, Color.DarkMagenta },
 				{ OrbColorCode.Red, Color.Red },
-				{ OrbColorCode.Brown, Color.LightSeaGreen },
+				{ OrbColorCode.Brown, Color.Peru },	//Color.LightSeaGreen
 				{ OrbColorCode.White, Color.White },
 				{ OrbColorCode.Yellow, Color.Yellow },
 			};
@@ -87,7 +87,7 @@ namespace Orbs.Items.Base {
 
 		public override bool ConsumeItem( Player player ) {
 			var myplayer = player.GetModPlayer<OrbsPlayer>();
-			if( !myplayer.CurrentTargetOrbChunk.HasValue ) {
+			if( !myplayer.CurrentTargetOrbChunkGridPos.HasValue ) {
 				return false;
 			}
 
@@ -101,19 +101,19 @@ namespace Orbs.Items.Base {
 				return false;
 			}
 
-			(int X, int Y) chunkTile = myplayer.CurrentTargetOrbChunk.Value;
+			(int X, int Y) chunkGridPos = myplayer.CurrentTargetOrbChunkGridPos.Value;
 			
-			if( OrbItemBase.CanActivateOrbForTileChunk(chunkTile.X, chunkTile.Y) ) {
+			if( OrbItemBase.CanActivateOrbForChunk(chunkGridPos.X, chunkGridPos.Y) ) {
 				if( Main.netMode == 0 ) {
-					OrbItemBase.ActivateOrbUponTileChunk( chunkTile.X, chunkTile.Y );
+					OrbItemBase.ActivateOrbUponTileChunk( chunkGridPos.X, chunkGridPos.Y );
 					myplayer.ClearTargetOrbChunk();
 				} else if( Main.netMode == 1 ) {
-					OrbActivateProtocol.Broadcast( this.ColorCode, chunkTile.X, chunkTile.Y );
-					OrbItemBase.ActivateOrbUponTileChunk( chunkTile.X, chunkTile.Y );
+					OrbActivateProtocol.Broadcast( this.ColorCode, chunkGridPos.X, chunkGridPos.Y );
+					OrbItemBase.ActivateOrbUponTileChunk( chunkGridPos.X, chunkGridPos.Y );
 				}
 				return true;
 			}
-
+			
 			return false;
 		}
 	}
