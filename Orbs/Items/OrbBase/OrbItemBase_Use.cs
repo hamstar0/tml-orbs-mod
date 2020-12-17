@@ -5,15 +5,18 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.DotNET.Extensions;
 using HamstarHelpers.Helpers.Fx;
 
 
 namespace Orbs.Items.Base {
 	public abstract partial class OrbItemBase : ModItem {
-		public static bool IsTileWithinUseRange( Player plr, int tileX, int tileY ) {
-			int diffX = ((int)plr.Center.X / 16) - tileX;
-			int diffY = ((int)plr.Center.Y / 16) - tileY;
+		public static bool IsTileWithinOrbRange( Player plr, int tileX, int tileY ) {
+			return OrbItemBase.IsTileWithinOrbRange( plr.Center, tileX, tileY );
+		}
+		
+		public static bool IsTileWithinOrbRange( Vector2 useSrcWorldPos, int tileX, int tileY ) {
+			int diffX = ((int)useSrcWorldPos.X / 16) - tileX;
+			int diffY = ((int)useSrcWorldPos.Y / 16) - tileY;
 			int distSqr = ( diffX * diffX ) + ( diffY * diffY );
 
 			int chunkTileSize = OrbItemBase.ChunkTileSize;
@@ -21,24 +24,7 @@ namespace Orbs.Items.Base {
 		}
 
 
-		public static bool IsOrbChunkWithinUseRange( Vector2 useSrcWorldPos, (int x, int y) chunkGridPos ) {
-			int chunkTileSize = OrbItemBase.ChunkTileSize;
-			var worldTileRect = new Rectangle(
-				(chunkGridPos.x - 1) * chunkTileSize,
-				(chunkGridPos.y - 1) * chunkTileSize,
-				3 * chunkTileSize,
-				3 * chunkTileSize
-			);
-			int useSrcTileX = (int)useSrcWorldPos.X / 16;
-			int useSrcTileY = (int)useSrcWorldPos.Y / 16;
-			
-//if( !worldTileRect.Contains((int)useSrcWorldPos.X, (int)useSrcWorldPos.Y) ) {
-//Main.NewText("AA useSrcWorldPos:"+useSrcWorldPos.ToShortString()+", chunkGridPos:"+chunkGridPos+", rect: "+worldTileRect);
-//LogHelpers.Log("AA useSrcWorldPos:"+useSrcWorldPos.ToShortString()+", chunkGridPos:"+chunkGridPos+", rect: "+worldTileRect);
-//}
-			return worldTileRect.Contains( useSrcTileX, useSrcTileY );
-		}
-
+		////
 
 		public static OrbColorCode GetNextRandomColorCode( UnifiedRandom rand ) {
 			int maxColors = Enum.GetValues( typeof(OrbColorCode) ).Length;
@@ -65,8 +51,7 @@ namespace Orbs.Items.Base {
 
 			for( int y = minTileY; y < maxTileY; y++ ) {
 				for( int x = minTileX; x < maxTileX; x++ ) {
-					Tile tile = Main.tile[x, y];
-					if( tile?.active() != true || tile.inActive() || !OrbsTile.IsTileTypeOrbable(tile.type) ) {
+					if( !OrbsTile.IsTileOrbable(x, y) ) {
 						continue;
 					}
 

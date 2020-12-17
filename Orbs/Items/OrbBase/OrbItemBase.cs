@@ -51,6 +51,16 @@ namespace Orbs.Items.Base {
 
 
 		////////////////
+
+		public static (int ChunkGridX, int ChunkGridY) GetChunk( int tileX, int tileY ) =>
+			(tileX / OrbItemBase.ChunkTileSize, tileY / OrbItemBase.ChunkTileSize);
+
+		public static (int tileX, int tileY) GetTopLeftTile( int chunkGridX, int chunkGridY ) =>
+			(chunkGridX * OrbItemBase.ChunkTileSize, chunkGridY * OrbItemBase.ChunkTileSize);
+
+
+
+		////////////////
 		
 		public abstract OrbColorCode ColorCode { get; }
 
@@ -87,7 +97,7 @@ namespace Orbs.Items.Base {
 
 		public override bool ConsumeItem( Player player ) {
 			var myplayer = player.GetModPlayer<OrbsPlayer>();
-			if( !myplayer.CurrentTargetOrbChunkGridPos.HasValue ) {
+			if( !myplayer.CurrentTargettedOrbableChunkGridPos.HasValue ) {
 				return false;
 			}
 
@@ -101,20 +111,18 @@ namespace Orbs.Items.Base {
 				return false;
 			}
 
-			(int X, int Y) chunkGridPos = myplayer.CurrentTargetOrbChunkGridPos.Value;
-			
-			if( OrbItemBase.CanActivateOrbForChunk(chunkGridPos.X, chunkGridPos.Y) ) {
-				if( Main.netMode == 0 ) {
-					OrbItemBase.ActivateOrbUponTileChunk( chunkGridPos.X, chunkGridPos.Y );
-					myplayer.ClearTargetOrbChunk();
-				} else if( Main.netMode == 1 ) {
-					OrbActivateProtocol.Broadcast( this.ColorCode, chunkGridPos.X, chunkGridPos.Y );
-					OrbItemBase.ActivateOrbUponTileChunk( chunkGridPos.X, chunkGridPos.Y );
-				}
-				return true;
+			(int X, int Y) chunkGridPos = myplayer.CurrentTargettedOrbableChunkGridPos.Value;
+			if( !OrbItemBase.CanActivateOrbForChunk(chunkGridPos.X, chunkGridPos.Y) ) {
+				return false;
 			}
-			
-			return false;
+
+			if( Main.netMode == 1 ) {
+				OrbActivateProtocol.Broadcast( this.ColorCode, chunkGridPos.X, chunkGridPos.Y );
+			}
+			OrbItemBase.ActivateOrbUponTileChunk( chunkGridPos.X, chunkGridPos.Y );
+			myplayer.ClearTargetOrbChunk();
+
+			return true;
 		}
 	}
 }
