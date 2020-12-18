@@ -27,6 +27,8 @@ namespace Orbs {
 
 		////////////////
 
+		public bool DebugModeInfo { get; set; } = false;
+
 		public bool DebugModeTheColorsDuke { get; set; } = false;
 
 		/*public bool DebugModeCheatCreate { get; set; } = false;

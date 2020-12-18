@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
+using HamstarHelpers.Helpers.DotNET.Extensions;
 using HamstarHelpers.Helpers.HUD;
 using Orbs.Items.Base;
 using Orbs.UI;
@@ -33,20 +34,39 @@ namespace Orbs {
 				return;
 			}
 
+			int chunkSize = OrbItemBase.ChunkTileSize;
 			(int x, int y, bool isOnScreen) topLeftTile = HUDMapHelpers.FindTopLeftTileOfFullscreenMap();
 //Main.spriteBatch.DrawString( Main.fontMouseText, "top left: "+topLeft.x+","+topLeft.y, new Vector2(16,400), Color.White );
-			int minX = Math.Max( topLeftTile.x, 0 );
-			int minY = Math.Max( topLeftTile.y, 0 );
-			minX = (minX >> 4) << 4;
-			minY = (minY >> 4) << 4;
+			int minTileX = Math.Max( topLeftTile.x, 0 );
+			int minTileY = Math.Max( topLeftTile.y, 0 );
+			minTileX = (minTileX / chunkSize) * chunkSize;
+			minTileY = (minTileY / chunkSize) * chunkSize;
 
-			for( int tileY = minY; tileY < Main.maxTilesY; tileY += 16 ) {
+			int drawnChunks = 0, skippedChunks = 0;
+			var avgSkippedScrPos = default( Vector2 );
+			var minSkippedScrPos = new Vector2( float.MaxValue, float.MaxValue );
+			var maxSkippedScrPos = new Vector2( float.MinValue, float.MinValue );
+
+			for( int tileY = minTileY; tileY < Main.maxTilesY; tileY += chunkSize ) {
 				bool rowIsInBounds = false;
 				bool colIsInBounds = false;
 
-				for( int tileX = minX; tileX < Main.maxTilesX; tileX += 16 ) {
-					var mapPos = HUDMapHelpers.GetFullMapPositionAsScreenPosition( new Vector2( tileX << 4, tileY << 4 ) );
-					if( !mapPos.IsOnScreen ) {
+				for( int tileX = minTileX; tileX < Main.maxTilesX; tileX += chunkSize ) {
+					var wldPos = new Vector2( tileX * 16, tileY * 16 );
+					(Vector2 scrPos, bool isOnScreen) mapPos = HUDMapHelpers.GetFullMapPositionAsScreenPosition( wldPos );
+
+					if( !mapPos.isOnScreen ) {
+						if( OrbsConfig.Instance.DebugModeInfo ) {
+							avgSkippedScrPos += mapPos.scrPos;
+							if( mapPos.scrPos.X <= minSkippedScrPos.X && mapPos.scrPos.Y <= minSkippedScrPos.Y ) {
+								minSkippedScrPos = mapPos.scrPos;
+							} else if( mapPos.scrPos.X >= maxSkippedScrPos.X && mapPos.scrPos.Y >= maxSkippedScrPos.Y ) {
+								maxSkippedScrPos = mapPos.scrPos;
+							}
+
+							skippedChunks++;
+						}
+
 						if( !rowIsInBounds ) {
 							continue;
 						} else {
@@ -56,7 +76,9 @@ namespace Orbs {
 
 					rowIsInBounds = true;
 
-					this.DrawMapChunk( tileX, tileY, mapPos.ScreenPosition );
+					if( this.DrawMapChunk(tileX, tileY, mapPos.scrPos) ) {
+						drawnChunks++;
+					}
 				}
 
 				if( rowIsInBounds ) {
@@ -65,48 +87,17 @@ namespace Orbs {
 					break;
 				}
 			}
+
+			if( OrbsConfig.Instance.DebugModeInfo ) {
+				DebugHelpers.Print(
+					"FullscreenMapChunksDrawn", "Drawn: "+drawnChunks
+					+", skipped: "+skippedChunks
+					+", avg skip pos: "+(avgSkippedScrPos / skippedChunks).ToShortString()
+					+", min skip pos: "+ minSkippedScrPos.ToShortString()
+					+", max skip pos: "+ maxSkippedScrPos.ToShortString()
+				);
+			}
 		}
-		/*public override void PostDrawFullscreenMap( ref string mouseText ) {
-			this.MapOverlayButton.Draw( Main.spriteBatch );
-
-			if( !this.IsMapOverlayOn ) {
-				return;
-			}
-
-			(int x, int y, bool isOnScreen) topLeftTile = HUDMapHelpers.FindTopLeftTileOfFullscreenMap();
-//Main.spriteBatch.DrawString( Main.fontMouseText, "top left: "+topLeft.x+","+topLeft.y, new Vector2(16,400), Color.White );
-			topLeftTile.x = Math.Max( (topLeftTile.x / 16) * 16, 0 );
-			topLeftTile.y = Math.Max( (topLeftTile.y / 16) * 16, 0 );
-			int maxX = Main.maxTilesX;
-			int maxY = Main.maxTilesY;
-
-			bool foundInBoundsY = false;
-
-			for( int tileY = topLeftTile.y; tileY < maxY; tileY += 16 ) {
-				bool foundInBoundsX = false;
-
-				for( int tileX = topLeftTile.x; tileX < maxX; tileX += 16 ) {
-					var mapPos = HUDMapHelpers.GetFullMapPositionAsScreenPosition( new Vector2(tileX<<4, tileY<<4) );
-
-					if( foundInBoundsX ) {
-						if( !mapPos.IsOnScreen ) {
-							maxX = tileX;
-							break;
-						}
-					}
-
-					if( mapPos.IsOnScreen ) {
-						foundInBoundsX = true;
-						foundInBoundsY = true;
-						this.DrawMapChunk( tileX, tileY, mapPos.ScreenPosition );
-					}
-				}
-
-				if( foundInBoundsY && !foundInBoundsX ) {
-					break;
-				}
-			}
-		}*/
 
 
 		////
@@ -116,15 +107,19 @@ namespace Orbs {
 				return false;
 			}
 
-			int chunkTileX = ( (tileX>>4) << 4 );
-			int chunkTileY = ( (tileY>>4) << 4 );
+			int chunkSize = OrbItemBase.ChunkTileSize;
+			int halfChunkSize = OrbItemBase.ChunkTileSize / 2;
+			int chunkTileX = (tileX/chunkSize) * chunkSize;
+			int chunkTileY = (tileY/chunkSize) * chunkSize;
 
-			if( !OrbItemBase.CanActivateOrbForChunk(chunkTileX, chunkTileY) ) {
+			if( !OrbItemBase.CanActivateOrbForChunk(chunkTileX/chunkSize, chunkTileY/chunkSize) ) {
 				return false;
 			}
-
-			if( !OrbsConfig.Instance.DebugModeTheColorsDuke && !Main.Map.IsRevealed(chunkTileX + 8, chunkTileY + 8) ) {
-				return false;
+			
+			if( !OrbsConfig.Instance.DebugModeTheColorsDuke ) {
+				if( !Main.Map.IsRevealed(chunkTileX + halfChunkSize, chunkTileY + halfChunkSize) ) {
+					return false;
+				}
 			}
 
 			var orbWld = ModContent.GetInstance<OrbsWorld>();
@@ -134,15 +129,15 @@ namespace Orbs {
 			}
 
 			float scale = HUDMapHelpers.GetFullMapScale();
-			Color color = OrbItemBase.ColorValues[colorCode];
+			Color color = OrbItemBase.ColorValues[ colorCode ];
 
 			Main.spriteBatch.Draw(
 				texture: Main.magicPixel,
 				destinationRectangle: new Rectangle(
 					x: (int)screenPos.X,
 					y: (int)screenPos.Y,
-					width: (int)(16f * scale),
-					height: (int)(16f * scale)
+					width: (int)((float)chunkSize * scale),
+					height: (int)((float)chunkSize * scale)
 				),
 				color: color * 0.15f
 			);
