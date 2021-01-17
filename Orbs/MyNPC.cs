@@ -70,19 +70,6 @@ namespace Orbs {
 
 		////////////////
 
-		public override void NPCLoot( NPC npc ) {
-			if( npc.modNPC != null ) {
-				if( OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.PinkOrbDropsViaTrickster) ) > 0 ) {
-					if( ModLoader.GetMod( "TheTrickster" ) != null ) {
-						this.TricksterModLoot( npc );
-					}
-				}
-			}
-		}
-
-
-		////////////////
-
 		public override bool PreAI( NPC npc ) {
 			this.OrbAI?.Invoke( npc );
 			return base.PreAI( npc );

@@ -79,10 +79,6 @@ namespace Orbs {
 		public bool IsGeoResonantOrbSoldByDryad { get; set; } = true;
 
 		////
-		
-		[Range( 0, 99 )]
-		[DefaultValue( 1 )]
-		public int PinkOrbDropsViaTrickster { get; set; } = 1;
 
 		[Range( 0, 99 )]
 		[DefaultValue( 1 )]
