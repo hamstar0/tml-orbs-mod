@@ -221,6 +221,12 @@ namespace Orbs {
 		public bool CanDestroyActuatedTiles { get; set; } = true;
 
 
+		[Range( 0f, 1f )]
+		[DefaultValue( 0.075f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float BinocularsCaveDiscoveryIntensity { get; set; } = 0.075f;
+
+
 
 		////////////////
 
