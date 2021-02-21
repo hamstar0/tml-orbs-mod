@@ -23,6 +23,16 @@ namespace Orbs {
 				tip = new TooltipLine( this.mod, "OrbsBinoculars", modName+"Reveals patches of orb-resonant terrain (by color)" );
 				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
 				break;
+			case ItemID.Bomb:
+			case ItemID.BombFish:
+			case ItemID.BouncyBomb:
+			case ItemID.StickyBomb:
+			case ItemID.Dynamite:
+			case ItemID.BouncyDynamite:
+			case ItemID.StickyDynamite:
+				tip = new TooltipLine( this.mod, "OrbsBombs", modName + "Only destroys 'soft' materials, wood, and ores/gems" );
+				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
+				break;
 			default:
 				if( item.pick > 0 ) {
 					tip = new TooltipLine( this.mod, "OrbsPick", modName+"Able to break ores, plants, gems, sand, snow, silt, obsidian, and wood" );
