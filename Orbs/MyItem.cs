@@ -20,7 +20,9 @@ namespace Orbs {
 				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
 				break;
 			case ItemID.Binoculars:
-				tip = new TooltipLine( this.mod, "OrbsBinoculars", modName+"Reveals patches of orb-resonant terrain (by color)" );
+				tip = new TooltipLine( this.mod, "OrbsBinoculars1", modName+"Reveals patches of orb-resonant terrain (by color)" );
+				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
+				tip = new TooltipLine( this.mod, "OrbsBinoculars2", modName+"Slightly reveals open air areas underground" );
 				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
 				break;
 			case ItemID.Bomb:
