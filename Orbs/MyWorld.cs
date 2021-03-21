@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using Terraria.World.Generation;
 using HamstarHelpers.Classes.Loadable;
 using HamstarHelpers.Helpers.World;
 using HamstarHelpers.Helpers.Debug;
@@ -60,6 +61,13 @@ namespace Orbs {
 
 		internal void ResetChunks() {
 			this.OrbChunkColorCodes.Clear();
+		}
+
+
+		////////////////
+
+		public override void ModifyWorldGenTasks( List<GenPass> tasks, ref float totalWeight ) {
+			tasks.Add( new OrbsWorldGen() );
 		}
 
 

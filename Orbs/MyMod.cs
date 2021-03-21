@@ -32,10 +32,6 @@ namespace Orbs {
 		////////////////
 
 		public override void Load() {
-			if( ModLoader.GetMod("ChestImplants") != null ) {
-				this.LoadForChestImplants();
-			}
-
 			if( Main.netMode != 2 && !Main.dedServ ) {
 				this.InitializeMapUI();
 			}

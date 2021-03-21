@@ -15,9 +15,6 @@
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ChestImplants">
-      <HintPath>..\..\..\Chest Implants\ChestImplants\bin\Release\net452\ChestImplants.dll</HintPath>
-    </Reference>
     <Reference Include="FindableManaCrystals">
       <HintPath>..\..\..\Findable Mana Crystals\Project\FindableManaCrystals\bin\Release\net452\FindableManaCrystals.dll</HintPath>
     </Reference>
