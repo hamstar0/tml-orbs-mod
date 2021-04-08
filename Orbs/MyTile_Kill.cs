@@ -94,7 +94,7 @@ namespace Orbs {
 	partial class OrbsTile : GlobalTile {
 		public static bool IsKillable( int tileType ) {
 			return OrbsConfig.Instance
-				.Get<List<string>>( nameof(OrbsConfig.TileKillWhitelist) )
+				.Get<List<string>>( nameof(OrbsConfig.BreakableTilesWhitelist) )
 				.Contains( TileID.GetUniqueKey(tileType) );
 		}
 

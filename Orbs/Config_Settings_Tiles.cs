@@ -7,7 +7,7 @@ using Terraria.ModLoader.Config;
 
 namespace Orbs {
 	public partial class OrbsConfig : ModConfig {
-		public List<string> TileKillWhitelist { get; set; } = new List<string> {
+		public List<string> BreakableTilesWhitelist { get; set; } = new List<string> {
 			//TileID.GetUniqueKey( TileID.HellstoneBrick ),
 			//TileID.GetUniqueKey( TileID.ObsidianBrick ),
 			//TileID.GetUniqueKey( TileID.DemoniteBrick ),

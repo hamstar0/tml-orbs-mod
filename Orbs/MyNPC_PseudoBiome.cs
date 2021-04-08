@@ -10,7 +10,7 @@ using Orbs.Tiles.Base;
 namespace Orbs {
 	partial class OrbsNPC : GlobalNPC {
 		public void SetPseudoBiomeEffects( NPC npc ) {
-			if( npc.friendly ) {
+			/*if( npc.friendly ) {
 				return;
 			}
 
@@ -37,7 +37,7 @@ namespace Orbs {
 						this.ApplyOrbEffects( tileX, tileY, npc );
 					}
 				}
-			}
+			}*/
 		}
 
 

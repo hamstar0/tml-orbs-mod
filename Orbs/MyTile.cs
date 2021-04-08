@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -75,9 +76,18 @@ namespace Orbs {
 		}
 
 		public static bool IsTileTypeOrbable( int tileType ) {
-			return tileType == TileID.ObsidianBrick
-				|| tileType == TileID.HellstoneBrick
-				|| TileGroupIdentityHelpers.VanillaEarthTiles.Contains(tileType);
+			var config = OrbsConfig.Instance;
+
+			if( config.Get<bool>( nameof(config.OrbAffectsOnlyVanillaEarthTiles) ) ) {
+				if( !TileGroupIdentityHelpers.VanillaEarthTiles.Contains(tileType) ) {
+					return false;
+				}
+			}
+
+			string uid = TileID.GetUniqueKey( tileType );
+			var orbTileBl = config.Get<HashSet<string>>( nameof(config.OrbAffectedTilesBlacklist) );
+
+			return !orbTileBl.Contains( uid );
 		}
 
 

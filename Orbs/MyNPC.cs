@@ -26,7 +26,7 @@ namespace Orbs {
 		////////////////
 
 		public override void SetDefaults( NPC npc ) {
-			this.SetPseudoBiomeEffects( npc );
+			//this.SetPseudoBiomeEffects( npc );
 		}
 
 
@@ -95,7 +95,7 @@ namespace Orbs {
 
 		public override void DrawEffects( NPC npc, ref Color drawColor ) {
 			if( this.Tint.HasValue ) {
-				this.ApplyTint( npc, ref drawColor );
+				//this.ApplyTint( npc, ref drawColor );
 			}
 		}
 	}

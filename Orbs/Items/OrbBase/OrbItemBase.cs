@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Xna.Framework;
-using Orbs.Protocols;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+using Orbs.Protocols;
 
 
 namespace Orbs.Items.Base {
@@ -84,6 +85,27 @@ namespace Orbs.Items.Base {
 
 		////////////////
 
+		public override void ModifyTooltips( List<TooltipLine> tooltips ) {
+			var config = OrbsConfig.Instance;
+			var bl = config.Get<HashSet<string>>( nameof(config.OrbAffectedTilesBlacklist) );
+			
+			if( !bl.Contains( TileID.GetUniqueKey(TileID.Ebonstone) )
+					&& !bl.Contains( TileID.GetUniqueKey(TileID.Crimstone) )
+					&& !bl.Contains( TileID.GetUniqueKey(TileID.Pearlstone) ) ) {
+				string evilInfo = WorldGen.crimson ? "crimson" : "corruption";
+				string goodInfo = Main.hardMode ? " or hallow" : "";
+				var tip = new TooltipLine(
+					this.mod,
+					"OrbsSpiritedTilesTip",
+					"Does not affect "+evilInfo+goodInfo+" stone tiles"
+				);
+				tooltips.Add( tip );
+			}
+		}
+
+
+		////////////////
+
 		public override bool UseItem( Player player ) {
 			if( player.itemAnimation > 0 && player.itemTime == 0 ) {
 				player.itemTime = item.useTime;
@@ -102,8 +124,10 @@ namespace Orbs.Items.Base {
 			}
 
 			var config = OrbsConfig.Instance;
+
 			if( !config.Get<bool>( nameof(config.EnableOrbUseUponTiles) ) ) {
-				string disabledMessage = config.Get<string>( nameof(config.OrbDisabledMessage) );
+				string disabledMessage = config.Get<string>( nameof(config.DisabledOrbMessage) );
+
 				if( !string.IsNullOrEmpty(disabledMessage) ) {
 					Main.NewText( disabledMessage, Color.Yellow );
 				}
