@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Items.Attributes;
-using HamstarHelpers.Services.Timers;
 
 
 namespace Orbs {
@@ -15,10 +13,10 @@ namespace Orbs {
 			TooltipLine tip;
 
 			switch( item.type ) {
-			case ItemID.PurificationPowder:
-				tip = new TooltipLine( this.mod, "OrbsPurificationPowder", modName + "Converts ebonstone and crimstone into sand." );
-				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
-				break;
+			//case ItemID.PurificationPowder:
+			//	tip = new TooltipLine( this.mod, "OrbsPurificationPowder", modName + "Converts ebonstone and crimstone into sand." );
+			//	ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
+			//	break;
 			case ItemID.Binoculars:
 				tip = new TooltipLine( this.mod, "OrbsBinoculars1", modName+"Reveals patches of orb-resonant terrain (by color)" );
 				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip );
@@ -47,7 +45,7 @@ namespace Orbs {
 
 		////////////////
 
-		public override bool Shoot(
+		/*public override bool Shoot(
 					Item item,
 					Player player,
 					ref Vector2 position,
@@ -75,20 +73,20 @@ namespace Orbs {
 			}
 
 			return base.Shoot( item, player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack );
-		}
+		}*/
 
 
 		////
 
-		private void PurificationPowderToSand( int timerCode, Rectangle tileArea ) {
-/*int count = 80;
-Timers.SetTimer( "rect", 10, false, () => {
-	Dust.QuickDust( new Point(tileArea.X, tileArea.Y), Color.Lime );
-	Dust.QuickDust( new Point(tileArea.X, tileArea.Y+tileArea.Height), Color.Lime );
-	Dust.QuickDust( new Point(tileArea.X+tileArea.Width, tileArea.Y), Color.Lime );
-	Dust.QuickDust( new Point(tileArea.X+tileArea.Width, tileArea.Y+tileArea.Height), Color.Lime );
-	return count-- > 0;
-} );*/
+		/*private void PurificationPowderToSand( int timerCode, Rectangle tileArea ) {
+//int count = 80;
+//Timers.SetTimer( "rect", 10, false, () => {
+//	Dust.QuickDust( new Point(tileArea.X, tileArea.Y), Color.Lime );
+//	Dust.QuickDust( new Point(tileArea.X, tileArea.Y+tileArea.Height), Color.Lime );
+//	Dust.QuickDust( new Point(tileArea.X+tileArea.Width, tileArea.Y), Color.Lime );
+//	Dust.QuickDust( new Point(tileArea.X+tileArea.Width, tileArea.Y+tileArea.Height), Color.Lime );
+//	return count-- > 0;
+//} );
 			var evilTiles = new List<(int, int)>();
 
 			int maxX = tileArea.X + tileArea.Width;
@@ -119,6 +117,6 @@ Timers.SetTimer( "rect", 10, false, () => {
 					return false;
 				}
 			);
-		}
+		}*/
 	}
 }

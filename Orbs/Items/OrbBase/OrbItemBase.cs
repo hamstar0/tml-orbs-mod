@@ -89,9 +89,9 @@ namespace Orbs.Items.Base {
 			var config = OrbsConfig.Instance;
 			var bl = config.Get<HashSet<string>>( nameof(config.OrbAffectedTilesBlacklist) );
 			
-			if( !bl.Contains( TileID.GetUniqueKey(TileID.Ebonstone) )
-					&& !bl.Contains( TileID.GetUniqueKey(TileID.Crimstone) )
-					&& !bl.Contains( TileID.GetUniqueKey(TileID.Pearlstone) ) ) {
+			if( bl.Contains( TileID.GetUniqueKey(TileID.Ebonstone) )
+					&& bl.Contains( TileID.GetUniqueKey(TileID.Crimstone) )
+					&& bl.Contains( TileID.GetUniqueKey(TileID.Pearlstone) ) ) {
 				string evilInfo = WorldGen.crimson ? "crimson" : "corruption";
 				string goodInfo = Main.hardMode ? " or hallow" : "";
 				var tip = new TooltipLine(
@@ -99,6 +99,7 @@ namespace Orbs.Items.Base {
 					"OrbsSpiritedTilesTip",
 					"Does not affect "+evilInfo+goodInfo+" stone tiles"
 				);
+
 				tooltips.Add( tip );
 			}
 		}
