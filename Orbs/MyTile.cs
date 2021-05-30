@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.Tiles;
-using HamstarHelpers.Services.AnimatedColor;
+using ModLibsCore.Libraries.Debug;
+using ModLibsGeneral.Libraries.Tiles;
+using ModLibsGeneral.Services.AnimatedColor;
 using Orbs.Items.Base;
 
 
@@ -79,7 +79,7 @@ namespace Orbs {
 			var config = OrbsConfig.Instance;
 
 			if( config.Get<bool>( nameof(config.OrbAffectsOnlyVanillaEarthTiles) ) ) {
-				if( !TileGroupIdentityHelpers.VanillaEarthTiles.Contains(tileType) ) {
+				if( !TileGroupIdentityLibraries.VanillaEarthTiles.Contains(tileType) ) {
 					return false;
 				}
 			}

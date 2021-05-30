@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.DotNET.Extensions;
+using ModLibsCore.Libraries.DotNET.Extensions;
 using Orbs.Tiles.Base;
 
 

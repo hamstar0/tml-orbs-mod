@@ -2,7 +2,7 @@
 using System.Linq;
 using Terraria.ID;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Recipes;
+using ModLibsGeneral.Libraries.Recipes;
 using Orbs.Items;
 using Orbs.Items.Materials;
 
@@ -20,8 +20,8 @@ namespace Orbs.Recipes {
 				return;
 			}
 
-			string ingredGrpName = RecipeGroupHelpers.Groups
-				.First( kv => kv.Value == RecipeGroupHelpers.EvilBiomeBossDrops )
+			string ingredGrpName = RecipeCommonGroupsLibraries.Groups
+				.First( kv => kv.Value == RecipeCommonGroupsLibraries.EvilBiomeBossDrops )
 				.Key;
 
 			this.AddIngredient( ModContent.ItemType<GeoResonantOrbItem>(), stack );

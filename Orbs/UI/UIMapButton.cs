@@ -5,8 +5,8 @@ using ReLogic.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.DotNET.Reflection;
+using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Libraries.DotNET.Reflection;
 
 
 namespace Orbs.UI {
@@ -39,7 +39,7 @@ namespace Orbs.UI {
 		public override void Draw( SpriteBatch sb ) {
 			var mydim = this.GetMyDimensions();
 
-			ReflectionHelpers.Set( typeof( UIElement ), this, "_dimensions", mydim );
+			ReflectionLibraries.Set( typeof( UIElement ), this, "_dimensions", mydim );
 			this.DrawSelf( sb );
 
 			var textPos = new Vector2( mydim.X + 12, mydim.Y + 4 );

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.World.Generation;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.World;
+using ModLibsCore.Libraries.Debug;
+using ModLibsGeneral.Libraries.World;
 
 
 namespace Orbs {
@@ -30,10 +30,10 @@ namespace Orbs {
 				alsoDungeonAndTempleChests: true
 			);
 
-			IList<Chest> modifiedChests = WorldChestHelpers.AddToWorldChests( def, chestDef );
+			IList<Chest> modifiedChests = WorldChestLibraries.AddToWorldChests( def, chestDef );
 
 			foreach( Chest chest in modifiedChests ) {
-				LogHelpers.Log( "Implanted orb in chest at "+chest.x+", "+chest.y );
+				LogLibraries.Log( "Implanted orb in chest at "+chest.x+", "+chest.y );
 				break;
 			}
 		}

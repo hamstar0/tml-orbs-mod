@@ -4,10 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using HamstarHelpers.Classes.Loadable;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.TModLoader;
-using HamstarHelpers.Services.Hooks.ExtendedHooks;
+using ModLibsCore.Classes.Loadable;
+using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Libraries.TModLoader;
+using ModLibsGeneral.Services.Hooks.ExtendedHooks;
 using Orbs.Items;
 
 
@@ -20,10 +20,10 @@ namespace Orbs {
 			if( fail || effectOnly || isNonGameplay ) {
 				return;
 			}
-			//if( Main.netMode != 2 && !LoadHelpers.IsCurrentPlayerInGame() ) {
+			//if( Main.netMode != 2 && !LoadLibraries.IsCurrentPlayerInGame() ) {
 			//	return;
 			//}
-			if( !LoadHelpers.IsWorldBeingPlayed() ) {
+			if( !LoadLibraries.IsWorldBeingPlayed() ) {
 				return;
 			}
 
@@ -110,7 +110,7 @@ namespace Orbs {
 
 
 		/*public override bool Slope( int i, int j, int type ) {
-			if( !LoadHelpers.IsCurrentPlayerInGame() ) {
+			if( !LoadLibraries.IsCurrentPlayerInGame() ) {
 				return true;
 			}
 
@@ -118,7 +118,7 @@ namespace Orbs {
 		}*/
 
 		public override bool CreateDust( int i, int j, int type, ref int dustType ) {
-			if( Main.gameMenu || !LoadHelpers.IsCurrentPlayerInGame() ) {
+			if( Main.gameMenu || !LoadLibraries.IsCurrentPlayerInGame() ) {
 				return true;
 			}
 
@@ -129,7 +129,7 @@ namespace Orbs {
 		}
 
 		/*public override bool KillSound( int i, int j, int type ) {
-			if( !LoadHelpers.IsCurrentPlayerInGame() ) {
+			if( !LoadLibraries.IsCurrentPlayerInGame() ) {
 				return true;
 			}
 

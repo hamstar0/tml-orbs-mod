@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.TModLoader;
+using ModLibsCore.Libraries.TModLoader;
 using Orbs.Items;
 using Orbs.Tiles.Base;
 
@@ -64,7 +64,7 @@ namespace Orbs.Tiles {
 			mynpc.PreItemHit = ( orbNpc, player, item ) => {
 				if( hitItemType == -1 ) {
 					hitItemType = item.type;
-					isHit = TmlHelpers.SafelyGetRand().NextBool();
+					isHit = TmlLibraries.SafelyGetRand().NextBool();
 				}
 				return isHit;
 			};

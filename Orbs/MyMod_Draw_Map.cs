@@ -2,10 +2,10 @@ using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.DotNET.Extensions;
-using HamstarHelpers.Helpers.Draw;
-using HamstarHelpers.Helpers.HUD;
+using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Libraries.DotNET.Extensions;
+using ModLibsGeneral.Libraries.Draw;
+using ModLibsGeneral.Libraries.HUD;
 using Orbs.Items.Base;
 using Orbs.UI;
 
@@ -49,7 +49,7 @@ namespace Orbs {
 
 		private void DrawAllMapChunks() {
 			int chunkSize = OrbItemBase.ChunkTileSize;
-			(int x, int y, bool isOnScreen) topLeftTile = HUDMapHelpers.FindTopLeftTileOfFullscreenMap();
+			(int x, int y, bool isOnScreen) topLeftTile = HUDMapLibraries.FindTopLeftTileOfFullscreenMap();
 //Main.spriteBatch.DrawString( Main.fontMouseText, "top left: "+topLeft.x+","+topLeft.y, new Vector2(16,400), Color.White );
 			int minTileX = Math.Max( topLeftTile.x, 0 );
 			int minTileY = Math.Max( topLeftTile.y, 0 );
@@ -75,7 +75,7 @@ namespace Orbs {
 
 				for( int tileX = minTileX; tileX < Main.maxTilesX; tileX += chunkSize ) {
 					var wldPos = new Vector2( tileX * 16, tileY * 16 );
-					(Vector2 scrPos, bool isOnScreen) mapScrPos = HUDMapHelpers.GetFullMapPositionAsScreenPosition( wldPos );
+					(Vector2 scrPos, bool isOnScreen) mapScrPos = HUDMapLibraries.GetFullMapPositionAsScreenPosition( wldPos );
 
 					if( !mapScrPos.isOnScreen ) {
 						if( OrbsConfig.Instance.DebugModeInfo ) {
@@ -125,7 +125,7 @@ namespace Orbs {
 			);
 			
 			if( OrbsConfig.Instance.DebugModeInfo ) {
-				DebugHelpers.Print(
+				DebugLibraries.Print(
 					"FullscreenMapChunksDrawn", "Drawn: "+drawnChunks
 					+", skipped: "+skippedChunks
 					+", avg skip pos: "+(avgSkippedScrPos / skippedChunks).ToShortString()
@@ -164,7 +164,7 @@ namespace Orbs {
 				return false;
 			}
 
-			float scale = HUDMapHelpers.GetFullMapScale();
+			float scale = HUDMapLibraries.GetFullMapScale();
 			var rect = new Rectangle(
 				x: (int)screenPos.X,
 				y: (int)screenPos.Y,
@@ -182,7 +182,7 @@ namespace Orbs {
 			if( isHighlighted ) {
 				float pulse = (float)Main.mouseTextColor / 255f;
 
-				DrawHelpers.DrawBorderedRect(
+				DrawLibraries.DrawBorderedRect(
 					sb: Main.spriteBatch,
 					bgColor: color * 0.2f,
 					borderColor: Color.White * pulse * 0.75f,

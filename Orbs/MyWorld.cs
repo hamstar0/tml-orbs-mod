@@ -5,10 +5,9 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terraria.World.Generation;
-using HamstarHelpers.Classes.Loadable;
-using HamstarHelpers.Helpers.World;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Services.Hooks.LoadHooks;
+using ModLibsCore.Classes.Loadable;
+using ModLibsCore.Libraries.World;
+using ModLibsCore.Services.Hooks.LoadHooks;
 using Orbs.Items.Base;
 
 
@@ -40,7 +39,7 @@ namespace Orbs {
 		}
 
 		public static int GetWorldCode() {
-			return WorldHelpers.GetUniqueIdForCurrentWorld( true ).GetHashCode();
+			return WorldIdentityLibraries.GetUniqueIdForCurrentWorld( true ).GetHashCode();
 		}
 
 

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using HamstarHelpers.Helpers.TModLoader;
+using ModLibsCore.Libraries.TModLoader;
 using Orbs.Items;
 using Orbs.Tiles.Base;
 
@@ -11,7 +11,7 @@ using Orbs.Tiles.Base;
 namespace Orbs.Tiles {
 	class BlueOrbTile : OrbTileBase {
 		public static void AnimateInvincibleFx( Vector2 position, float radius, int particles ) {
-			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
+			UnifiedRandom rand = TmlLibraries.SafelyGetRand();
 
 			for( int i = 0; i < particles; i++ ) {
 				Vector2 dir = new Vector2( rand.NextFloat() - 0.5f, rand.NextFloat() - 0.5f );

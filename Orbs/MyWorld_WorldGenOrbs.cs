@@ -62,7 +62,7 @@ namespace Orbs {
 
 		/*public override void ModifyWorldGenTasks( List<GenPass> tasks, ref float totalWeight ) {
 			int shards;
-			WorldSize wldSize = WorldHelpers.GetSize();
+			WorldSize wldSize = WorldLibraries.GetSize();
 
 			switch( wldSize ) {
 			default:

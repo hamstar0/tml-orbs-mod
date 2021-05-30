@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Terraria.ModLoader.Config;
-using HamstarHelpers.Classes.Errors;
+using ModLibsCore.Classes.Errors;
 using System.Collections.Generic;
 using Terraria.ID;
 

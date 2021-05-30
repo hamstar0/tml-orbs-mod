@@ -4,8 +4,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.Fx;
+using ModLibsCore.Libraries.Debug;
+using ModLibsGeneral.Libraries.Fx;
 
 
 namespace Orbs.Items.Base {
@@ -80,7 +80,7 @@ namespace Orbs.Items.Base {
 					tile.inActive( true );
 					WorldGen.SquareTileFrame( x, y );
 
-					ParticleFxHelpers.MakeDustCloud(
+					ParticleFxLibraries.MakeDustCloud(
 						position: new Vector2( (x * 16) + 8, (y * 16) + 8 ),
 						quantity: 1,
 						sprayAmount: 0.3f,

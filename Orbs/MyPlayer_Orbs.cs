@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Debug;
+using ModLibsCore.Libraries.Debug;
 using Orbs.Items.Base;
 
 
@@ -55,7 +55,7 @@ namespace Orbs {
 			}
 
 /*var myplayer = player.GetModPlayer<OrbsPlayer>();
-DebugHelpers.Print( "orb",
+DebugLibraries.Print( "orb",
 	"i:"+tileX+", j:"+tileY
 	+", plr:"+(player.Center/16).ToShortString()
 	+", dist:"+((player.Center/16)-(new Vector2(tileX, tileY))).Length().ToString("N2")

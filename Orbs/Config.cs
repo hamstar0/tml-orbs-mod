@@ -3,8 +3,8 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
-using HamstarHelpers.Classes.Errors;
-using HamstarHelpers.Classes.UI.ModConfig;
+using ModLibsCore.Classes.Errors;
+using ModLibsCore.Classes.UI.ModConfig;
 using Orbs.Items;
 
 

@@ -1,18 +1,19 @@
 ﻿using System;
 using Terraria;
-using HamstarHelpers.Classes.Errors;
-using HamstarHelpers.Classes.Protocols.Packet.Interfaces;
+using ModLibsCore.Classes.Errors;
+using ModLibsCore.Services.Network.SimplePacket;
 using Orbs.Items.Base;
 
 
 namespace Orbs.Protocols {
-	class OrbActivateProtocol : PacketProtocolBroadcast {
+	[Serializable]
+	class OrbActivateProtocol : SimplePacketPayload {
 		public static void Broadcast( OrbColorCode colorCode, int chunkGridX, int chunkGridY ) {
-			if( Main.netMode != 1 ) { throw new ModHelpersException( "Not client" ); }
+			if( Main.netMode != 1 ) { throw new ModLibsException( "Not client" ); }
 
-			var protocol = new OrbActivateProtocol( (int)colorCode, chunkGridX, chunkGridY );
+			var packet = new OrbActivateProtocol( (int)colorCode, chunkGridX, chunkGridY );
 
-			protocol.SendToServer( true );
+			SimplePacket.SendToServer( packet );
 		}
 
 
@@ -38,11 +39,11 @@ namespace Orbs.Protocols {
 
 		////////////////
 
-		protected override void ReceiveOnClient() {
+		public override void ReceiveOnClient() {
 			OrbItemBase.ActivateOrbUponTileChunk( this.ChunkGridX, this.ChunkGridY );
 		}
 
-		protected override void ReceiveOnServer( int fromWho ) {
+		public override void ReceiveOnServer( int fromWho ) {
 			OrbItemBase.ActivateOrbUponTileChunk( this.ChunkGridX, this.ChunkGridY );
 		}
 	}
