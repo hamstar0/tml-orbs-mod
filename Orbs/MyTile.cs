@@ -79,7 +79,7 @@ namespace Orbs {
 			var config = OrbsConfig.Instance;
 
 			if( config.Get<bool>( nameof(config.OrbAffectsOnlyVanillaEarthTiles) ) ) {
-				if( !TileGroupIdentityLibraries.VanillaEarthTiles.Contains(tileType) ) {
+				if( !TileCommonGroupsLibraries.VanillaEarthTiles.Contains(tileType) ) {
 					return false;
 				}
 			}
