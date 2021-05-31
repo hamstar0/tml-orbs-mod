@@ -48,10 +48,10 @@ namespace Orbs {
 			}
 
 			int plrTileY = (int)Main.LocalPlayer.Center.Y / 16;
-			if( plrTileY <= WorldLibraries.SurfaceLayerBottomTileY ) {
+			if( plrTileY <= WorldLocationLibraries.SurfaceLayerBottomTileY ) {
 				return;
 			}
-			if( plrTileY > WorldLibraries.UnderworldLayerTopTileY ) {
+			if( plrTileY > WorldLocationLibraries.UnderworldLayerTopTileY ) {
 				return;
 			}
 			
