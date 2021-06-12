@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Libraries.DotNET.Extensions;
 using ModLibsGeneral.Libraries.Recipes;
 using Orbs.Items;
 using Orbs.Items.Materials;
@@ -19,13 +23,12 @@ namespace Orbs.Recipes {
 			if( stack == 0 ) {
 				return;
 			}
-
-			string ingredGrpName = RecipeCommonGroupsLibraries.Groups
-				.First( kv => kv.Value == RecipeCommonGroupsLibraries.EvilBiomeBossDrops )
-				.Key;
+			
+			KeyValuePair<string, RecipeGroup> ingredGrp = RecipeCommonGroupsLibraries.Groups
+				.First( kv => kv.Value == RecipeCommonGroupsLibraries.EvilBiomeBossDrops );
 
 			this.AddIngredient( ModContent.ItemType<GeoResonantOrbItem>(), stack );
-			this.AddRecipeGroup( ingredGrpName, ingredientCount );
+			this.AddRecipeGroup( ingredGrp.Key, ingredientCount );
 			this.AddTile( TileID.WorkBenches );
 			this.SetResult( ModContent.ItemType<PurpleOrbItem>(), stack );
 		}
