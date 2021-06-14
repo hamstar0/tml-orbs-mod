@@ -20,7 +20,7 @@ namespace Orbs {
 
 		public override void Apply( GenerationProgress progress ) {
 			if( progress != null ) {
-				progress.Message = "Pre-placing Orbs: %";
+				progress.Message = "Pre-placing Orbs";	//"Pre-placing Orbs: %";
 			}
 
 			this.ApplyChestOrbs();

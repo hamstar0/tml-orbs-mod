@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
-using ModLibsCore.Libraries.DotNET.Extensions;
 using ModLibsGeneral.Libraries.Recipes;
 using Orbs.Items;
 using Orbs.Items.Materials;

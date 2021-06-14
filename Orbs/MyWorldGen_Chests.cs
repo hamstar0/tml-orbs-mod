@@ -25,16 +25,22 @@ namespace Orbs {
 				percentChance: perChestChance
 			);
 			var chestDef = new ChestTypeDefinition(
-				tiles: new (int?, int?)[0],
+				anyOfTiles: new (int?, int?)[0],
 				alsoUndergroundChests: config.Get<bool>( nameof(OrbsConfig.OnlyGenOrbsInUndergroundChests) ),
 				alsoDungeonAndTempleChests: true
 			);
-
+			
 			IList<Chest> modifiedChests = WorldChestLibraries.AddToWorldChests( def, chestDef );
 
-			foreach( Chest chest in modifiedChests ) {
-				LogLibraries.Log( "Implanted orb in chest at "+chest.x+", "+chest.y );
-				break;
+			if( modifiedChests.Count >= 1 ) {
+				int i = 0;
+				foreach( Chest chest in modifiedChests ) {
+					LogLibraries.Log( "Implanted orb in chest at " + chest.x + ", " + chest.y
+						+" ("+i+" of "+modifiedChests.Count+")" );
+					i++;
+				}
+			} else {
+				LogLibraries.Log( "Could not implant orbs into any chests." );
 			}
 		}
 
