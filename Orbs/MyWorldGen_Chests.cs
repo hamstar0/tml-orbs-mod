@@ -4,7 +4,7 @@ using System.Linq;
 using Terraria;
 using Terraria.World.Generation;
 using ModLibsCore.Libraries.Debug;
-using ModLibsGeneral.Libraries.World;
+using ModLibsGeneral.Libraries.World.Chests;
 
 
 namespace Orbs {

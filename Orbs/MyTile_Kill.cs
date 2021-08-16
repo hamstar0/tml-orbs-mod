@@ -13,8 +13,15 @@ using Orbs.Items;
 
 namespace Orbs {
 	class OrbsExtendedTileHooks : ILoadable {
-		private static void KillTile( int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem, bool isNonGameplay ) {
-			if( Main.gameMenu && Main.netMode != 2 ) {
+		private static void KillTile(
+					int i,
+					int j,
+					int type,
+					ref bool fail,
+					ref bool effectOnly,
+					ref bool noItem,
+					bool isNonGameplay ) {
+			if( Main.gameMenu && Main.netMode != NetmodeID.Server ) {
 				return;
 			}
 			if( fail || effectOnly || isNonGameplay ) {
