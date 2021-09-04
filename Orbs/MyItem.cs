@@ -19,9 +19,9 @@ namespace Orbs {
 			//	break;
 			case ItemID.Binoculars:
 				tip = new TooltipLine( this.mod, "OrbsBinoculars1", modName+"Reveals patches of orb-resonant terrain (by color)" );
-				ItemInformationAttributeLibraries.ApplyTooltipAt( tooltips, tip );
+				ItemInformationAttributeLibraries.AppendTooltipAtEnd( tooltips, tip );
 				tip = new TooltipLine( this.mod, "OrbsBinoculars2", modName+"Slightly reveals open air areas underground" );
-				ItemInformationAttributeLibraries.ApplyTooltipAt( tooltips, tip );
+				ItemInformationAttributeLibraries.AppendTooltipAtEnd( tooltips, tip );
 				break;
 			case ItemID.Bomb:
 			case ItemID.BombFish:
@@ -30,13 +30,13 @@ namespace Orbs {
 			case ItemID.Dynamite:
 			case ItemID.BouncyDynamite:
 			case ItemID.StickyDynamite:
-				tip = new TooltipLine( this.mod, "OrbsBombs", modName + "Only destroys 'soft' materials, wood, and ores/gems" );
-				ItemInformationAttributeLibraries.ApplyTooltipAt( tooltips, tip );
+				tip = new TooltipLine( this.mod, "OrbsBombs", modName+"Only destroys 'soft' materials, wood, and ores/gems" );
+				ItemInformationAttributeLibraries.AppendTooltipAtEnd( tooltips, tip );
 				break;
 			default:
 				if( item.pick > 0 ) {
 					tip = new TooltipLine( this.mod, "OrbsPick", modName+"Able to break ores, plants, gems, sand, snow, silt, obsidian, and wood" );
-					ItemInformationAttributeLibraries.ApplyTooltipAt( tooltips, tip );
+					ItemInformationAttributeLibraries.AppendTooltipAtEnd( tooltips, tip );
 				}
 				break;
 			}
