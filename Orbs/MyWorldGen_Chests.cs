@@ -35,8 +35,11 @@ namespace Orbs {
 			if( modifiedChests.Count >= 1 ) {
 				int i = 0;
 				foreach( Chest chest in modifiedChests ) {
-					LogLibraries.Log( "Implanted orb in chest at " + chest.x + ", " + chest.y
-						+" ("+i+" of "+modifiedChests.Count+")" );
+					if( OrbsConfig.Instance.DebugModeInfo ) {
+						LogLibraries.Log( "Implanted orb in chest at " + chest.x + ", " + chest.y
+							+ " (" + i + " of " + modifiedChests.Count + ")"
+						);
+					}
 					i++;
 				}
 			} else {
