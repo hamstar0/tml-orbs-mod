@@ -8,7 +8,7 @@ using ModLibsGeneral.Libraries.World;
 
 
 namespace Orbs {
-	partial class OrbsWorld : ModWorld {
+	public partial class OrbsMod : Mod {
 		private static bool IsEdgeTile( int tileX, int tileY ) {
 			if( tileY > 1 ) {
 				Tile tile = Main.tile[ tileX, tileY - 1 ];
@@ -41,12 +41,19 @@ namespace Orbs {
 
 		////////////////
 
-		public override void PreUpdate() {
-//LogLibraries.LogOnce("1");
-			if( Main.LocalPlayer.HeldItem.IsAir || Main.LocalPlayer.HeldItem.type != ItemID.Binoculars ) {
-				return;
+		public override void MidUpdateTimeWorld() {
+			//LogLibraries.LogOnce("1");
+			if( Main.netMode != NetmodeID.Server ) {
+				if( !Main.LocalPlayer.HeldItem.IsAir && Main.LocalPlayer.HeldItem.type == ItemID.Binoculars ) {
+					this.UpdateBinocsModifications();
+				}
 			}
+		}
 
+
+		////
+
+		private void UpdateBinocsModifications() {
 			int plrTileY = (int)Main.LocalPlayer.Center.Y / 16;
 			if( plrTileY <= WorldLocationLibraries.SurfaceLayerBottomTileY ) {
 				return;
@@ -77,7 +84,7 @@ namespace Orbs {
 					if( tile?.active() == true && Main.tileSolid[tile.type] ) {
 						darks[x-left, y-top] = true;
 
-						if( OrbsWorld.IsEdgeTile( x, y ) ) {
+						if( OrbsMod.IsEdgeTile( x, y ) ) {
 							edges.Add( (x, y) );
 						}
 					}
