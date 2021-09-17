@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -42,10 +43,9 @@ namespace Orbs {
 		////////////////
 
 		public override void MidUpdateTimeWorld() {
-			//LogLibraries.LogOnce("1");
 			if( Main.netMode != NetmodeID.Server ) {
 				if( !Main.LocalPlayer.HeldItem.IsAir && Main.LocalPlayer.HeldItem.type == ItemID.Binoculars ) {
-					this.UpdateBinocsModifications();
+					this.UpdateBinocsModificationsIf();
 				}
 			}
 		}
@@ -53,11 +53,11 @@ namespace Orbs {
 
 		////
 
-		private void UpdateBinocsModifications() {
+		private void UpdateBinocsModificationsIf() {
 			int plrTileY = (int)Main.LocalPlayer.Center.Y / 16;
-			if( plrTileY <= WorldLocationLibraries.SurfaceLayerBottomTileY ) {
-				return;
-			}
+			//if( plrTileY <= WorldLocationLibraries.SurfaceLayerBottomTileY ) {
+			//	return;
+			//}
 			if( plrTileY > WorldLocationLibraries.UnderworldLayerTopTileY ) {
 				return;
 			}
@@ -73,16 +73,17 @@ namespace Orbs {
 			int top = (int)Main.screenPosition.Y / 16;
 			int bot = top + height;
 
-			bool[,] darks = new bool[width, height];
+			bool[,] isDark = new bool[width, height];
 
 			var edges = new HashSet<(int x, int y)>();
 			
 //LogLibraries.LogOnce("3");
+			// If solid, ignore (also find edge tiles)
 			for( int x = left; x < right; x += inc ) {
 				for( int y = top; y < bot; y += inc ) {
 					Tile tile = Main.tile[x, y];
 					if( tile?.active() == true && Main.tileSolid[tile.type] ) {
-						darks[x-left, y-top] = true;
+						isDark[ x-left, y-top ] = true;
 
 						if( OrbsMod.IsEdgeTile( x, y ) ) {
 							edges.Add( (x, y) );
@@ -91,65 +92,68 @@ namespace Orbs {
 				}
 			}
 			
-			int radius = 6;
-			int third = (2 * radius) / 3;
+			int radius = 5;
+			int third = radius / 3;
 			
 //LogLibraries.LogOnce("4");
-			foreach( (int x, int y) in edges ) {
-				int inLeft = x - radius;
-				if( inLeft < left ) {
-					inLeft = left;
+			// For each edge tile...
+			foreach( (int tileX, int tileY) in edges ) {
+				int tileAreaLeft = tileX - radius;
+				if( tileAreaLeft < left ) {
+					tileAreaLeft = left;
 				}
-				int inRight = x + radius;
-				if( inRight >= right ) {
-					inRight = right;
+				int tileAreaRight = tileX + radius;
+				if( tileAreaRight > right ) {
+					tileAreaRight = right;
 				}
-				int inTop = y - radius;
-				if( inTop < top ) {
-					inTop = top;
+				int tileAreaTop = tileY - radius;
+				if( tileAreaTop < top ) {
+					tileAreaTop = top;
 				}
-				int inBot = y + radius;
-				if( inBot >= bot ) {
-					inBot = bot;
-				}
-
-				int inOneThirdsX = (x - radius) + third;
-				if( inOneThirdsX < left ) {
-					inOneThirdsX = left;
-				}
-				int inTwoThirdsX = (x + radius) - third;
-				if( inTwoThirdsX >= right ) {
-					inTwoThirdsX = right;
-				}
-				int inOneThirdsY = (y - radius) + third;
-				if( inOneThirdsY < top ) {
-					inOneThirdsY = top;
+				int tileAreaBot = tileY + radius;
+				if( tileAreaBot > bot ) {
+					tileAreaBot = bot;
 				}
 
-				for( int x2=inOneThirdsX; x2<inTwoThirdsX; x2++ ) {
-					for( int y2=inTop; y2<inOneThirdsY; y2++ ) {
-//LogLibraries.LogOnce("4a "+(i-left)+" ("+width+") "+(j-top)+" ("+height+")");
-						darks[x2-left, y2-top] = true;
+				int tileAreaLeftThirdX = (tileX - radius) + third;
+				if( tileAreaLeftThirdX < left ) {
+					tileAreaLeftThirdX = left;
+				}
+				int tileAreaRightThirdX = (tileX + radius) - third;
+				if( tileAreaRightThirdX >= right ) {
+					tileAreaRightThirdX = right;
+				}
+				int tileAreaTopThirdY = (tileY - radius) + third;
+				if( tileAreaTopThirdY < top ) {
+					tileAreaTopThirdY = top;
+				}
+				int tileAreaBotThirdY = (tileY + radius) - third;
+				if( tileAreaBotThirdY >= bot ) {
+					tileAreaBotThirdY = bot;
+				}
+
+				// Exclude top, middle tiles
+				for( int tileX2=tileAreaLeftThirdX; tileX2<tileAreaRightThirdX; tileX2++ ) {
+					for( int tileY2=tileAreaTop; tileY2<tileAreaTopThirdY; tileY2++ ) {
+//LogLibraries.LogOnce("4a "+(x2-left)+" ("+width+") "+(y2-top)+" ("+height+")");
+						isDark[ tileX2-left, tileY2-top ] = true;
 					}
 				}
 //LogLibraries.LogOnce("4a");
 
-				int inTwoThirdsY = (y - radius) + third + third;
-				if( inTwoThirdsY >= bot ) {
-					inTwoThirdsY = bot;
-				}
-
-				for( int x2=inLeft; x2<inRight; x2++ ) {
-					for( int y2=inOneThirdsY; y2<inTwoThirdsY; y2++ ) {
-//LogLibraries.LogOnce("4b "+(i-left)+" ("+width+") "+(j-top)+" ("+height+")");
-						darks[x2-left, y2-top] = true;
+				// Exclude center band of tiles
+				for( int tileX2=tileAreaLeft; tileX2<tileAreaRight; tileX2++ ) {
+					for( int tileY2=tileAreaTopThirdY; tileY2<tileAreaBotThirdY; tileY2++ ) {
+//LogLibraries.LogOnce("4b "+(x2-left)+" ("+width+") "+(y2-top)+" ("+height+")");
+						isDark[ tileX2-left, tileY2-top ] = true;
 					}
 				}
 //LogLibraries.LogOnce("4b");
-
-				for( int x2=inOneThirdsX; x2<inTwoThirdsX; x2++ ) {
-					for( int y2=inTwoThirdsY; y2<inBot; y2++ ) {
-						darks[x2-left, y2-top] = true;
+				
+				// Exclude bottom, middle tiles
+				for( int tileX2=tileAreaLeftThirdX; tileX2<tileAreaRightThirdX; tileX2++ ) {
+					for( int tileY2=tileAreaBotThirdY; tileY2<tileAreaBot; tileY2++ ) {
+						isDark[ tileX2-left, tileY2-top ] = true;
 					}
 				}
 			}
@@ -157,12 +161,21 @@ namespace Orbs {
 			var config = OrbsConfig.Instance;
 			float lit = config.Get<float>( nameof(config.BinocularsCaveDiscoveryIntensity) ); //0.075f;
 
-//LogLibraries.LogOnce("5 "+darkCount+" ("+(width*height)+")");
-			for( int x=left; x<right; x+=litInc ) {
-				for( int y=top; y<bot; y+=litInc ) {
-					if( !darks[x-left, y-top] ) {
-//Dust.QuickDust( new Point(x, y), Color.Red );
-						Lighting.AddLight( x, y, lit, lit, lit );
+//LogLibraries.LogOnce("5 "+lit+" ("+(width*height)+")");
+			for( int offsetX=0; offsetX<width; offsetX+=litInc ) {
+				for( int y=0; y<height; y+=litInc ) {
+					if( !isDark[offsetX, y] ) {
+						int litTileX = offsetX + left;
+						int litTileY = y + top;
+
+						if( litTileY < WorldLocationLibraries.SurfaceLayerBottomTileY ) {
+							if( /*Main.tile[tileX, tileY].wall != 0 &&*/ Lighting.GetBlackness(litTileX, litTileY) == Color.Black ) {
+								Lighting.AddLight( litTileX, litTileY, lit, lit, lit );
+							}
+						} else {
+							//Dust.QuickDust( new Point(x, y), Color.Red );
+							Lighting.AddLight( litTileX, litTileY, lit, lit, lit );
+						}
 					}
 				}
 			}
