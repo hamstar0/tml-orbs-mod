@@ -42,12 +42,12 @@ namespace Orbs {
 				}
 			}
 
-			if( !OrbsTile.IsKillable( type ) ) {
+			if( !OrbsTile.IsKillable(type) ) {
 				if( !config.Get<bool>( nameof(OrbsConfig.CanDestroyActuatedTiles) ) ) {
 					fail = true;
 					effectOnly = true;
 					noItem = true;
-				} else if( !Main.tile[i, j].inActive() ) {
+				} else if( !Main.tile[i, j].inActive() && type != TileID.Cog ) {	// Cogs are hard coded for now
 					fail = true;
 					effectOnly = true;
 					noItem = true;
