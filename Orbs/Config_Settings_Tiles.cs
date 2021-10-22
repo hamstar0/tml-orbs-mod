@@ -199,6 +199,11 @@ namespace Orbs {
 			TileID.GetUniqueKey( TileID.SillyStreamerPink ),
 		};
 
+		public Dictionary<string, List<int>> BreakableTilesWhitelistFrameExceptions { get; set; }
+			= new Dictionary<string, List<int>>();
+
+		/////
+
 		[DefaultValue( true )]
 		public bool HardmodeBreakableDirt { get; set; } = true;
 	}

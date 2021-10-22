@@ -42,7 +42,12 @@ namespace Orbs {
 				}
 			}
 
-			if( !OrbsTile.IsKillable(type) ) {
+//Main.NewText("KILL TILE "+type
+//	+", frameN: "+Main.tile[i, j]?.frameNumber()
+//	+", frameX: "+Main.tile[i, j]?.frameX
+//	+", frameY: "+Main.tile[i, j]?.frameY
+//);
+			if( !OrbsTile.IsKillable(type, Main.tile[i, j]?.frameX ?? -1) ) {
 				if( !config.Get<bool>( nameof(OrbsConfig.CanDestroyActuatedTiles) ) ) {
 					fail = true;
 					effectOnly = true;
@@ -99,10 +104,23 @@ namespace Orbs {
 
 	
 	partial class OrbsTile : GlobalTile {
-		public static bool IsKillable( int tileType ) {
-			return OrbsConfig.Instance
-				.Get<List<string>>( nameof(OrbsConfig.BreakableTilesWhitelist) )
-				.Contains( TileID.GetUniqueKey(tileType) );
+		public static bool IsKillable( int tileType, int frame ) {
+			string tileName = TileID.GetUniqueKey( tileType );
+
+			var config = OrbsConfig.Instance;
+			bool isBreakable = config
+				.Get<List<string>>( nameof(config.BreakableTilesWhitelist) )
+				.Contains( tileName );
+
+			var wlExceptions = config.Get<Dictionary<string, List<int>>>(
+				nameof(config.BreakableTilesWhitelistFrameExceptions)
+			);
+
+			bool isExcepted = wlExceptions.ContainsKey( tileName )
+				? wlExceptions[tileName].Contains( frame )
+				: false;
+
+			return isBreakable && !isExcepted;
 		}
 
 
@@ -129,7 +147,7 @@ namespace Orbs {
 				return true;
 			}
 
-			return OrbsTile.IsKillable( type );
+			return OrbsTile.IsKillable( type, Main.tile[i, j]?.frameX ?? -1 );
 			//bool fail=false, effectOnly=false, noItem=false;
 			//this.KillTile( i, j, type, ref fail, ref effectOnly, ref noItem );
 			//return !fail || effectOnly;
