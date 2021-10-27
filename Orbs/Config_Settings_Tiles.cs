@@ -109,6 +109,7 @@ namespace Orbs {
 			TileID.GetUniqueKey( TileID.LongMoss ),
 			TileID.GetUniqueKey( TileID.PurpleMoss ),
 			TileID.GetUniqueKey( TileID.RedMoss ),
+			TileID.GetUniqueKey( TileID.Pumpkins ),
 			//
 			TileID.GetUniqueKey( TileID.Cobweb ),
 			TileID.GetUniqueKey( TileID.BreakableIce ),
