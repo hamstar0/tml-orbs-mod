@@ -138,7 +138,7 @@ namespace Orbs.Items.Base {
 
 		public override bool ConsumeItem( Player player ) {
 			var myplayer = player.GetModPlayer<OrbsPlayer>();
-			if( !myplayer.CurrentTargettedOrbableChunkGridPos.HasValue ) {
+			if( !myplayer.CurrentTargettedOrbableChunkGridPosition.HasValue ) {
 				return false;
 			}
 
@@ -154,7 +154,7 @@ namespace Orbs.Items.Base {
 				return false;
 			}
 
-			(int X, int Y) chunkGridPos = myplayer.CurrentTargettedOrbableChunkGridPos.Value;
+			(int X, int Y) chunkGridPos = myplayer.CurrentTargettedOrbableChunkGridPosition.Value;
 			if( !OrbItemBase.CanActivateOrbForChunk(chunkGridPos.X, chunkGridPos.Y) ) {
 				return false;
 			}

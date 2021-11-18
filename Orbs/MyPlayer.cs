@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
+using Orbs.Items.Base;
 
 
 namespace Orbs {
 	partial class OrbsPlayer : ModPlayer {
-		public (int ChunkX, int ChunkY)? CurrentTargettedOrbableChunkGridPos { get; private set; } = null;
+		public (int ChunkX, int ChunkY)? CurrentTargettedOrbableChunkGridPosition { get; private set; } = null;
+
+		public ISet<OrbColorCode> CurrentNearbyChunkTypes { get; private set; }
 
 
 
@@ -14,7 +18,7 @@ namespace Orbs {
 
 		public override void PreUpdate() {
 			if( this.player.whoAmI == Main.myPlayer ) {
-				this.CurrentTargettedOrbableChunkGridPos = this.FindNearbyOrbChunkTarget();
+				this.UpdateNearbyOrbChunkTarget();
 			}
 
 			/*if( OrbsConfig.Instance.DebugModeCheatCreate ) {

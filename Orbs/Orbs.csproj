@@ -24,6 +24,9 @@
     <Reference Include="ModLibsGeneral">
       <HintPath>..\..\..\Mod Libs\Mod Libs General\Project\ModLibsGeneral\bin\Release\net452\ModLibsGeneral.dll</HintPath>
     </Reference>
+    <Reference Include="PKEMeter">
+      <HintPath>..\..\..\PKE Meter\Project\PKEMeter\bin\Release\net452\PKEMeter.dll</HintPath>
+    </Reference>
     <Reference Include="TheTrickster">
       <HintPath>..\..\..\The Trickster\Project\TheTrickster\bin\Release\net452\TheTrickster.dll</HintPath>
     </Reference>

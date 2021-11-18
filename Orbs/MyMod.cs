@@ -14,7 +14,7 @@ namespace Orbs {
 
 		////////////////
 
-		public static OrbsMod Instance { get; private set; }
+		public static OrbsMod Instance => ModContent.GetInstance<OrbsMod>();
 
 
 
@@ -26,22 +26,19 @@ namespace Orbs {
 
 		////////////////
 
-		public OrbsMod() {
-			OrbsMod.Instance = this;
-		}
-
-		////////////////
-
 		public override void Load() {
-			if( Main.netMode != 2 && !Main.dedServ ) {
+			if( Main.netMode != NetmodeID.Server && !Main.dedServ ) {
 				this.InitializeMapUI();
 			}
 
 			OrbItemBase.InitializeItemTypeColorCodes();
+
+			if( ModLoader.GetMod( "PKEMeter" ) != null ) {
+				OrbsMod.Load_PKEMeter_WeakRef();
+			}
 		}
 
 		public override void Unload() {
-			OrbsMod.Instance = null;
 		}
 
 		public override void PostSetupContent() {

@@ -106,7 +106,7 @@ namespace Orbs {
 			}
 
 			var myplayer = Main.LocalPlayer.GetModPlayer<OrbsPlayer>();
-			(int ChunkGridX, int ChunkGridY)? targettedChunkGridPos = myplayer.CurrentTargettedOrbableChunkGridPos;
+			(int ChunkGridX, int ChunkGridY)? targettedChunkGridPos = myplayer.CurrentTargettedOrbableChunkGridPosition;
 
 			bool isTarget = targettedChunkGridPos.HasValue
 				&& targettedChunkGridPos.Value == OrbItemBase.GetChunk( tileX, tileY );

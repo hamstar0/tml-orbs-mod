@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
 using Orbs.Items.Base;
-
+using System.Collections.Generic;
 
 namespace Orbs {
 	partial class OrbsPlayer : ModPlayer {
@@ -73,6 +74,14 @@ DebugLibraries.Print( "orb",
 
 		////////////////
 
+		private void UpdateNearbyOrbChunkTarget() {
+			this.CurrentTargettedOrbableChunkGridPosition = this.FindNearbyOrbChunkTarget();
+
+			this.CurrentNearbyChunkTypes = this.FindNearbyOrbChunkTypes();
+		}
+
+		////
+
 		private (int ChunkGridX, int ChunkGridY)? FindNearbyOrbChunkTarget() {
 			if( !OrbsPlayer.CanPlayerOrbTargetAnyChunk( this.player ) ) {
 				return null;
@@ -104,6 +113,55 @@ DebugLibraries.Print( "orb",
 
 		////////////////
 
+		private ISet<OrbColorCode> FindNearbyOrbChunkTypes() {
+			var chunks = new HashSet<OrbColorCode>();
+
+			var orbWld = ModContent.GetInstance<OrbsWorld>();
+
+			int tileX = (int)this.player.Center.X / 16;
+			int tileY = (int)this.player.Center.Y / 16;
+			int chunkTileSize = OrbItemBase.ChunkTileSize;
+			int scanChunkRadius = 2;
+
+			int minX = (tileX / chunkTileSize) - scanChunkRadius;
+			int minY = (tileY / chunkTileSize) + scanChunkRadius;
+			int maxX = (tileX / chunkTileSize) - scanChunkRadius;
+			int maxY = (tileY / chunkTileSize) + scanChunkRadius;
+			minX *= chunkTileSize;
+			minY *= chunkTileSize;
+			maxX *= chunkTileSize;
+			maxY *= chunkTileSize;
+
+			for( int y = minY; y <= maxY; y += chunkTileSize ) {
+				if( y < 0 ) {
+					continue;
+				}
+				if( y >= Main.maxTilesY ) {
+					break;
+				}
+
+				for( int x = minX; x <= maxX; x += chunkTileSize ) {
+					if( x < 0 ) {
+						continue;
+					}
+					if( x >= Main.maxTilesX ) {
+						break;
+					}
+
+					OrbColorCode tileColorCode = orbWld.GetColorCodeOfOrbChunkOfTile( tileX, tileY );
+
+					if( tileColorCode != 0 ) {
+						chunks.Add( tileColorCode );
+					}
+				}
+			}
+
+			return chunks;
+		}
+
+
+		////////////////
+
 		/// <summary>
 		/// Targets a given orb chunk of a given tile, if the player can target it.
 		/// </summary>
@@ -119,7 +177,7 @@ DebugLibraries.Print( "orb",
 		////////////////
 
 		internal void ClearTargetOrbChunk() {
-			this.CurrentTargettedOrbableChunkGridPos = null;
+			this.CurrentTargettedOrbableChunkGridPosition = null;
 		}
 	}
 }
