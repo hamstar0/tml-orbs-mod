@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
 using Orbs.Items.Base;
-using System.Collections.Generic;
+
 
 namespace Orbs {
 	partial class OrbsPlayer : ModPlayer {
@@ -78,9 +78,11 @@ DebugLibraries.Print( "orb",
 			this.CurrentTargettedOrbableChunkGridPosition = this.FindNearbyOrbChunkTarget();
 
 			this.CurrentNearbyChunkTypes = this.FindNearbyOrbChunkTypes();
+//DebugLibraries.Print( "chunks", string.Join(", ", this.CurrentNearbyChunkTypes) );
 		}
 
-		////
+
+		////////////////
 
 		private (int ChunkGridX, int ChunkGridY)? FindNearbyOrbChunkTarget() {
 			if( !OrbsPlayer.CanPlayerOrbTargetAnyChunk( this.player ) ) {
@@ -118,21 +120,21 @@ DebugLibraries.Print( "orb",
 
 			var orbWld = ModContent.GetInstance<OrbsWorld>();
 
-			int tileX = (int)this.player.Center.X / 16;
-			int tileY = (int)this.player.Center.Y / 16;
+			int tileX = (int)this.player.MountedCenter.X / 16;
+			int tileY = (int)this.player.MountedCenter.Y / 16;
 			int chunkTileSize = OrbItemBase.ChunkTileSize;
-			int scanChunkRadius = 2;
+			int scanChunkRadius = 1;
 
 			int minX = (tileX / chunkTileSize) - scanChunkRadius;
-			int minY = (tileY / chunkTileSize) + scanChunkRadius;
-			int maxX = (tileX / chunkTileSize) - scanChunkRadius;
+			int minY = (tileY / chunkTileSize) - scanChunkRadius;
+			int maxX = (tileX / chunkTileSize) + scanChunkRadius;
 			int maxY = (tileY / chunkTileSize) + scanChunkRadius;
 			minX *= chunkTileSize;
 			minY *= chunkTileSize;
 			maxX *= chunkTileSize;
 			maxY *= chunkTileSize;
 
-			for( int y = minY; y <= maxY; y += chunkTileSize ) {
+			for( int y = minY; y <= maxY; y++ ) {// += chunkTileSize ) {
 				if( y < 0 ) {
 					continue;
 				}
@@ -140,7 +142,7 @@ DebugLibraries.Print( "orb",
 					break;
 				}
 
-				for( int x = minX; x <= maxX; x += chunkTileSize ) {
+				for( int x = minX; x <= maxX; x++ ) {// += chunkTileSize ) {
 					if( x < 0 ) {
 						continue;
 					}
@@ -148,7 +150,7 @@ DebugLibraries.Print( "orb",
 						break;
 					}
 
-					OrbColorCode tileColorCode = orbWld.GetColorCodeOfOrbChunkOfTile( tileX, tileY );
+					OrbColorCode tileColorCode = orbWld.GetColorCodeOfOrbChunkOfTile( x, y );
 
 					if( tileColorCode != 0 ) {
 						chunks.Add( tileColorCode );

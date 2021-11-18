@@ -112,14 +112,22 @@ namespace Orbs.Items.Base {
 					&& bl.Contains( TileID.GetUniqueKey(TileID.Pearlstone) ) ) {
 				string evilInfo = WorldGen.crimson ? "crimson" : "corruption";
 				string goodInfo = Main.hardMode ? " or hallow" : "";
-				var tip = new TooltipLine(
+				var tip1 = new TooltipLine(
 					this.mod,
-					"OrbsSpiritedTilesTip",
+					"OrbsSpiritedTilesTip1",
 					"Does not affect "+evilInfo+goodInfo+" stone tiles"
 				);
 
-				tooltips.Add( tip );
+				tooltips.Add( tip1 );
 			}
+
+			var tip2 = new TooltipLine(
+				this.mod,
+				"OrbsSpiritedTilesTip2",
+				"Use fullscreen map's toggle button to see orb-resonant tiles by color"
+			);
+
+			tooltips.Add( tip2 );
 		}
 
 
