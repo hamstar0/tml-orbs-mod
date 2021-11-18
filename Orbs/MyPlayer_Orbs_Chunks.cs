@@ -124,6 +124,8 @@ DebugLibraries.Print( "orb",
 			int tileY = (int)this.player.MountedCenter.Y / 16;
 			int chunkTileSize = OrbItemBase.ChunkTileSize;
 			int scanChunkRadius = 1;
+			int scanRadius = scanChunkRadius * chunkTileSize;
+			int scanRadiusSqr = scanRadius * scanRadius;
 
 			int minX = (tileX / chunkTileSize) - scanChunkRadius;
 			int minY = (tileY / chunkTileSize) - scanChunkRadius;
@@ -134,7 +136,8 @@ DebugLibraries.Print( "orb",
 			maxX *= chunkTileSize;
 			maxY *= chunkTileSize;
 
-			for( int y = minY; y <= maxY; y++ ) {// += chunkTileSize ) {
+//int i=0;
+			for( int y = minY; y <= maxY; y += chunkTileSize ) {
 				if( y < 0 ) {
 					continue;
 				}
@@ -142,7 +145,9 @@ DebugLibraries.Print( "orb",
 					break;
 				}
 
-				for( int x = minX; x <= maxX; x++ ) {// += chunkTileSize ) {
+				int diffY = y - tileY;
+
+				for( int x = minX; x <= maxX; x += chunkTileSize ) {
 					if( x < 0 ) {
 						continue;
 					}
@@ -150,13 +155,26 @@ DebugLibraries.Print( "orb",
 						break;
 					}
 
+					//
+
+					int diffX = x - tileX;
+
+					int distSqr = (diffX * diffX) + (diffY * diffY);
+					if( distSqr > scanRadiusSqr ) {
+						continue;
+					}
+
+					//
+
 					OrbColorCode tileColorCode = orbWld.GetColorCodeOfOrbChunkOfTile( x, y );
 
 					if( tileColorCode != 0 ) {
 						chunks.Add( tileColorCode );
 					}
+//i++;
 				}
 			}
+//DebugLibraries.Print( "chunks", "i: "+i+", c:"+chunks.Count+", chunks: "+string.Join(", ", chunks) );
 
 			return chunks;
 		}
