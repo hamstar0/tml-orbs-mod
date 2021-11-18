@@ -42,17 +42,6 @@ namespace Orbs {
 
 		////////////////
 
-		public override void MidUpdateTimeWorld() {
-			if( Main.netMode != NetmodeID.Server ) {
-				if( !Main.LocalPlayer.HeldItem.IsAir && Main.LocalPlayer.HeldItem.type == ItemID.Binoculars ) {
-					this.UpdateBinocsModificationsIf();
-				}
-			}
-		}
-
-
-		////
-
 		private void UpdateBinocsModificationsIf() {
 			int plrTileY = (int)Main.LocalPlayer.Center.Y / 16;
 			//if( plrTileY <= WorldLocationLibraries.SurfaceLayerBottomTileY ) {

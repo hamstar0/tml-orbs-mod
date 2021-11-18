@@ -29,7 +29,9 @@ namespace Orbs.Items.Base {
 
 		////
 
-		public static IReadOnlyDictionary<OrbColorCode, Color> ColorValues;
+		public static IReadOnlyDictionary<OrbColorCode, Color> ColorValues { get; private set; }
+
+		public static IReadOnlyDictionary<int, OrbColorCode> ItemTypeColorCodes { get; private set; }
 
 
 		////////////////
@@ -47,6 +49,22 @@ namespace Orbs.Items.Base {
 				{ OrbColorCode.Yellow, Color.Yellow },
 			};
 			OrbItemBase.ColorValues = new ReadOnlyDictionary<OrbColorCode, Color>( colors );
+		}
+
+
+		internal static void InitializeItemTypeColorCodes() {
+			var itemColorCodes = new Dictionary<int, OrbColorCode> {
+				{ ModContent.ItemType<BlueOrbItem>(), OrbColorCode.Blue },
+				{ ModContent.ItemType<CyanOrbItem>(), OrbColorCode.Cyan },
+				{ ModContent.ItemType<GreenOrbItem>(), OrbColorCode.Green },
+				{ ModContent.ItemType<PinkOrbItem>(), OrbColorCode.Pink },
+				{ ModContent.ItemType<PurpleOrbItem>(), OrbColorCode.Purple },
+				{ ModContent.ItemType<RedOrbItem>(), OrbColorCode.Red },
+				{ ModContent.ItemType<BrownOrbItem>(), OrbColorCode.Brown },	//Color.LightSeaGreen
+				{ ModContent.ItemType<WhiteOrbItem>(), OrbColorCode.White },
+				{ ModContent.ItemType<YellowOrbItem>(), OrbColorCode.Yellow },
+			};
+			OrbItemBase.ItemTypeColorCodes = new ReadOnlyDictionary<int, OrbColorCode>( itemColorCodes );
 		}
 
 

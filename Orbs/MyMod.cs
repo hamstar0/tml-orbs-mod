@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Orbs.Recipes;
 using Orbs.Items;
+using Orbs.Items.Base;
 
 
 namespace Orbs {
@@ -35,6 +36,8 @@ namespace Orbs {
 			if( Main.netMode != 2 && !Main.dedServ ) {
 				this.InitializeMapUI();
 			}
+
+			OrbItemBase.InitializeItemTypeColorCodes();
 		}
 
 		public override void Unload() {
@@ -128,6 +131,17 @@ namespace Orbs {
 				ModContent.ItemType<WhiteOrbItem>(),
 				ModContent.ItemType<YellowOrbItem>()
 			) );
+		}
+
+
+		////////////////
+
+		public override void MidUpdateTimeWorld() {
+			if( Main.netMode != NetmodeID.Server ) {
+				if( !Main.LocalPlayer.HeldItem.IsAir && Main.LocalPlayer.HeldItem.type == ItemID.Binoculars ) {
+					this.UpdateBinocsModificationsIf();
+				}
+			}
 		}
 	}
 }
