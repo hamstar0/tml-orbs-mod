@@ -68,12 +68,12 @@ namespace Orbs {
 
 
 		private static void KillMultiTile( int i, int j, int type, bool isNonGameplay ) {
-			if( type != TileID.ShadowOrbs ) { return; }
 			if( isNonGameplay ) { return; }
+			if( type != TileID.ShadowOrbs ) { return; }
 			if( OrbsConfig.Instance.Get<int>( nameof(OrbsConfig.PurpleOrbDropsViaShadowOrb) ) == 0 ) { return; }
 			
 			int itemWho = Item.NewItem(
-				new Rectangle( i << 4, j << 4, 32, 32 ),
+				new Rectangle( i*16, j*16, 32, 32 ),
 				ModContent.ItemType<PurpleOrbItem>()
 			);
 		}
@@ -127,30 +127,12 @@ namespace Orbs {
 
 		////////////////
 
-		/*public override bool CanKillTile( int i, int j, int type, ref bool blockDamaged ) {
-			bool fail = false, effectOnly = false, noItem = false;
-			this.KillTile( i, j, type, ref fail, ref effectOnly, ref noItem );
-			return !fail;
-		}*/
-
-
-		/*public override bool Slope( int i, int j, int type ) {
-			if( !LoadLibraries.IsCurrentPlayerInGame() ) {
-				return true;
-			}
-
-			return false;
-		}*/
-
 		public override bool CreateDust( int i, int j, int type, ref int dustType ) {
 			if( Main.gameMenu || !LoadLibraries.IsCurrentPlayerInGame() ) {
 				return true;
 			}
 
 			return OrbsTile.IsKillable( type, Main.tile[i, j]?.frameX ?? -1 );
-			//bool fail=false, effectOnly=false, noItem=false;
-			//this.KillTile( i, j, type, ref fail, ref effectOnly, ref noItem );
-			//return !fail || effectOnly;
 		}
 
 		/*public override bool KillSound( int i, int j, int type ) {

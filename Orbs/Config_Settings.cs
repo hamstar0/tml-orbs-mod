@@ -13,6 +13,8 @@ namespace Orbs {
 
 		////
 
+		public bool CanDestroyWalls { get; set; } = false;
+
 		[DefaultValue( true )]
 		public bool CanDestroyActuatedTiles { get; set; } = true;
 
