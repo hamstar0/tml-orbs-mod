@@ -1,7 +1,7 @@
 displayName = Orbs
 author = hamstar
-version = 1.7.1
+version = 1.8.0
 modReferences = ModLibsCore@1.2.0, ModLibsGeneral@1.2.1
-weakReferences = PKEMeter@1.7.0, FindableManaCrystals@2.0.0, TheTrickster@1.2.1
+weakReferences = PKEMeter@2.0.0, FindableManaCrystals@2.0.0, TheTrickster@1.2.1
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
 homepage = https://forums.terraria.org/index.php?threads/orbs.87715/

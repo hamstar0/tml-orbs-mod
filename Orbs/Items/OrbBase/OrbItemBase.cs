@@ -167,11 +167,19 @@ namespace Orbs.Items.Base {
 				return false;
 			}
 
-			if( Main.netMode == 1 ) {
-				OrbActivateProtocol.Broadcast( this.ColorCode, chunkGridPos.X, chunkGridPos.Y );
-			}
+			//
+
 			OrbItemBase.ActivateOrbUponTileChunk( chunkGridPos.X, chunkGridPos.Y );
+
 			myplayer.ClearTargetOrbChunk();
+
+			//
+
+			if( Main.netMode == NetmodeID.MultiplayerClient ) {
+				OrbActivateProtocol.BroadcastFromClientToEveryone( this.ColorCode, chunkGridPos.X, chunkGridPos.Y );
+			}
+
+			//
 
 			return true;
 		}
