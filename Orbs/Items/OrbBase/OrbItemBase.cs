@@ -31,6 +31,8 @@ namespace Orbs.Items.Base {
 
 		public static IReadOnlyDictionary<OrbColorCode, Color> ColorValues { get; private set; }
 
+		public static IReadOnlyDictionary<OrbColorCode, string> TexturePaths { get; private set; }
+
 		public static IReadOnlyDictionary<int, OrbColorCode> ItemTypeColorCodes { get; private set; }
 
 
@@ -49,6 +51,19 @@ namespace Orbs.Items.Base {
 				{ OrbColorCode.Yellow, Color.Yellow },
 			};
 			OrbItemBase.ColorValues = new ReadOnlyDictionary<OrbColorCode, Color>( colors );
+
+			var textures = new Dictionary<OrbColorCode, string> {
+				{ OrbColorCode.Blue, "Items/BlueOrbItem" },
+				{ OrbColorCode.Cyan, "Items/CyanOrbItem" },
+				{ OrbColorCode.Green, "Items/GreenOrbItem" },
+				{ OrbColorCode.Pink, "Items/PinkOrbItem" },
+				{ OrbColorCode.Purple, "Items/PurpleOrbItem" },
+				{ OrbColorCode.Red, "Items/RedOrbItem" },
+				{ OrbColorCode.Brown, "Items/BrownOrbItem" },	//Color.LightSeaGreen
+				{ OrbColorCode.White, "Items/WhiteOrbItem" },
+				{ OrbColorCode.Yellow, "Items/YellowOrbItem" },
+			};
+			OrbItemBase.TexturePaths = new ReadOnlyDictionary<OrbColorCode, string>( textures );
 		}
 
 

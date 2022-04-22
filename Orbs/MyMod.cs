@@ -136,7 +136,7 @@ namespace Orbs {
 		public override void MidUpdateTimeWorld() {
 			if( Main.netMode != NetmodeID.Server ) {
 				if( !Main.LocalPlayer.HeldItem.IsAir && Main.LocalPlayer.HeldItem.type == ItemID.Binoculars ) {
-					this.UpdateBinocsModificationsIf();
+					this.UpdateBinocsModifications_If();
 				}
 			}
 		}

@@ -13,7 +13,7 @@ using Orbs.Items.Base;
 
 namespace Orbs {
 	partial class OrbsTile : GlobalTile {
-		public static void ApplyOrbChunkTintColorForTile(
+		public static void GetOrbChunkTintColorForTile(
 					int tileX,
 					int tileY,
 					OrbColorCode tileColorCode,
@@ -47,6 +47,8 @@ namespace Orbs {
 			float newR = (float)drawColor.R * rTargScale;
 			float newG = (float)drawColor.G * gTargScale;
 			float newB = (float)drawColor.B * bTargScale;
+
+			//
 
 			if( tile.slope() == 0 && !tile.halfBrick() && !neighborHalfBrick ) {
 				drawColor.R = (byte)newR;
@@ -91,6 +93,48 @@ namespace Orbs {
 		}
 
 
+		////////////////
+
+		public static bool CanDrawOrbChunkOfTile(
+					int tileX,
+					int tileY,
+					out bool isPlayerTargetting,
+					out OrbColorCode tileColorCode ) {
+			if( !OrbsTile.IsTileOrbable(tileX, tileY) ) {
+				isPlayerTargetting = false;
+				tileColorCode = default;
+				return false;
+			}
+
+			//
+
+			var myplayer = Main.LocalPlayer.GetModPlayer<OrbsPlayer>();
+
+			(int ChunkGridX, int ChunkGridY)? targettedChunkGridPos = myplayer.CurrentTargettedOrbableChunkGridPosition;
+
+			isPlayerTargetting = targettedChunkGridPos.HasValue
+				&& targettedChunkGridPos.Value == OrbItemBase.GetChunk( tileX, tileY );
+			
+			if( !isPlayerTargetting && !OrbsPlayer.CanViewAllOrbChunks(myplayer.player) ) {
+				tileColorCode = default;
+				return false;
+			}
+
+			//
+
+			var orbWld = ModContent.GetInstance<OrbsWorld>();
+
+			tileColorCode = orbWld.GetColorCodeOfOrbChunkOfTile( tileX, tileY );
+			if( tileColorCode == 0 ) {
+				return false;
+			}
+
+			//
+
+			return true;
+		}
+
+
 
 		////////////////
 
@@ -101,27 +145,15 @@ namespace Orbs {
 					SpriteBatch sb,
 					ref Color drawColor,
 					ref int nextSpecialDrawIndex ) {
-			if( !OrbsTile.IsTileOrbable(tileX, tileY) ) {
+			bool isTarget;
+			OrbColorCode tileColorCode;
+			if( !OrbsTile.CanDrawOrbChunkOfTile(tileX, tileY, out isTarget, out tileColorCode) ) {
 				return;
 			}
 
-			var myplayer = Main.LocalPlayer.GetModPlayer<OrbsPlayer>();
-			(int ChunkGridX, int ChunkGridY)? targettedChunkGridPos = myplayer.CurrentTargettedOrbableChunkGridPosition;
-
-			bool isTarget = targettedChunkGridPos.HasValue
-				&& targettedChunkGridPos.Value == OrbItemBase.GetChunk( tileX, tileY );
+			//
 			
-			if( !isTarget && !OrbsPlayer.CanViewAllOrbChunks(myplayer.player) ) {
-				return;
-			}
-
-			var orbWld = ModContent.GetInstance<OrbsWorld>();
-			OrbColorCode tileColorCode = orbWld.GetColorCodeOfOrbChunkOfTile( tileX, tileY );
-			if( tileColorCode == 0 ) {
-				return;
-			}
-			
-			OrbsTile.ApplyOrbChunkTintColorForTile(
+			OrbsTile.GetOrbChunkTintColorForTile(
 				tileX: tileX,
 				tileY: tileY,
 				tileColorCode: tileColorCode,

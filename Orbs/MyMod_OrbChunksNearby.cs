@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -14,7 +15,7 @@ namespace Orbs {
 
 			PKEMeter.PKEMeterAPI.SetMiscLights( ( player, position ) => {
 				var myplayer = Main.LocalPlayer.GetModPlayer<OrbsPlayer>();
-				var codes = myplayer.CurrentNearbyChunkTypes;
+				ISet<OrbColorCode> codes = myplayer.CurrentNearbyChunkTypes;
 				if( codes == null ) {
 					return null;
 				}
