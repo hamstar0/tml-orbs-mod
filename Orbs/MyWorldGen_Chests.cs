@@ -26,7 +26,7 @@ namespace Orbs {
 			);
 			var chestDef = new ChestTypeDefinition(
 				anyOfTiles: new (int?, int?)[0],
-				alsoUndergroundChests: config.Get<bool>( nameof(OrbsConfig.OnlyGenOrbsInUndergroundChests) ),
+				alsoUndergroundChests: true,
 				alsoDungeonAndTempleChests: true
 			);
 			

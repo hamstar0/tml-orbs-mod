@@ -19,8 +19,8 @@ namespace Orbs {
 		////
 
 		[Range( 0f, 1f )]
-		[DefaultValue( 0.5f )]
-		public float AnyOrbPercentChancePerChest { get; set; } = 0.5f;
+		[DefaultValue( 0.6f )]
+		public float AnyOrbPercentChancePerChest { get; set; } = 0.6f;
 
 		[Range( 0f, 100f )]
 		[DefaultValue( 1f )]
@@ -68,7 +68,7 @@ namespace Orbs {
 		public float YellowOrbWeightPerOrbChest { get; set; } = 1f;
 
 
-		[DefaultValue(true)]
-		public bool OnlyGenOrbsInUndergroundChests { get; set; } = true;
+		//[DefaultValue(true)]
+		//public bool OnlyGenOrbsInUndergroundChests { get; set; } = true;
 	}
 }

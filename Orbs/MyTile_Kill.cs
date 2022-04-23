@@ -52,7 +52,7 @@ namespace Orbs {
 					fail = true;
 					effectOnly = true;
 					noItem = true;
-				} else if( !Main.tile[i, j].inActive() && type != TileID.Cog ) {	// Cogs are hard coded for now
+				} else if( !Main.tile[i, j].inActive() && type != TileID.Cog ) {	// TODO Actuated cogs are hard coded for now
 					fail = true;
 					effectOnly = true;
 					noItem = true;
