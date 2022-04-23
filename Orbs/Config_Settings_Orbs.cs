@@ -42,10 +42,10 @@ namespace Orbs {
 		public bool OrbAffectsOnlyVanillaEarthTiles { get; set; } = true;
 
 		public HashSet<string> OrbAffectedTilesBlacklist { get; set; } = new HashSet<string> {
-			TileID.GetUniqueKey( TileID.ObsidianBrick ),
-			TileID.GetUniqueKey( TileID.HellstoneBrick ),
-			TileID.GetUniqueKey( TileID.EbonstoneBrick ),
-			TileID.GetUniqueKey( TileID.CrimtaneBrick ),
+			//TileID.GetUniqueKey( TileID.ObsidianBrick ),
+			//TileID.GetUniqueKey( TileID.HellstoneBrick ),
+			//TileID.GetUniqueKey( TileID.EbonstoneBrick ),
+			//TileID.GetUniqueKey( TileID.CrimtaneBrick ),
 			//
 			TileID.GetUniqueKey( TileID.Ebonstone ),
 			TileID.GetUniqueKey( TileID.Crimstone ),
