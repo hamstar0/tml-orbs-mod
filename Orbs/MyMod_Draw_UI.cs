@@ -36,6 +36,10 @@ namespace Orbs {
 		////////////////
 
 		private void DrawMouseOrb_If( SpriteBatch sb ) {
+			if( Main.gameMenu ) {
+				return;
+			}
+
 			Item heldItem = Main.LocalPlayer.HeldItem;
 			if( heldItem?.active != true || heldItem.type != ItemID.Binoculars ) {
 				return;
