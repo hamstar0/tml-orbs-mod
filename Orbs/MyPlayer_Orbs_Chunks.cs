@@ -11,7 +11,7 @@ using Orbs.Items.Base;
 namespace Orbs {
 	partial class OrbsPlayer : ModPlayer {
 		public static bool CanViewAllOrbChunks( Player player ) {
-			if( OrbsConfig.Instance.Get<bool>( nameof( OrbsConfig.DebugModeTheColorsDuke ) ) ) {
+			if( OrbsConfig.Instance.Get<bool>( nameof(OrbsConfig.DebugModeTheColorsDuke) ) ) {
 				return true;
 			}
 
@@ -64,11 +64,8 @@ DebugLibraries.Print( "orb",
 	+" - "+tileColorCode.ToString()
 	+", match?"+(tileColorCode == plrColorCode)
 	+", within?"+(OrbItemBase.IsTileWithinUseRange(player, tileX, tileY)) );*/
-			if( !OrbItemBase.IsTileWithinOrbRange(player, tileX, tileY) ) {
-				return false;
-			}
 
-			return true;
+			return OrbItemBase.IsTileWithinOrbRange( player, tileX, tileY );
 		}
 
 
@@ -82,20 +79,25 @@ DebugLibraries.Print( "orb",
 
 			//
 
-			this.CurrentTargettedOrbableChunkGridPosition = this.FindNearbyOrbChunkTarget_If_Local();
+			this.CurrentTargettedOrbableChunkGridPosition = this.FindNearbyOrbChunkTarget_If_Local(
+				out Vector2 preferredFindWorldPos
+			);
 
-			this.CurrentNearbyChunkTypes = this.FindNearbyOrbChunkTypes();
+			this.CurrentNearbyChunkTypes = this.FindNearbyOrbChunkTypes( preferredFindWorldPos );
 //DebugLibraries.Print( "chunks", string.Join(", ", this.CurrentNearbyChunkTypes) );
 		}
 
 
 		////////////////
 
-		private (int ChunkGridX, int ChunkGridY)? FindNearbyOrbChunkTarget_If_Local() {
+		private (int ChunkGridX, int ChunkGridY)? FindNearbyOrbChunkTarget_If_Local(
+					out Vector2 preferredFindWorldPos ) {
 			if( this.player.whoAmI != Main.myPlayer ) {
+				preferredFindWorldPos = default;
 				return null;
 			}
 			if( !OrbsPlayer.CanPlayerOrbTargetAnyChunk(this.player) ) {
+				preferredFindWorldPos = default;
 				return null;
 			}
 
@@ -109,14 +111,14 @@ DebugLibraries.Print( "orb",
 				nearMouseOffset = Vector2.Normalize(nearMouseOffset) * maxChunkCheckDist;
 			}
 
-			Vector2 nearMouseWorld = this.player.MountedCenter + nearMouseOffset;
+			preferredFindWorldPos = this.player.MountedCenter + nearMouseOffset;
 
 			//
 
 			//int tileX = (int)this.player.Center.X / 16;
 			//int tileY = (int)this.player.Center.Y / 16;
-			int tileX = (int)nearMouseWorld.X / 16;
-			int tileY = (int)nearMouseWorld.Y / 16;
+			int tileX = (int)preferredFindWorldPos.X / 16;
+			int tileY = (int)preferredFindWorldPos.Y / 16;
 			int chunkTileSize = OrbItemBase.ChunkTileSize;
 
 			(int, int)? chunk;
@@ -141,49 +143,51 @@ DebugLibraries.Print( "orb",
 
 		////////////////
 
-		private ISet<OrbColorCode> FindNearbyOrbChunkTypes() {
+		private ISet<OrbColorCode> FindNearbyOrbChunkTypes( Vector2 preferredFindWorldPos ) {
 			var chunks = new HashSet<OrbColorCode>();
 
 			var orbWld = ModContent.GetInstance<OrbsWorld>();
-
-			int tileX = (int)this.player.MountedCenter.X / 16;
-			int tileY = (int)this.player.MountedCenter.Y / 16;
 			int chunkTileSize = OrbItemBase.ChunkTileSize;
 			int scanChunkRadius = 1;
+
+			int prefferedTileX = (int)preferredFindWorldPos.X / 16;
+			int prefferedTileY = (int)preferredFindWorldPos.Y / 16;
 			int scanRadius = scanChunkRadius * chunkTileSize;
 			int scanRadiusSqr = scanRadius * scanRadius;
 
-			int minX = (tileX / chunkTileSize) - scanChunkRadius;
-			int minY = (tileY / chunkTileSize) - scanChunkRadius;
-			int maxX = (tileX / chunkTileSize) + scanChunkRadius;
-			int maxY = (tileY / chunkTileSize) + scanChunkRadius;
+			int minX = (prefferedTileX / chunkTileSize) - scanChunkRadius;
+			int minY = (prefferedTileY / chunkTileSize) - scanChunkRadius;
+			int maxX = (prefferedTileX / chunkTileSize) + scanChunkRadius;
+			int maxY = (prefferedTileY / chunkTileSize) + scanChunkRadius;
 			minX *= chunkTileSize;
 			minY *= chunkTileSize;
 			maxX *= chunkTileSize;
 			maxY *= chunkTileSize;
 
 //int i=0;
-			for( int y = minY; y <= maxY; y += chunkTileSize ) {
-				if( y < 0 ) {
+			for( int tileY = minY; tileY <= maxY; tileY += chunkTileSize ) {
+				if( tileY < 0 ) {
 					continue;
 				}
-				if( y >= Main.maxTilesY ) {
+				if( tileY >= Main.maxTilesY ) {
 					break;
 				}
 
-				int diffY = y - tileY;
+				//
 
-				for( int x = minX; x <= maxX; x += chunkTileSize ) {
-					if( x < 0 ) {
+				int diffY = tileY - prefferedTileY;
+
+				for( int tileX = minX; tileX <= maxX; tileX += chunkTileSize ) {
+					if( tileX < 0 ) {
 						continue;
 					}
-					if( x >= Main.maxTilesX ) {
+					if( tileX >= Main.maxTilesX ) {
 						break;
 					}
 
 					//
 
-					int diffX = x - tileX;
+					int diffX = tileX - prefferedTileX;
 
 					int distSqr = (diffX * diffX) + (diffY * diffY);
 					if( distSqr > scanRadiusSqr ) {
@@ -192,7 +196,7 @@ DebugLibraries.Print( "orb",
 
 					//
 
-					OrbColorCode tileColorCode = orbWld.GetColorCodeOfOrbChunkOfTile( x, y );
+					OrbColorCode tileColorCode = orbWld.GetColorCodeOfOrbChunkOfTile( tileX, tileY );
 
 					if( tileColorCode != 0 ) {
 						chunks.Add( tileColorCode );
