@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -33,29 +34,42 @@ namespace Orbs {
 
 		////////////////
 
-		public static bool IsPlayerOrbTargettingChunkForGivenTile( Player player, int tileX, int tileY ) {
+		public static Item ChoseOrbItemToTargetChunkForGivenTile_If(
+					Player player,
+					int tileX,
+					int tileY,
+					IEnumerable<Item> availableOrbs ) {
 			if( !OrbsTile.IsTileOrbable(tileX, tileY) ) {
-				return false;
+				return null;
 			}
 
 			var orbWld = ModContent.GetInstance<OrbsWorld>();
 			OrbColorCode tileColorCode = orbWld.GetColorCodeOfOrbChunkOfTile( tileX, tileY );
 			if( tileColorCode == 0 ) {
-				return false;
+				return null;
 			}
 
-			Item heldItem = player.HeldItem;
-			OrbItemBase myorb = heldItem?.modItem as OrbItemBase;
-			if( myorb == null ) {
-				return false;
+			//
+
+			if( !OrbItemBase.IsTileWithinOrbRange(player.MountedCenter, tileX, tileY) ) {
+				return null;
 			}
 
-			OrbColorCode plrColorCode = myorb?.ColorCode ?? (OrbColorCode)0;
-			bool canSeeColor = tileColorCode == plrColorCode;// || canSeeAllColors;
-			if( !canSeeColor ) {
-				return false;
+			//
+
+			Item chosenOrb = null;
+
+			foreach( Item orb in availableOrbs ) {
+				var myorb = orb.modItem as OrbItemBase;
+
+				if( tileColorCode == myorb.ColorCode ) {
+					chosenOrb = orb;
+
+					break;
+				}
 			}
 
+			return chosenOrb;
 /*var myplayer = player.GetModPlayer<OrbsPlayer>();
 DebugLibraries.Print( "orb",
 	"i:"+tileX+", j:"+tileY
@@ -64,8 +78,6 @@ DebugLibraries.Print( "orb",
 	+" - "+tileColorCode.ToString()
 	+", match?"+(tileColorCode == plrColorCode)
 	+", within?"+(OrbItemBase.IsTileWithinUseRange(player, tileX, tileY)) );*/
-
-			return OrbItemBase.IsTileWithinOrbRange( player, tileX, tileY );
 		}
 
 
@@ -79,25 +91,38 @@ DebugLibraries.Print( "orb",
 
 			//
 
-			this.CurrentTargettedOrbableChunkGridPosition = this.FindNearbyOrbChunkTarget_If_Local(
-				out Vector2 preferredFindWorldPos
-			);
+			Item chosenOrbItem;
 
-			this.CurrentNearbyChunkTypes = this.FindNearbyOrbChunkTypes( preferredFindWorldPos );
+			this.CurrentTargettedOrbableChunkGridPosition = this.FindNearbyOrbChunkTarget_If_Local( out chosenOrbItem );
+
+			this.CurrentNearbyChunkTypes = this.FindNearbyOrbChunkTypes( this.player.MountedCenter );
 //DebugLibraries.Print( "chunks", string.Join(", ", this.CurrentNearbyChunkTypes) );
+
+			//
+
+			if( this.CurrentTargettedOrbableChunkGridPosition.HasValue && chosenOrbItem != null ) {
+				int idx = Array.FindIndex( this.player.inventory, i => i == chosenOrbItem );
+
+				if( idx != -1 && idx != this.player.selectedItem ) {
+					//this.player.selectedItem = idx;
+//Main.NewText( "swap "+Enum.GetName(typeof(OrbColorCode), ((OrbItemBase)chosenOrbItem.modItem).ColorCode) );
+					Utils.Swap( ref this.player.inventory[this.player.selectedItem], ref this.player.inventory[idx] );
+					Main.mouseItem = this.player.HeldItem.Clone();
+				}
+			}
 		}
 
 
 		////////////////
 
-		private (int ChunkGridX, int ChunkGridY)? FindNearbyOrbChunkTarget_If_Local(
-					out Vector2 preferredFindWorldPos ) {
+		private (int ChunkGridX, int ChunkGridY)? FindNearbyOrbChunkTarget_If_Local( out Item chosenOrbItem ) {
 			if( this.player.whoAmI != Main.myPlayer ) {
-				preferredFindWorldPos = default;
+				chosenOrbItem = null;
 				return null;
 			}
+
 			if( !OrbsPlayer.CanPlayerOrbTargetAnyChunk(this.player) ) {
-				preferredFindWorldPos = default;
+				chosenOrbItem = null;
 				return null;
 			}
 
@@ -111,9 +136,12 @@ DebugLibraries.Print( "orb",
 				nearMouseOffset = Vector2.Normalize(nearMouseOffset) * maxChunkCheckDist;
 			}
 
-			preferredFindWorldPos = this.player.MountedCenter + nearMouseOffset;
+			Vector2 preferredFindWorldPos = this.player.MountedCenter + nearMouseOffset;
 
 			//
+
+			IEnumerable<Item> availableOrbs = this.player.inventory
+				.Where( i => i?.active == true && i.modItem is OrbItemBase );
 
 			//int tileX = (int)this.player.Center.X / 16;
 			//int tileY = (int)this.player.Center.Y / 16;
@@ -125,18 +153,19 @@ DebugLibraries.Print( "orb",
 
 			for( int j = 0; j < chunkTileSize; j++ ) {
 				for( int i = 0; i < chunkTileSize; i++ ) {
-					chunk = this.GetTargetOrbChunk( tileX + i, tileY + j );
+					chunk = this.GetTargetOrbChunk( tileX + i, tileY + j, availableOrbs, out chosenOrbItem );
 					if( chunk.HasValue ) {
 						return chunk;
 					}
 
-					chunk = this.GetTargetOrbChunk( tileX - i, tileY - j );
+					chunk = this.GetTargetOrbChunk( tileX - i, tileY - j, availableOrbs, out chosenOrbItem );
 					if( chunk.HasValue ) {
 						return chunk;
 					}
 				}
 			}
 
+			chosenOrbItem = null;
 			return null;
 		}
 
@@ -217,8 +246,21 @@ DebugLibraries.Print( "orb",
 		/// </summary>
 		/// <param name="tileX"></param>
 		/// <param name="tileY"></param>
-		public (int ChunkGridX, int ChunkGridY)? GetTargetOrbChunk( int tileX, int tileY ) {
-			if( OrbsPlayer.IsPlayerOrbTargettingChunkForGivenTile(this.player, tileX, tileY) ) {
+		/// <param name="availableOrbs"></param>
+		/// <param name="chosenOrbItem"></param>
+		public (int ChunkGridX, int ChunkGridY)? GetTargetOrbChunk(
+					int tileX,
+					int tileY,
+					IEnumerable<Item> availableOrbs,
+					out Item chosenOrbItem ) {
+			chosenOrbItem = OrbsPlayer.ChoseOrbItemToTargetChunkForGivenTile_If(
+				this.player,
+				tileX,
+				tileY,
+				availableOrbs
+			);
+
+			if( chosenOrbItem != null ) {
 				return OrbItemBase.GetChunk( tileX, tileY );
 			}
 			return null;

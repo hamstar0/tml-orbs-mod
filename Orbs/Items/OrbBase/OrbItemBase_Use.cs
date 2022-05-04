@@ -10,10 +10,6 @@ using ModLibsGeneral.Libraries.Fx;
 
 namespace Orbs.Items.Base {
 	public abstract partial class OrbItemBase : ModItem {
-		public static bool IsTileWithinOrbRange( Player plr, int tileX, int tileY ) {
-			return OrbItemBase.IsTileWithinOrbRange( plr.Center, tileX, tileY );
-		}
-		
 		public static bool IsTileWithinOrbRange( Vector2 useSrcWorldPos, int tileX, int tileY ) {
 			int diffX = ((int)useSrcWorldPos.X / 16) - tileX;
 			int diffY = ((int)useSrcWorldPos.Y / 16) - tileY;

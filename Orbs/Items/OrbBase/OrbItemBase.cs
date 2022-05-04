@@ -182,6 +182,8 @@ namespace Orbs.Items.Base {
 				return false;
 			}
 
+			//
+
 			var config = OrbsConfig.Instance;
 
 			if( !config.Get<bool>( nameof(config.EnableOrbUseUponTiles) ) ) {
@@ -193,6 +195,8 @@ namespace Orbs.Items.Base {
 
 				return false;
 			}
+
+			//
 
 			(int X, int Y) chunkGridPos = myplayer.CurrentTargettedOrbableChunkGridPosition.Value;
 			if( !OrbItemBase.CanActivateOrbForChunk(chunkGridPos.X, chunkGridPos.Y) ) {
