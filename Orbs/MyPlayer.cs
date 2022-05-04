@@ -18,7 +18,7 @@ namespace Orbs {
 
 		public override void PreUpdate() {
 			if( this.player.whoAmI == Main.myPlayer ) {
-				this.UpdateNearbyOrbChunkTarget();
+				this.UpdateNearbyOrbChunkTarget_Local();
 			}
 
 			/*if( OrbsConfig.Instance.DebugModeCheatCreate ) {

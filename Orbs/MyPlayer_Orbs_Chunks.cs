@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -74,8 +75,14 @@ DebugLibraries.Print( "orb",
 
 		////////////////
 
-		private void UpdateNearbyOrbChunkTarget() {
-			this.CurrentTargettedOrbableChunkGridPosition = this.FindNearbyOrbChunkTarget();
+		private void UpdateNearbyOrbChunkTarget_Local() {
+			if( this.player.whoAmI != Main.myPlayer ) {
+				return;
+			}
+
+			//
+
+			this.CurrentTargettedOrbableChunkGridPosition = this.FindNearbyOrbChunkTarget_If_Local();
 
 			this.CurrentNearbyChunkTypes = this.FindNearbyOrbChunkTypes();
 //DebugLibraries.Print( "chunks", string.Join(", ", this.CurrentNearbyChunkTypes) );
@@ -84,13 +91,32 @@ DebugLibraries.Print( "orb",
 
 		////////////////
 
-		private (int ChunkGridX, int ChunkGridY)? FindNearbyOrbChunkTarget() {
-			if( !OrbsPlayer.CanPlayerOrbTargetAnyChunk( this.player ) ) {
+		private (int ChunkGridX, int ChunkGridY)? FindNearbyOrbChunkTarget_If_Local() {
+			if( this.player.whoAmI != Main.myPlayer ) {
+				return null;
+			}
+			if( !OrbsPlayer.CanPlayerOrbTargetAnyChunk(this.player) ) {
 				return null;
 			}
 
-			int tileX = (int)this.player.Center.X / 16;
-			int tileY = (int)this.player.Center.Y / 16;
+			//
+
+			Vector2 nearMouseOffset = Main.MouseWorld - this.player.MountedCenter;
+
+			float maxChunkCheckDist = 12 * 16;
+
+			if( nearMouseOffset.LengthSquared() > (maxChunkCheckDist * maxChunkCheckDist) ) {
+				nearMouseOffset = Vector2.Normalize(nearMouseOffset) * maxChunkCheckDist;
+			}
+
+			Vector2 nearMouseWorld = this.player.MountedCenter + nearMouseOffset;
+
+			//
+
+			//int tileX = (int)this.player.Center.X / 16;
+			//int tileY = (int)this.player.Center.Y / 16;
+			int tileX = (int)nearMouseWorld.X / 16;
+			int tileY = (int)nearMouseWorld.Y / 16;
 			int chunkTileSize = OrbItemBase.ChunkTileSize;
 
 			(int, int)? chunk;

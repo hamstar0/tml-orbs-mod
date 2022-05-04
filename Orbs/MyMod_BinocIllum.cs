@@ -39,7 +39,6 @@ namespace Orbs {
 		}
 
 
-
 		////////////////
 
 		private void UpdateBinocsModifications_If() {
@@ -52,8 +51,13 @@ namespace Orbs {
 				return;
 			}
 
-			//
-			
+			this.ApplyCavernIllumination();
+		}
+
+
+		////////////////
+
+		private void ApplyCavernIllumination() {
 			int inc = 1;
 			int litInc = 1;
 
@@ -72,12 +76,16 @@ namespace Orbs {
 			for( int x = left; x < right; x += inc ) {
 				for( int y = top; y < bot; y += inc ) {
 					Tile tile = Main.tile[x, y];
-					if( tile?.active() == true && Main.tileSolid[tile.type] ) {
-						isDark[ x-left, y-top ] = true;
+					if( tile?.active() != true || !Main.tileSolid[tile.type] ) {
+						continue;
+					}
 
-						if( OrbsMod.IsEdgeTile( x, y ) ) {
-							edges.Add( (x, y) );
-						}
+					//
+
+					isDark[ x-left, y-top ] = true;
+
+					if( OrbsMod.IsEdgeTile(x, y) ) {
+						edges.Add( (x, y) );
 					}
 				}
 			}
@@ -143,23 +151,29 @@ namespace Orbs {
 				}
 			}
 
+			//
+
 			var config = OrbsConfig.Instance;
 			float lit = config.Get<float>( nameof(config.BinocularsCaveDiscoveryIntensity) ); //0.075f;
 
 			for( int offsetX=0; offsetX<width; offsetX+=litInc ) {
 				for( int y=0; y<height; y+=litInc ) {
-					if( !isDark[offsetX, y] ) {
-						int litTileX = offsetX + left;
-						int litTileY = y + top;
+					if( isDark[offsetX, y] ) {
+						continue;
+					}
 
-						if( litTileY < WorldLocationLibraries.SurfaceLayerBottomTileY ) {
-							if( Lighting.GetBlackness(litTileX, litTileY) == Color.Black ) {	//Main.tile[tileX, tileY].wall != 0 &&
-								Lighting.AddLight( litTileX, litTileY, lit, lit, lit );
-							}
-						} else {
-							//Dust.QuickDust( new Point(x, y), Color.Red );
+					//
+
+					int litTileX = offsetX + left;
+					int litTileY = y + top;
+
+					if( litTileY < WorldLocationLibraries.SurfaceLayerBottomTileY ) {
+						if( Lighting.GetBlackness(litTileX, litTileY) == Color.Black ) {	//Main.tile[tileX, tileY].wall != 0 &&
 							Lighting.AddLight( litTileX, litTileY, lit, lit, lit );
 						}
+					} else if( litTileY < WorldLocationLibraries.UnderworldLayerTopTileY ) {
+						//Dust.QuickDust( new Point(x, y), Color.Red );
+						Lighting.AddLight( litTileX, litTileY, lit, lit, lit );
 					}
 				}
 			}

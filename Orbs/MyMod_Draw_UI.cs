@@ -11,6 +11,10 @@ using Orbs.Items.Base;
 namespace Orbs {
 	public partial class OrbsMod : Mod {
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
+			if( Main.gameMenu ) {
+				return;
+			}
+
 			int layerIdx = layers.FindIndex( layer => layer.Name.Equals("Vanilla: Mouse Over") );
 			if( layerIdx == -1 ) {
 				return;
@@ -21,7 +25,12 @@ namespace Orbs {
 			var binocsLayer = new LegacyGameInterfaceLayer(
 				"Orbs: Mouse Icon",
 				() => {
+					if( Main.gameMenu ) {
+						return true;
+					}
+
 					this.DrawMouseOrb_If( Main.spriteBatch );
+					this.DrawCurrentOrbableChunk_If( Main.spriteBatch );
 					return true;
 				},
 				InterfaceScaleType.UI
@@ -36,10 +45,6 @@ namespace Orbs {
 		////////////////
 
 		private void DrawMouseOrb_If( SpriteBatch sb ) {
-			if( Main.gameMenu ) {
-				return;
-			}
-
 			Item heldItem = Main.LocalPlayer.HeldItem;
 			if( heldItem?.active != true || heldItem.type != ItemID.Binoculars ) {
 				return;
@@ -61,6 +66,12 @@ namespace Orbs {
 			//
 
 			sb.Draw( orbTex, pos, color );
+		}
+
+
+		////////////////
+
+		private void DrawCurrentOrbableChunk_If( SpriteBatch sb ) {
 		}
 	}
 }
