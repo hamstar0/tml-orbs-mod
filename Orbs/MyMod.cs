@@ -31,7 +31,7 @@ namespace Orbs {
 				this.InitializeMapUI();
 			}
 
-			OrbItemBase.InitializeItemTypeColorCodes();
+			OrbItemBase.Initialize();
 
 			if( ModLoader.GetMod( "PKEMeter" ) != null ) {
 				OrbsMod.Load_PKEMeter_WeakRef();
@@ -39,6 +39,7 @@ namespace Orbs {
 		}
 
 		public override void Unload() {
+			OrbItemBase.Uninstall();
 		}
 
 		public override void PostSetupContent() {

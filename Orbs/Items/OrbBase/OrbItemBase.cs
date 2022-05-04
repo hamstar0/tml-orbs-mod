@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,6 +36,8 @@ namespace Orbs.Items.Base {
 
 		public static IReadOnlyDictionary<int, OrbColorCode> ItemTypeColorCodes { get; private set; }
 
+		public static Texture2D GlowTex { get; private set; }
+
 
 		////////////////
 
@@ -67,7 +70,15 @@ namespace Orbs.Items.Base {
 		}
 
 
-		internal static void InitializeItemTypeColorCodes() {
+		internal static void Initialize() {
+			if( Main.netMode != NetmodeID.Server && !Main.dedServ ) {
+				OrbItemBase.GlowTex = OrbsMod.Instance.GetTexture( "Items/OrbBase/OrbGlow" );
+
+				OrbsMod.PremultiplyTexture( OrbItemBase.GlowTex );
+			}
+
+			//
+
 			var itemColorCodes = new Dictionary<int, OrbColorCode> {
 				{ ModContent.ItemType<BlueOrbItem>(), OrbColorCode.Blue },
 				{ ModContent.ItemType<CyanOrbItem>(), OrbColorCode.Cyan },
@@ -80,6 +91,12 @@ namespace Orbs.Items.Base {
 				{ ModContent.ItemType<YellowOrbItem>(), OrbColorCode.Yellow },
 			};
 			OrbItemBase.ItemTypeColorCodes = new ReadOnlyDictionary<int, OrbColorCode>( itemColorCodes );
+		}
+
+		////
+
+		internal static void Uninstall() {
+			OrbItemBase.GlowTex = null;
 		}
 
 
