@@ -10,7 +10,7 @@ namespace Orbs {
 	partial class OrbsPlayer : ModPlayer {
 		public (int ChunkX, int ChunkY)? CurrentTargettedOrbableChunkGridPosition { get; private set; } = null;
 
-		public ISet<OrbColorCode> CurrentNearbyChunkTypes { get; private set; }
+		public ISet<OrbColorCode> CurrentNearbyChunkTypes { get; private set; } = new HashSet<OrbColorCode>();
 
 
 
