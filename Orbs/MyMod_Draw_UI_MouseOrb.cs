@@ -13,6 +13,10 @@ using Orbs.Items.Base;
 namespace Orbs {
 	public partial class OrbsMod : Mod {
 		private void DrawMouseOrb_If( SpriteBatch sb ) {
+			if( Main.LocalPlayer.dead ) {
+				return;
+			}
+
 			Item heldItem = Main.LocalPlayer.HeldItem;
 			if( heldItem?.active != true || heldItem.type != ItemID.Binoculars ) {
 				return;

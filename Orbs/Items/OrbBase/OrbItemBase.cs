@@ -207,7 +207,7 @@ namespace Orbs.Items.Base {
 
 			OrbItemBase.ActivateOrbUponTileChunk( chunkGridPos.X, chunkGridPos.Y );
 
-			myplayer.ClearTargetOrbChunk();
+			myplayer.ClearCurrentTargetOrbChunk();
 
 			//
 

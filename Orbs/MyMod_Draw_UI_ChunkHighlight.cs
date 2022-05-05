@@ -11,6 +11,10 @@ using Orbs.Items.Base;
 namespace Orbs {
 	public partial class OrbsMod : Mod {
 		private void DrawCurrentOrbableChunk_If( SpriteBatch sb ) {
+			if( Main.LocalPlayer.dead ) {
+				return;
+			}
+
 			var myplayer = Main.LocalPlayer.GetModPlayer<OrbsPlayer>();
 
 			if( !myplayer.CurrentTargettedOrbableChunkGridPosition.HasValue ) {
