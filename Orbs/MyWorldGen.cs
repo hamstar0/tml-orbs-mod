@@ -23,7 +23,7 @@ namespace Orbs {
 				progress.Message = "Pre-placing Orbs";	//"Pre-placing Orbs: %";
 			}
 
-			this.ApplyChestOrbs();
+			this.ApplyChestOrbs_If();
 		}
 	}
 }

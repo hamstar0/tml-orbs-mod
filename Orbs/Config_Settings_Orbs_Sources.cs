@@ -22,6 +22,8 @@ namespace Orbs {
 		[DefaultValue( 0.6f )]
 		public float AnyOrbPercentChancePerChest { get; set; } = 0.6f;
 
+		//
+
 		[Range( 0f, 100f )]
 		[DefaultValue( 1f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
@@ -66,6 +68,12 @@ namespace Orbs {
 		[DefaultValue( 1f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 		public float YellowOrbWeightPerOrbChest { get; set; } = 1f;
+
+		//
+
+		[Range( 1, 99 )]
+		[DefaultValue( 3 )]
+		public float MaxOrbsPerChestPerType { get; set; } = 3;
 
 
 		//[DefaultValue(true)]

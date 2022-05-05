@@ -9,19 +9,26 @@ using ModLibsGeneral.Libraries.World.Chests;
 
 namespace Orbs {
 	partial class OrbsWorldGen : GenPass {
-		private void ApplyChestOrbs() {
+		private void ApplyChestOrbs_If() {
 			var config = OrbsConfig.Instance;
 
-			float perChestChance = config.Get<float>( nameof(OrbsConfig.AnyOrbPercentChancePerChest) );
+			float perChestChance = config.Get<float>( nameof(config.AnyOrbPercentChancePerChest) );
 			if( perChestChance <= 0f ) {
 				return;
 			}
 
+			//
+
+			int maxOrbsPerChest = config.Get<int>( nameof(config.MaxOrbsPerChestPerType) );
+
 			float totalWeight;
 			IEnumerable<(float weight, int itemType)> weights = config.GetOrbChestWeights( out totalWeight );
+			(float, ChestFillItemDefinition)[] weightsArr = weights
+				.Select( w => (w.weight, new ChestFillItemDefinition(w.itemType, 1, maxOrbsPerChest)) )
+				.ToArray();
 
 			var def = new ChestFillDefinition(
-				any: weights.Select( w=>(w.weight, new ChestFillItemDefinition(w.itemType)) ).ToArray(),
+				any: weightsArr,
 				percentChance: perChestChance
 			);
 			var chestDef = new ChestTypeDefinition(
@@ -29,8 +36,12 @@ namespace Orbs {
 				alsoUndergroundChests: true,
 				alsoDungeonAndTempleChests: true
 			);
+
+			//
 			
 			IList<Chest> modifiedChests = WorldChestLibraries.AddToWorldChests( def, chestDef );
+
+			//
 
 			if( modifiedChests.Count >= 1 ) {
 				int i = 0;
