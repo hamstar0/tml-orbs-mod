@@ -17,6 +17,26 @@ namespace Orbs.Items.Base {
 					Color itemColor,
 					Vector2 origin,
 					float scale ) {
+			var myplayer = Main.LocalPlayer.GetModPlayer<OrbsPlayer>();
+			bool isResonating = myplayer.CurrentNearbyChunkTypes.Contains( this.ColorCode );
+
+			//
+
+			this.DrawOrbGlow( sb, position, scale, isResonating );
+
+			//
+
+			return base.PreDrawInInventory( sb, position, frame, drawColor, itemColor, origin, scale );
+		}
+
+
+		////
+
+		public void DrawOrbGlow(
+					SpriteBatch sb,
+					Vector2 position,
+					float scale,
+					bool isResonating ) {
 			//Main.inventoryBackTexture
 			Texture2D orbTex = ModContent.GetTexture( this.Texture );
 			Texture2D glowTex = OrbItemBase.GlowTex;
@@ -27,6 +47,10 @@ namespace Orbs.Items.Base {
 
 			Color color = OrbItemBase.ColorValues[this.ColorCode];
 			color *= (Main.rand.NextFloat() + 1f) / 2f;
+
+			if( !isResonating ) {
+				color *= 0.25f;
+			}
 
 			//
 
@@ -41,10 +65,6 @@ namespace Orbs.Items.Base {
 				effects: SpriteEffects.None,
 				layerDepth: 0f
 			);
-
-			//
-
-			return base.PreDrawInInventory( sb, position, frame, drawColor, itemColor, origin, scale );
 		}
 	}
 }
