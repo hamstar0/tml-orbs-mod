@@ -20,12 +20,22 @@ namespace Orbs {
 			return heldItem?.active == true && heldItem.type == ItemID.Binoculars;
 		}
 
-		public static bool CanPlayerOrbTargetAnyChunk( Player player ) {
+		public static bool CanPlayerOrbTargetAnyChunk_Local( Player player ) {
 			Item heldItem = player.HeldItem;
 			OrbItemBase myorb = heldItem?.modItem as OrbItemBase;
 			if( myorb == null ) {
 				return false;
 			}
+
+			//
+			
+			if( player.selectedItem == 58 ) {
+				if( Main.mouseItem?.active != true || !(Main.mouseItem.modItem is OrbItemBase) ) {
+					return false;
+				}
+			}
+
+			//
 
 			OrbColorCode plrColorCode = myorb?.ColorCode ?? (OrbColorCode)0;
 			return plrColorCode != 0;
@@ -96,7 +106,6 @@ DebugLibraries.Print( "orb",
 			this.CurrentTargettedOrbableChunkGridPosition = this.FindNearbyOrbChunkTarget_If_Local( out chosenOrbItem );
 
 			this.CurrentNearbyChunkTypes = this.FindNearbyOrbChunkTypes( this.player.MountedCenter );
-//DebugLibraries.Print( "chunks", string.Join(", ", this.CurrentNearbyChunkTypes) );
 
 			//
 
@@ -104,8 +113,6 @@ DebugLibraries.Print( "orb",
 				int idx = Array.FindIndex( this.player.inventory, i => i == chosenOrbItem );
 
 				if( idx != -1 && idx != this.player.selectedItem ) {
-					//this.player.selectedItem = idx;
-//Main.NewText( "swap "+Enum.GetName(typeof(OrbColorCode), ((OrbItemBase)chosenOrbItem.modItem).ColorCode) );
 					Utils.Swap( ref this.player.inventory[this.player.selectedItem], ref this.player.inventory[idx] );
 					Main.mouseItem = this.player.HeldItem.Clone();
 				}
@@ -121,7 +128,7 @@ DebugLibraries.Print( "orb",
 				return null;
 			}
 
-			if( !OrbsPlayer.CanPlayerOrbTargetAnyChunk(this.player) ) {
+			if( !OrbsPlayer.CanPlayerOrbTargetAnyChunk_Local(this.player) ) {
 				chosenOrbItem = null;
 				return null;
 			}
