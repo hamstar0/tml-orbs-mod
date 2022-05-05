@@ -147,7 +147,7 @@ namespace Orbs.Items.Base {
 				var tip1 = new TooltipLine(
 					this.mod,
 					"OrbsSpiritedTilesTip1",
-					"Does not affect "+evilInfo+goodInfo+" stone tiles"
+					$"Does not affect {evilInfo}{goodInfo} stone tiles"
 				);
 
 				tooltips.Add( tip1 );
