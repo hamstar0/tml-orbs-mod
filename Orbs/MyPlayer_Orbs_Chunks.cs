@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
 using Orbs.Items.Base;
-
+using ModLibsCore.Services.Timers;
 
 namespace Orbs {
 	partial class OrbsPlayer : ModPlayer {
@@ -68,8 +68,16 @@ namespace Orbs {
 
 		private void SwapHeldOrbForTargettedChunk_If( Item chosenOrbItem ) {
 			if( Main.HoverItem?.active == true ) {
+				Timers.SetTimer( "Orbs Hover Swap Block", 60, true, () => false );
+
 				return;
 			}
+
+			if( Timers.GetTimerTickDuration("Orbs Hover Swap Block") > 0 ) {
+				return;
+			}
+
+			//
 
 			if( !this.CurrentTargettedOrbableChunkGridPosition.HasValue && chosenOrbItem != null ) {
 				return;
