@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Services.Timers;
 using Orbs.Items.Base;
 
 
@@ -71,6 +72,23 @@ DebugLibraries.Print( "orb",
 				chosenOrbItem = null;
 				return null;
 			}
+
+			//
+
+			if( Main.HoverItem?.active == true ) {
+				Timers.SetTimer( "Orbs Target Blocker", 60, true, () => false );
+
+				chosenOrbItem = null;
+				return null;
+			}
+
+			if( Timers.GetTimerTickDuration( "Orbs Target Blocker" ) > 0 ) {
+				chosenOrbItem = null;
+				return null;
+			}
+
+			//
+
 
 			//
 
