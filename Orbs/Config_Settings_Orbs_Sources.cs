@@ -73,7 +73,7 @@ namespace Orbs {
 
 		[Range( 1, 99 )]
 		[DefaultValue( 3 )]
-		public float MaxOrbsPerChestPerType { get; set; } = 3;
+		public int MaxOrbsPerChestPerType { get; set; } = 3;
 
 
 		//[DefaultValue(true)]
