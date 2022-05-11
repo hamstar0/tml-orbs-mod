@@ -4,11 +4,17 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Services.Timers;
 using Orbs.Items.Base;
 
 
 namespace Orbs {
 	partial class OrbsPlayer : ModPlayer {
+		public const string OrbSwapLockoutTimerName = "OrbSwapLockoutTimer";
+
+
+		////
+
 		public static IList<int> GetInventoryOrbIndexes( Player player ) {
 			var indexes = new List<int>();
 
@@ -24,6 +30,20 @@ namespace Orbs {
 			}
 
 			return indexes;
+		}
+
+
+
+		////////////////
+
+		public bool CanUseOrbsWithoutSettings() {
+			if( Timers.GetTimerTickDuration(OrbsPlayer.OrbSwapLockoutTimerName) > 0 ) {
+				return false;
+			}
+
+			//
+			
+			return this.CurrentTargettedOrbableChunkGridPosition.HasValue;
 		}
 	}
 }

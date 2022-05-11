@@ -177,13 +177,6 @@ namespace Orbs.Items.Base {
 		////////////////
 
 		public override bool ConsumeItem( Player player ) {
-			var myplayer = player.GetModPlayer<OrbsPlayer>();
-			if( !myplayer.CurrentTargettedOrbableChunkGridPosition.HasValue ) {
-				return false;
-			}
-
-			//
-
 			var config = OrbsConfig.Instance;
 
 			if( !config.Get<bool>( nameof(config.EnableOrbUseUponTiles) ) ) {
@@ -193,9 +186,18 @@ namespace Orbs.Items.Base {
 					Main.NewText( disabledMessage, Color.Yellow );
 				}
 
+				//
+
 				return false;
 			}
 
+			//
+
+			var myplayer = player.GetModPlayer<OrbsPlayer>();
+			if( !myplayer.CanUseOrbsWithoutSettings() ) {
+				return false;
+			}
+			
 			//
 
 			(int X, int Y) chunkGridPos = myplayer.CurrentTargettedOrbableChunkGridPosition.Value;

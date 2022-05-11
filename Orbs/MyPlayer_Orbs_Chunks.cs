@@ -83,6 +83,11 @@ namespace Orbs {
 			if( Main.mouseItem?.active == true && Main.mouseItem.modItem is OrbItemBase ) {
 				Main.mouseItem = this.player.HeldItem.Clone();
 			}
+
+			//
+
+			// Failsafe?
+			Timers.SetTimer( OrbsPlayer.OrbSwapLockoutTimerName, 2, false, () => false );
 		}
 
 

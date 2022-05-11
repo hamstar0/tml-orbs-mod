@@ -17,7 +17,7 @@ namespace Orbs {
 
 			var myplayer = Main.LocalPlayer.GetModPlayer<OrbsPlayer>();
 
-			if( !myplayer.CurrentTargettedOrbableChunkGridPosition.HasValue ) {
+			if( !myplayer.CanUseOrbsWithoutSettings() ) {
 				return;
 			}
 
